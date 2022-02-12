@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/meFindProjs"
+        android:icon="@drawable/ic_baseline_find_in_page_24"
+        android:title="@string/frag_find_projs"/>
+
+    <item
+        android:id="@+id/meChat"
+        android:icon="@drawable/ic_baseline_chat_24"
+        android:title="@string/frag_chat"/>
+    <item
+        android:id="@+id/meMyProjs"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="@string/frag_my_projs"/>
+
+    <item
+        android:id="@+id/meProfile"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="@string/frag_profile"/>
+    <item
+        android:id="@+id/meFindMems"
+        android:icon="@drawable/ic_baseline_person_add_alt_1_24"
+        android:title="@string/frag_find_mems"/>
+</menu>

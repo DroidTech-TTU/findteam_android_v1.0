@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">findteam_android_v1.0</string>
+    <string name="frag_my_projs">My Projects</string>
+    <string name="frag_find_projs">Find Projects</string>
+    <string name="frag_profile">Profile</string>
+    <string name="frag_find_mems">Find Members</string>
+    <string name="frag_chat">Chat</string>
 </resources>
