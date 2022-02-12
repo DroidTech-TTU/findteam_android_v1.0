@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/meChat">
+
+    <fragment
+        android:id="@+id/meChat"
+        android:name="com.example.findteam_android_v10.FragChat"
+        android:label="FragChat" />
+    <fragment
+        android:id="@+id/meFindProjs"
+        android:name="com.example.findteam_android_v10.FragFindProjects"
+        android:label="FragFindProjects" />
+    <fragment
+        android:id="@+id/meFindMems"
+        android:name="com.example.findteam_android_v10.FragFindMembers"
+        android:label="FragFindMembers" />
+    <fragment
+        android:id="@+id/meProfile"
+        android:name="com.example.findteam_android_v10.FragProfiles"
+        android:label="FragProfiles" />
+    <fragment
+        android:id="@+id/meMyProjs"
+        android:name="com.example.findteam_android_v10.FragMyProjects"
+        android:label="FragMyProjects" />
+</navigation>
