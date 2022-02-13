@@ -19,8 +19,5 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        NavController navController = Navigation.findNavController(this, R.id.activity_main_nav_host_fragment);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.activity_main_bottom_navigation_view);
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
     }
 }
