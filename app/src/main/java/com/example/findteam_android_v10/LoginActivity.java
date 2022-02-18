@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,11 +15,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         Button registerInLoginBtn, loginInLoginBtn;
+        TextView forgotPass;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         registerInLoginBtn = findViewById(R.id.register_btn);
         loginInLoginBtn = findViewById(R.id.login_btn);
+        forgotPass = findViewById(R.id.forgot_pass);
 
         //register account
         registerInLoginBtn.setOnClickListener(new View.OnClickListener() {
@@ -37,6 +41,16 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //forgot password
+        forgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, ForgetActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
     public void loginSuccessful(View view){

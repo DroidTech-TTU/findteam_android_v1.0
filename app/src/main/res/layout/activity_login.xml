@@ -18,6 +18,25 @@
         android:text="LOGIN"
         tools:layout_editor_absoluteY="83dp" />
 
+    <TextView
+        android:id="@+id/email_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="256dp"
+        android:text="EMAIL" />
+
+    <TextView
+        android:id="@+id/password_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="351dp"
+        android:text="PASSWORD" />
 
     <EditText
         android:id="@+id/email"
@@ -46,26 +65,6 @@
         android:minHeight="48dp"
         android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/email_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="256dp"
-        android:text="EMAIL" />
-
-    <TextView
-        android:id="@+id/password_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="351dp"
-        android:text="PASSWORD" />
-
     <Button
         android:id="@+id/register_btn"
         android:layout_width="wrap_content"
@@ -84,6 +83,18 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="100dp"
         android:text="Login" />
+
+    <TextView
+        android:id="@+id/forgot_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/register_btn"
+        android:layout_below="@+id/password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Forgot Password?"
+        android:textColor="#1B6EFA"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>
