@@ -14,11 +14,12 @@
         <activity
             android:name=".DetailProjectActivity"
             android:exported="false" />
+        android:theme="@style/Theme.Findteam_android_v10">
         <activity
-            android:name=".MainActivity"
+            android:name=".ForgetActivity"
             android:exported="false" />
         <activity
-            android:name=".CreateProjectActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"

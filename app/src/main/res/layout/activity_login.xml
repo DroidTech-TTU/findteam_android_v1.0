@@ -15,9 +15,28 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="181dp"
         android:layout_marginTop="137dp"
-        android:text="LOGIN"
+        android:text="@string/login"
         tools:layout_editor_absoluteY="83dp" />
 
+    <TextView
+        android:id="@+id/email_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="256dp"
+        android:text="@string/email" />
+
+    <TextView
+        android:id="@+id/password_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="351dp"
+        android:text="@string/password" />
 
     <EditText
         android:id="@+id/email"
@@ -28,7 +47,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="109dp"
         android:layout_marginTop="5dp"
-        android:hint="Enter your Email"
+        android:autofillHints="emailAddress"
+        android:hint="@string/email_hint"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:textSize="14sp" />
@@ -41,30 +61,11 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="106dp"
         android:layout_marginTop="5dp"
-        android:hint="Enter your password"
+        android:autofillHints="password"
+        android:hint="@string/pass_hint"
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/email_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="256dp"
-        android:text="EMAIL" />
-
-    <TextView
-        android:id="@+id/password_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="351dp"
-        android:text="PASSWORD" />
 
     <Button
         android:id="@+id/register_btn"
@@ -74,7 +75,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="155dp"
         android:onClick="registerAccount"
-        android:text="Register" />
+        android:text="@string/register" />
 
     <Button
         android:id="@+id/login_btn"
@@ -83,18 +84,19 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="100dp"
-        android:text="Login" />
+        android:text="@string/login" />
 
-    <Button
-        android:id="@+id/login_succ"
+    <TextView
+        android:id="@+id/forgot_pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="154dp"
-        android:layout_toEndOf="@+id/register_btn"
-        android:onClick="loginSuccessful"
-        android:text="2Main" />
+        android:layout_above="@+id/register_btn"
+        android:layout_below="@+id/password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/forgot_pass"
+        android:textColor="#1B6EFA"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>
