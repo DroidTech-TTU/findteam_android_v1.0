@@ -1,4 +1,4 @@
-package com.example.findteam_android_v10;
+package com.example.findteam_android_v10.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.findteam_android_v10.CreateProjectActivity;
+import com.example.findteam_android_v10.R;
+import com.example.findteam_android_v10.adapters.myProjectsAdapter;
 import com.example.findteam_android_v10.classes.Project;
 
 import java.util.ArrayList;

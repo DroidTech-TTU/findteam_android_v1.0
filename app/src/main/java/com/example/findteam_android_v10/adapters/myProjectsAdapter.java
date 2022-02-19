@@ -1,4 +1,4 @@
-package com.example.findteam_android_v10;
+package com.example.findteam_android_v10.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.findteam_android_v10.DetailProjectActivity;
+import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.classes.Project;
 
 import java.util.List;

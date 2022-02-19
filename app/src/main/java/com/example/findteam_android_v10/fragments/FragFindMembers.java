@@ -1,4 +1,4 @@
-package com.example.findteam_android_v10;
+package com.example.findteam_android_v10.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class FragProfiles extends Fragment {
+import com.example.findteam_android_v10.R;
+
+public class FragFindMembers extends Fragment {
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +21,7 @@ public class FragProfiles extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_profile, container, false);
+        View view = inflater.inflate(R.layout.frag_find_members, container, false);
         return view;
     }
 }

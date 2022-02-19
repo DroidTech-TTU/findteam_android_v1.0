@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/meChat"
-        android:name="com.example.findteam_android_v10.FragChat"
+        android:name="com.example.findteam_android_v10.fragments.FragChat"
         android:label="FragChat" />
     <fragment
         android:id="@+id/meFindProjs"
-        android:name="com.example.findteam_android_v10.FragFindProjects"
+        android:name="com.example.findteam_android_v10.fragments.FragFindProjects"
         android:label="FragFindProjects" />
     <fragment
         android:id="@+id/meFindMems"
-        android:name="com.example.findteam_android_v10.FragFindMembers"
+        android:name="com.example.findteam_android_v10.fragments.FragFindMembers"
         android:label="FragFindMembers" />
     <fragment
         android:id="@+id/meProfile"
-        android:name="com.example.findteam_android_v10.FragProfiles"
+        android:name="com.example.findteam_android_v10.fragments.FragProfiles"
         android:label="FragProfiles" />
     <fragment
         android:id="@+id/meMyProjs"
-        android:name="com.example.findteam_android_v10.FragMyProjects"
+        android:name="com.example.findteam_android_v10.fragments.FragMyProjects"
         android:label="FragMyProjects" />
 </navigation>
