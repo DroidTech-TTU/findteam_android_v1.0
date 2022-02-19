@@ -1,5 +1,6 @@
 package com.example.findteam_android_v10;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,27 +9,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.lang.reflect.Array;
+import com.example.findteam_android_v10.classes.Project;
+
 import java.util.ArrayList;
 
-public class FragMyProjects extends Fragment {
+public class FragMyProjects extends Fragment implements View.OnClickListener {
 
     RecyclerView lwMyProjectsSearch;
     String[] projectNames = {"Project 1", "Project 2", "Project 3", "Project 4", "Project 1", "Project 2", "Project 3", "Project 4"
     ,"Project 1", "Project 2", "Project 3", "Project 4","Project 1", "Project 2", "Project 3", "Project 4","Project 1", "Project 2", "Project 3", "Project 4"};
     ArrayAdapter<String> arrayAdapter;
 
+    View btCreateProject;
 
     ArrayList<Project> projects;
     @Override
@@ -43,7 +43,9 @@ public class FragMyProjects extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_my_projects, container, false);
         this.lwMyProjectsSearch = (RecyclerView) view.findViewById(R.id.rvMyProjectsSearch);
+        this.btCreateProject = view.findViewById(R.id.btCreateMyProject);
 
+        btCreateProject.setOnClickListener(this);
         arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, projectNames);
 //        this.lwMyProjectsSearch.setAdapter(arrayAdapter);
 
@@ -65,7 +67,7 @@ public class FragMyProjects extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
 
         inflater.inflate(R.menu.my_projects_menu, menu);
-        MenuItem menuItem = menu.findItem(R.id.action_search);
+        MenuItem menuItem = menu.findItem(R.id.wgSearchMyproject);
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Type here to search");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -81,5 +83,12 @@ public class FragMyProjects extends Fragment {
             }
         });
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(view.getContext(), CreateProjectActivity.class);
+        view.getContext().startActivity(intent);
     }
 }

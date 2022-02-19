@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateProjectActivity">
+    tools:context=".DetailProjectActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbCreateProject"
@@ -16,8 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/activity_create_project"
+        app:title="@string/activity_detail_project"
         app:titleTextColor="@color/white"
         app:menu="@menu/create_project_menu"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

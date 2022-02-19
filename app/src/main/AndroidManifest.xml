@@ -10,11 +10,15 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Findteam_android_v10"
-        >
-
+        android:theme="@style/Theme.Findteam_android_v10">
+        <activity
+            android:name=".DetailProjectActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateProjectActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"

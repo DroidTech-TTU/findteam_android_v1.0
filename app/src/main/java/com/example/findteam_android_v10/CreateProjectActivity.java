@@ -4,7 +4,7 @@ package com.example.findteam_android_v10;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class activity_create_project extends AppCompatActivity {
+public class CreateProjectActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
