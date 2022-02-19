@@ -1,4 +1,4 @@
-package com.example.findteam_android_v10;
+package com.example.findteam_android_v10.classes;
 
 import java.util.ArrayList;
 
