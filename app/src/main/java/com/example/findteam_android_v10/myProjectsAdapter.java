@@ -53,7 +53,7 @@ public class myProjectsAdapter extends RecyclerView.Adapter<myProjectsAdapter.Vi
         TextView twStatus = holder.twProjectStatus;
         twStatus.setText(project.getName());
         Button button = holder.btView;
-        button.setText(String.valueOf(project.getId()));
+//        button.setText(String.valueOf(project.getId()));
     }
 
     @Override
@@ -86,7 +86,7 @@ public class myProjectsAdapter extends RecyclerView.Adapter<myProjectsAdapter.Vi
 
             twProjectName = (TextView) itemView.findViewById(R.id.twProjectName);
             twProjectStatus = (TextView) itemView.findViewById(R.id.twProjectStatus) ;
-            btView = (Button) itemView.findViewById(R.id.btView);
+//            btView = (Button) itemView.findViewById(R.id.btView);
         }
     }
 

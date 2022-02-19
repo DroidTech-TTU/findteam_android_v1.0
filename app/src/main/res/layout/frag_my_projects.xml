@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/tbMyProjects"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -23,22 +23,11 @@
         android:id="@+id/rvMyProjectsSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingTop="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/tbMyProjects">
 
     </androidx.recyclerview.widget.RecyclerView>
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tbMyProjects"
-        android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/my_projects_menu"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

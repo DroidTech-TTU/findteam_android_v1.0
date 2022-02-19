@@ -25,7 +25,8 @@ public class FragMyProjects extends Fragment implements View.OnClickListener {
 
     RecyclerView lwMyProjectsSearch;
     String[] projectNames = {"Project 1", "Project 2", "Project 3", "Project 4", "Project 1", "Project 2", "Project 3", "Project 4"
-    ,"Project 1", "Project 2", "Project 3", "Project 4","Project 1", "Project 2", "Project 3", "Project 4","Project 1", "Project 2", "Project 3", "Project 4"};
+    ,"Project 1", "Project 2", "Project 3", "Project 4","Project 1", "Project 2", "Project 3", "Project 4","Project 1", "Project 2", "Project 3", "Project 4","Project 1", "Project 2", "Project 3", "Project 4", "Project 1", "Project 2", "Project 3", "Project 4"
+            ,"Project 1", "Project 2", "Project 3", "Project 4","Project 1", "Project 2", "Project 3", "Project 4","Project 1", "Project 2", "Project 3", "Project 4"};
     ArrayAdapter<String> arrayAdapter;
 
     View btCreateProject;
@@ -52,7 +53,7 @@ public class FragMyProjects extends Fragment implements View.OnClickListener {
         RecyclerView rvContacts = (RecyclerView) view.findViewById(R.id.rvMyProjectsSearch);
 
         // Initialize contacts
-        projects = Project.creatProjectsList(20);
+        projects = Project.creatProjectsList(40);
         // Create adapter passing in the sample user data
         myProjectsAdapter adapter = new myProjectsAdapter(projects);
         // Attach the adapter to the recyclerview to populate items
