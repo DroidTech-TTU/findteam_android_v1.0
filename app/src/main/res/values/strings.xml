@@ -6,4 +6,29 @@
     <string name="frag_find_mems">Find Members</string>
     <string name="frag_chat">Chat</string>
 
+    <!-- LOGIN PAGE TEXT -->
+    <string name="login">LOGIN</string>
+    <string name="register">REGISTER</string>
+    <string name="email">EMAIL</string>
+    <string name="password">PASSWORD</string>
+    <string name="email_hint">Enter your email</string>
+    <string name="pass_hint">Enter your password</string>
+    <string name="forgot_pass">Forgot Password?</string>
+
+    <!-- REGISTER PAGE TEXT -->
+    <string name="register_acct">Register Account</string>
+    <string name="first_name">Frist Name:</string>
+    <string name="middle_name">Middle Name:</string>
+    <string name="last_name">Last Name:</string>
+    <string name="email_add">Email Address:</string>
+    <string name="pass_lower">Password:</string>
+    <string name="first_name_hint">Enter first name</string>
+    <string name="middle_name_hint">Enter middle name</string>
+    <string name="last_name_hint">Enter last name</string>
+
+    <!-- FORGOT PAGE TEXT -->
+    <string name="forgot_pass_title">Forgot Password</string>
+    <string name="forgot_pass_msg">Please enter your email address \n and we\'ll reset your password\:</string>
+    <string name="recover">Recover</string>
+
 </resources>
