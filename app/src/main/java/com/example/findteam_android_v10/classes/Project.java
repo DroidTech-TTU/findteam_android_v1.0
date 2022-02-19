@@ -7,12 +7,22 @@ public class Project {
     private String status;
     private int id;
 
+    /**
+     *
+     * @param name
+     * @param status
+     * @param id
+     */
     public Project(String name, String status, int id) {
         this.name = name;
         this.status = status;
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }

@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/activity_create_project"
+        app:title="@string/activity_detail_project"
         app:titleTextColor="@color/white"
         app:menu="@menu/create_project_menu"/>
 

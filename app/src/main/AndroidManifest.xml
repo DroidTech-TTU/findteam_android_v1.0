@@ -19,6 +19,9 @@
             android:name=".ForgetActivity"
             android:exported="false" />
         <activity
+            android:name=".CreateProjectActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity

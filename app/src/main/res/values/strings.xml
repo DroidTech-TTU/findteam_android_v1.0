@@ -5,8 +5,8 @@
     <string name="frag_profile">Profile</string>
     <string name="frag_find_mems">Find Members</string>
     <string name="frag_chat">Chat</string>
-
-
+    <string name="activity_create_project">Create Project</string>
+    <string name="activity_detail_project">Project\u0027s Detail</string>
 
     <string name="Rs">\u20B9</string>
     <string name="filled_bullet">\u25CF</string>
