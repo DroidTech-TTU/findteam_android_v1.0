@@ -26,7 +26,7 @@
 
     <!-- REGISTER PAGE TEXT -->
     <string name="register_acct">Register Account</string>
-    <string name="first_name">Frist Name:</string>
+    <string name="first_name">First Name:</string>
     <string name="middle_name">Middle Name:</string>
     <string name="last_name">Last Name:</string>
     <string name="email_add">Email Address:</string>
