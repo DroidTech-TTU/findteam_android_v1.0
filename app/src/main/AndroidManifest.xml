@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Findteam_android_v10">
         <activity
-            android:name=".DetailProjectActivity"
+            android:name=".DetailMyProjectActivity"
             android:exported="false" />
         android:theme="@style/Theme.Findteam_android_v10">
         <activity

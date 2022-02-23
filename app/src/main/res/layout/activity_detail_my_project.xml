@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailMyProjectActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbCreateProject"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/activity_detail_project"
+        app:titleTextColor="@color/white"
+        app:menu="@menu/create_project_menu"/>
+
+    <TextView
+        android:id="@+id/tvDescriptionMyDetailProjects"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Software.Enterprises, a
+         subsidiary of Silicon Spectra, is one
+         of the leading providers of Enterprise so
+         ftware solutions, comprehensive IT solutions
+         , including Systems Integration, Consulting,
+         Information Systems outsourcing, IT-enabled
+          services, telecommunication, RD etc. We spe
+          cialize in placement of UI Developer
+          s, ReactJS, AngularJS, Quality Assurance Analyst, Data Analyst, Software Developers, UX Engineers etc. in fields of healthcare, banking, and financial services, high-tech IT business, retail and e-commerce, insurance, entertainment, telecom and cable, pharmacy and life science, oil and gas, travel and transportation, and local and state government for both permanent and contract C2C staffing arrangements. Our recent placements include Apple, Google, Facebook, JPMC, Wells Fargo and several other fortune 500 companies."
+        app:layout_constraintTop_toBottomOf="@+id/textViewDes"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <TextView
+        android:id="@+id/tvStatusMyProjectDetailMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="In Pogress"
+        android:layout_marginRight="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbCreateProject" />
+
+    <ImageView
+        android:id="@+id/ivStatusMyProjectDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:paddingTop="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/tvStatusMyProjectDetailMain"
+        app:layout_constraintTop_toBottomOf="@+id/tbCreateProject"
+        app:srcCompat="@drawable/ic_baseline_radio_button_checked_24" />
+
+    <TextView
+        android:id="@+id/textViewDes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description: "
+        android:paddingLeft="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbCreateProject" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="Members"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivOneDriveMyDetailProjects" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMembers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingLeft="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <ImageView
+        android:id="@+id/ivOneDriveMyDetailProjects"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescriptionMyDetailProjects"
+        app:srcCompat="@drawable/onedrive" />
+
+    <ImageView
+        android:id="@+id/ivGitHubMyDetailProjects"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintStart_toEndOf="@+id/ivOneDriveMyDetailProjects"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescriptionMyDetailProjects"
+        app:srcCompat="@drawable/github_2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

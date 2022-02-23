@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.findteam_android_v10.DetailProjectActivity;
+import com.example.findteam_android_v10.DetailMyProjectActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.classes.Project;
 
@@ -65,7 +65,7 @@ public class myProjectsAdapter extends RecyclerView.Adapter<myProjectsAdapter.Vi
 
     @Override
     public void onClick(View view) {
-        Intent i = new Intent(view.getContext(), DetailProjectActivity.class);
+        Intent i = new Intent(view.getContext(), DetailMyProjectActivity.class);
         view.getContext().startActivity(i);
 
     }
