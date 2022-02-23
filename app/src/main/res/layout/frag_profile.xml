@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbCreateProject"
@@ -61,30 +61,34 @@
         tools:text="An Lam" />
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_default="wrap"
         android:layout_marginTop="20dp"
-        android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/profFullName"
-        tools:layout_editor_absoluteX="1dp">
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_main_bottom_navigation_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profFullName">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cons_inside"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <co.lujun.androidtagview.TagContainerLayout
                 android:id="@+id/skills_tag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="28dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="75dp"
                 android:padding="10dp"
                 app:container_enable_drag="false"
                 app:horizontal_interval="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profSkills_text"
                 app:tag_clickable="true"
@@ -95,7 +99,7 @@
                 android:id="@+id/profSkills_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="12dp"
                 android:lineSpacingExtra="20sp"
                 android:text="Skills:"
@@ -106,7 +110,7 @@
                 android:id="@+id/profUrl_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="12dp"
                 android:lineSpacingExtra="20sp"
                 android:text="URL:"
@@ -117,7 +121,7 @@
                 android:id="@+id/profLastName_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="12dp"
                 android:lineSpacingExtra="20sp"
                 android:text="@string/last_name"
@@ -139,7 +143,7 @@
                 android:id="@+id/profMiddleName_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="12dp"
                 android:lineSpacingExtra="20sp"
                 android:text="@string/middle_name"
@@ -161,22 +165,20 @@
                 android:id="@+id/profFirstName_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="30dp"
                 android:lineSpacingExtra="20sp"
                 android:text="@string/first_name"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profFullName" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/profFirstName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="16dp"
                 android:textColor="#171717"
                 app:layout_constraintStart_toEndOf="@+id/profFirstName_text"
-                app:layout_constraintTop_toBottomOf="@+id/profFullName"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="An" />
 
             <Button
@@ -189,10 +191,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/skills_tag" />
 
-        </LinearLayout>
-
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/activity_main_bottom_navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/navigation_menu"
+        android:visibility="invisible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
