@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/frag_profile_id">
+    tools:context=".fragments.FragEditProfile">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbCreateProject"
@@ -20,46 +21,43 @@
         app:title="@string/frag_profile"
         app:titleTextColor="@color/white" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profilePic"
-        android:layout_width="113dp"
-        android:layout_height="113dp"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/profile_pic_placeholder"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbCreateProject"
-        app:srcCompat="@drawable/profile_pic_placeholder"
-        tools:ignore="ContentDescription" />
-
-    <TextView
-        android:id="@+id/profFullName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="An Lam"
-        android:textColor="#3A3636"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilePic"
-        tools:text="An Lam" />
-
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight="true"
-        android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/activity_main_bottom_navigation_view"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight="true"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profFullName">
+        app:layout_constraintVertical_bias="0.229">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profilePic"
+            android:layout_width="113dp"
+            android:layout_height="113dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/profile_pic_placeholder"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tbCreateProject"
+            app:srcCompat="@drawable/profile_pic_placeholder"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/editBtn"
+            android:layout_width="52dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="104dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.643"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tbCreateProject"
+            app:srcCompat="@drawable/add_btn_prof_pic"
+            tools:ignore="ContentDescription" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cons_inside"
@@ -70,17 +68,18 @@
                 android:id="@+id/skills_tag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="75dp"
                 android:padding="10dp"
                 app:container_enable_drag="false"
                 app:horizontal_interval="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profSkills_text"
                 app:tag_clickable="true"
+                app:tag_enable_cross="true "
                 app:tag_theme="random"
                 app:vertical_interval="10dp" />
 
@@ -88,8 +87,8 @@
                 android:id="@+id/profSkills_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="36dp"
                 android:lineSpacingExtra="20sp"
                 android:text="Skills:"
                 app:layout_constraintStart_toStartOf="parent"
@@ -99,30 +98,40 @@
                 android:id="@+id/profUrl_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="28dp"
                 android:lineSpacingExtra="20sp"
                 android:text="URL:"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profLastName_text" />
 
+            <EditText
+                android:id="@+id/profUrl"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toEndOf="@+id/profUrl_text"
+                app:layout_constraintTop_toBottomOf="@+id/profLastName"
+                tools:text="www.wowamazing.com" />
+
             <TextView
                 android:id="@+id/profLastName_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="43dp"
                 android:lineSpacingExtra="20sp"
                 android:text="@string/last_name"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profMiddleName_text" />
 
-            <TextView
+            <EditText
                 android:id="@+id/profLastName"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="18dp"
                 android:textColor="#171717"
                 app:layout_constraintStart_toEndOf="@+id/profLastName_text"
                 app:layout_constraintTop_toBottomOf="@+id/profMiddleName"
@@ -132,19 +141,19 @@
                 android:id="@+id/profMiddleName_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="36dp"
                 android:lineSpacingExtra="20sp"
                 android:text="@string/middle_name"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profFirstName_text" />
 
-            <TextView
+            <EditText
                 android:id="@+id/profMiddleName"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:textColor="#171717"
                 app:layout_constraintStart_toEndOf="@+id/profMiddleName_text"
                 app:layout_constraintTop_toBottomOf="@+id/profFirstName"
@@ -154,21 +163,23 @@
                 android:id="@+id/profFirstName_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="32dp"
                 android:lineSpacingExtra="20sp"
                 android:text="@string/first_name"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <EditText
                 android:id="@+id/profFirstName"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="11dp"
+                android:layout_marginTop="16dp"
                 android:textColor="#171717"
                 app:layout_constraintStart_toEndOf="@+id/profFirstName_text"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="An" />
+                tools:text="Aaaaaaaa" />
 
             <Button
                 android:id="@+id/change_profile"

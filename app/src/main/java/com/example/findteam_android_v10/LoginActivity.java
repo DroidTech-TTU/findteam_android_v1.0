@@ -15,17 +15,18 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         Button registerInLoginBtn, loginInLoginBtn;
-        TextView forgotPass;
+        TextView forgotPass, signUpText;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        registerInLoginBtn = findViewById(R.id.register_btn);
         loginInLoginBtn = findViewById(R.id.login_btn);
         forgotPass = findViewById(R.id.forgot_pass);
+        signUpText = findViewById(R.id.signup_text);
+
 
         //register account
-        registerInLoginBtn.setOnClickListener(new View.OnClickListener() {
+        signUpText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -52,13 +53,5 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-    }
-    public void loginSuccessful(View view){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-    public void registerAccount(View view){
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
     }
 }

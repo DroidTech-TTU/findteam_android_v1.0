@@ -1,102 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EDEBEB"
     tools:context=".LoginActivity">
 
-    <TextView
-        android:id="@+id/login_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="181dp"
-        android:layout_marginTop="137dp"
-        android:text="@string/login"
-        tools:layout_editor_absoluteY="83dp" />
-
-    <TextView
-        android:id="@+id/email_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="256dp"
-        android:text="@string/email" />
-
-    <TextView
-        android:id="@+id/password_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="351dp"
-        android:text="@string/password" />
-
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/email_text"
-        android:layout_alignParentStart="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="109dp"
-        android:layout_marginTop="5dp"
-        android:autofillHints="emailAddress"
-        android:hint="@string/email_hint"
-        android:inputType="textEmailAddress"
-        android:minHeight="48dp"
-        android:textSize="14sp" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/password_text"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="106dp"
-        android:layout_marginTop="5dp"
-        android:autofillHints="password"
-        android:hint="@string/pass_hint"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        android:textSize="14sp" />
-
-    <Button
-        android:id="@+id/register_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/bottom_bg"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="155dp"
-        android:onClick="registerAccount"
-        android:text="@string/register" />
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/icon_bg3"
+        android:elevation="20dp" />
+
+    <ImageView
+        android:id="@+id/top_bg"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/icon_bg2"
+        android:elevation="20dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/email"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/findTeamIcon"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="54dp"
+        android:hint="@string/email_hint">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_baseline_person_24"
+            android:inputType="textEmailAddress"
+            android:textColorHighlight="#fc7c51"
+            android:textSize="16sp"
+            tools:ignore="TouchTargetSizeCheck" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/email"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="54dp"
+        android:hint="@string/pass_hint"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_lock"
+            android:inputType="textPassword"
+            android:textColorHighlight="#fc7c51"
+            android:textSize="16sp" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/login_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/forgot_pass"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"
-        android:text="@string/login" />
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="31dp"
+        android:background="@drawable/button_bg"
+        android:elevation="10dp"
+        android:fontFamily="@font/roboto_bold"
+        android:stateListAnimator="@null"
+        android:text="@string/login"
+        android:textColor="#ffffff" />
 
     <TextView
         android:id="@+id/forgot_pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/register_btn"
         android:layout_below="@+id/password"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="60dp"
         android:text="@string/forgot_pass"
-        android:textColor="#1B6EFA"
+        android:textColor="#717171"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/signup_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_btn"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="81dp"
+        android:text="Dont have an account yet? Sign up here"
+        android:textColor="#F37829"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/findTeamIcon"
+        android:layout_width="122dp"
+        android:layout_height="111dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="92dp"
+        android:layout_marginEnd="148dp"
+        android:elevation="20dp"
+        app:srcCompat="@drawable/ic_icon" />
 
 
 </RelativeLayout>

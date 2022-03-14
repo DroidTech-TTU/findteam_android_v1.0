@@ -1,46 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ForgetActivity">
+    android:background="@drawable/fragment_bg"
+    tools:context=".fragments.FragForgotEmail">
 
-    <TextView
-        android:id="@+id/forgot_pass_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="@string/forgot_pass_title"
-        android:textColor="#000000"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/forget_pass_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="108dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/questrial"
         android:text="@string/forgot_pass_msg"
         android:textAlignment="center"
+        android:textColor="#373737"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forgot_pass_title" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/forgot_email"
-        android:inputType="textEmailAddress"
-        android:hint="@string/email_hint"
-        android:autofillHints="forgot pass"
         android:layout_width="289dp"
         android:layout_height="53dp"
+        android:background="@drawable/edit_text_bg"
         android:layout_marginTop="36dp"
+        android:autofillHints="forgot pass"
+        android:fontFamily="@font/questrial"
+        android:hint="@string/email_hint"
+        android:inputType="textEmailAddress"
         android:textAlignment="center"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,11 +41,13 @@
         app:layout_constraintTop_toBottomOf="@+id/forget_pass_msg" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/resetBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/recover"
+        android:textColor="#ffffff"
+        android:text="@string/reset"
+        android:background="@drawable/round_shadow_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"

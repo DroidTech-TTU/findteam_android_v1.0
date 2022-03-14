@@ -20,9 +20,22 @@
     <fragment
         android:id="@+id/meProfile"
         android:name="com.example.findteam_android_v10.fragments.FragProfiles"
-        android:label="FragProfiles" />
+        android:label="FragProfiles" >
+        <action
+            android:id="@+id/action_meProfile_to_editProfile"
+            app:destination="@id/editProfile"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
     <fragment
         android:id="@+id/meMyProjs"
         android:name="com.example.findteam_android_v10.fragments.FragMyProjects"
         android:label="FragMyProjects" />
+    <fragment
+        android:id="@+id/editProfile"
+        android:name="com.example.findteam_android_v10.fragments.FragEditProfile"
+        android:label="FragEditProfile" />
+
 </navigation>

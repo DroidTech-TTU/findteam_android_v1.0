@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/forget_nav_graph"
+    app:startDestination="@id/meForgetEmail">
+
+    <fragment
+        android:id="@+id/meForgetEmail"
+        android:name="com.example.findteam_android_v10.fragments.FragForgotEmail"
+        android:label="FragForgetEmail" >
+        <action
+            android:id="@+id/action_meForgetEmail_to_meSecurityCode"
+            app:destination="@id/meSecurityCode"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/meSecurityCode"
+        android:name="com.example.findteam_android_v10.fragments.FragSecurityCode"
+        android:label="FragSecurityCode">
+        <action
+            android:id="@+id/action_meSecurityCode_to_meNewPass"
+            app:destination="@id/meNewPass"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/meNewPass"
+        android:name="com.example.findteam_android_v10.fragments.FragNewPass"
+        android:label="FragNewPass"
+        >
+        <action
+            android:id="@+id/action_meNewPass_to_meResetSuccess"
+            app:destination="@id/meResetSuccess"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/meResetSuccess"
+        android:name="com.example.findteam_android_v10.fragments.FragResetSuccess"
+        android:label="FragResetSuccess"/>
+
+
+</navigation>

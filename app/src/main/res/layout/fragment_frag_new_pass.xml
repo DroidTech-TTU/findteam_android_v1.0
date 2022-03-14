@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fragment_bg"
+    tools:context=".fragments.FragNewPass">
+
+    <TextView
+        android:id="@+id/newPassMsg2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/questrial"
+        android:text="@string/please_confirm_password"
+        android:textAlignment="center"
+        android:textColor="#3E3E3E"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/newPass1" />
+
+    <EditText
+        android:id="@+id/newPass1"
+        android:layout_width="289dp"
+        android:layout_height="53dp"
+        android:background="@drawable/edit_text_bg"
+        android:layout_marginTop="10dp"
+        android:autofillHints="New Pass 1"
+        android:fontFamily="@font/questrial"
+        android:hint="@string/pass_hint"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newPassMsg" />
+
+    <TextView
+        android:id="@+id/newPassMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/questrial"
+        android:text="@string/please_type_new_password"
+        android:textAlignment="center"
+        android:textColor="#3E3E3E"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/newPass2"
+        android:layout_width="289dp"
+        android:layout_height="53dp"
+        android:background="@drawable/edit_text_bg"
+        android:layout_marginTop="10dp"
+        android:autofillHints="New Pass 2"
+        android:fontFamily="@font/questrial"
+        android:hint="@string/confirm_password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newPassMsg2" />
+
+    <Button
+        android:id="@+id/newPassBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_shadow_button"
+        android:textColor="#ffffff"
+        android:layout_marginTop="16dp"
+        android:text="@string/reset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newPass2" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

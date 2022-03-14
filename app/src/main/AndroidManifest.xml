@@ -14,7 +14,6 @@
         <activity
             android:name=".DetailMyProjectActivity"
             android:exported="false" />
-        android:theme="@style/Theme.Findteam_android_v10">
         <activity
             android:name=".ForgetActivity"
             android:exported="false" />
@@ -36,6 +35,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

@@ -15,13 +15,14 @@
     <string name="blank_rect">\u25A1</string>
     <string name="true_tick">\u2713</string>
     <string name="star">\u2605</string>
+
     <!-- LOGIN PAGE TEXT -->
     <string name="login">LOGIN</string>
     <string name="register">REGISTER</string>
     <string name="email">EMAIL</string>
     <string name="password">PASSWORD</string>
-    <string name="email_hint">Enter your email</string>
-    <string name="pass_hint">Enter your password</string>
+    <string name="email_hint">Email</string>
+    <string name="pass_hint">Password</string>
     <string name="forgot_pass">Forgot Password?</string>
 
     <!-- REGISTER PAGE TEXT -->
@@ -38,6 +39,22 @@
     <!-- FORGOT PAGE TEXT -->
     <string name="forgot_pass_title">Forgot Password</string>
     <string name="forgot_pass_msg">Please enter your email address \n and we\'ll reset your password\:</string>
-    <string name="recover">Recover</string>
+    <string name="reset">Reset</string>
+
+    <!-- SECURITY CODE TEXT -->
+    <string name="enter_the_security_code_sent_to">Enter the security code sent to:</string>
+    <string name="confirm">Confirm</string>
+    <string name="enter_security_code">Enter Security Code</string>
+
+    <!-- NEW PASS TEXT -->
+    <string name="please_type_new_password">Please type new password:</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="re_enter_new_password">Re-enter new password:</string>
+    <string name="please_confirm_password">Please Confirm Password:</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="password_n_updated">Password\nUpdated</string>
+    <string name="your_password_has_been_updated">Your password has been updated!</string>
+    <string name="findteam">FindTeam</string>
 
 </resources>
