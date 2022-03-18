@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-
-    <item
-        android:id="@+id/meFindProjs"
-        android:icon="@drawable/ic_baseline_find_in_page_24"
-        android:title="@string/frag_find_projs"/>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/meChat"
+        android:id="@+id/item_chat"
         android:icon="@drawable/ic_baseline_chat_24"
-        android:title="@string/frag_chat"/>
-    <item
-        android:id="@+id/meMyProjs"
-        android:icon="@drawable/ic_baseline_home_24"
-        android:title="@string/frag_my_projs"/>
+        android:title="@null"
+        app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/meProfile"
-        android:icon="@drawable/ic_baseline_person_24"
-        android:title="@string/frag_profile"/>
+        android:id="@+id/item_search"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="@null"
+        app:showAsAction="ifRoom" />
+
     <item
-        android:id="@+id/meFindMems"
-        android:icon="@drawable/ic_baseline_person_add_alt_1_24"
-        android:title="@string/frag_find_mems"/>
+        android:id="@+id/item_my_proj"
+        android:icon="@drawable/ic_baseline_assignment_24"
+        android:title="@null"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/item_my_profile"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="@null"
+        app:showAsAction="ifRoom"/>
 </menu>

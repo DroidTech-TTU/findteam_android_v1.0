@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/btBackProfile"
-        android:title="back"
+        android:title="@null"
         app:actionViewClass="android.widget.Button"
         app:showAsAction="ifRoom|collapseActionView"/>
 </menu>

@@ -16,7 +16,24 @@
             android:exported="false" />
         <activity
             android:name=".ForgetActivity"
-            android:exported="false" />
+            android:exported="true">
+
+            <intent-filter android:label="confirmResetPass">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Handle urls starting with "https://findteam.2labz.com/" -->
+                <data android:scheme="https"
+                    android:host="findteam.2labz.com"
+                    android:pathPrefix="/forgot" />
+
+                <!-- Handle local urls starting with "findteam://forgot" -->
+                <data android:scheme="findteam"
+                    android:host="forgot" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".CreateProjectActivity"
             android:exported="false" />

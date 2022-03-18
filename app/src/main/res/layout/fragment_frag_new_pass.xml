@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="500dp"
+    android:layout_margin="15dp"
     android:background="@drawable/fragment_bg"
+    android:elevation="10dp"
+    android:padding="30dp"
     tools:context=".fragments.FragNewPass">
 
     <TextView
@@ -25,16 +27,17 @@
 
     <EditText
         android:id="@+id/newPass1"
-        android:layout_width="289dp"
-        android:layout_height="53dp"
-        android:background="@drawable/edit_text_bg"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
         android:layout_marginTop="10dp"
         android:autofillHints="New Pass 1"
+        android:background="@drawable/edit_text_bg"
         android:fontFamily="@font/questrial"
         android:hint="@string/pass_hint"
         android:inputType="text"
         android:textAlignment="center"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newPassMsg" />
@@ -56,16 +59,17 @@
 
     <EditText
         android:id="@+id/newPass2"
-        android:layout_width="289dp"
-        android:layout_height="53dp"
-        android:background="@drawable/edit_text_bg"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
         android:layout_marginTop="10dp"
         android:autofillHints="New Pass 2"
+        android:background="@drawable/edit_text_bg"
         android:fontFamily="@font/questrial"
         android:hint="@string/confirm_password"
         android:inputType="textPassword"
         android:textAlignment="center"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newPassMsg2" />
@@ -74,10 +78,10 @@
         android:id="@+id/newPassBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_shadow_button"
-        android:textColor="#ffffff"
         android:layout_marginTop="16dp"
+        android:background="@drawable/round_shadow_button"
         android:text="@string/reset"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"

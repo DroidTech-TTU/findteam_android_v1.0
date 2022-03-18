@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Find Team</string>
+    <string name="app_name">Findteam</string>
     <string name="frag_my_projs">My Projects</string>
     <string name="frag_find_projs">Find Projects</string>
     <string name="frag_profile">Profile</string>
@@ -26,7 +26,7 @@
     <string name="forgot_pass">Forgot Password?</string>
 
     <!-- REGISTER PAGE TEXT -->
-    <string name="register_acct">Register Account</string>
+    <string name="register_acct">Sign Up</string>
     <string name="first_name">First Name:</string>
     <string name="middle_name">Middle Name:</string>
     <string name="last_name">Last Name:</string>
@@ -51,6 +51,7 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="re_enter_new_password">Re-enter new password:</string>
     <string name="please_confirm_password">Please Confirm Password:</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="password_n_updated">Password\nUpdated</string>

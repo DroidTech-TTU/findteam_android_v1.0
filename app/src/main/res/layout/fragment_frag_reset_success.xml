@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:layout_margin="15dp"
     android:background="@drawable/fragment_bg"
-    android:layout_height="match_parent"
+    android:elevation="10dp"
+    android:padding="30dp"
     tools:context=".fragments.FragResetSuccess">
 
     <TextView
@@ -39,10 +41,10 @@
         android:id="@+id/successBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_shadow_button"
-        android:textColor="#ffffff"
         android:layout_marginTop="16dp"
+        android:background="@drawable/round_shadow_button"
         android:text="@string/login"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,6 +56,7 @@
         android:layout_height="224dp"
         android:layout_marginTop="8dp"
         android:alpha="0.8"
+        android:elevation="20dp"
         android:src="@drawable/password_updated_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

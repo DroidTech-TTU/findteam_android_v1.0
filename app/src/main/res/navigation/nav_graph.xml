@@ -3,22 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/meMyProjs">
+    app:startDestination="@id/item_search">
 
     <fragment
-        android:id="@+id/meChat"
+        android:id="@+id/item_chat"
         android:name="com.example.findteam_android_v10.fragments.FragChat"
         android:label="FragChat" />
     <fragment
-        android:id="@+id/meFindProjs"
+        android:id="@+id/item_search"
         android:name="com.example.findteam_android_v10.fragments.FragFindProjects"
         android:label="FragFindProjects" />
     <fragment
-        android:id="@+id/meFindMems"
-        android:name="com.example.findteam_android_v10.fragments.FragFindMembers"
-        android:label="FragFindMembers" />
-    <fragment
-        android:id="@+id/meProfile"
+        android:id="@+id/item_my_profile"
         android:name="com.example.findteam_android_v10.fragments.FragProfiles"
         android:label="FragProfiles" >
         <action
@@ -30,7 +26,7 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
-        android:id="@+id/meMyProjs"
+        android:id="@+id/item_my_proj"
         android:name="com.example.findteam_android_v10.fragments.FragMyProjects"
         android:label="FragMyProjects" />
     <fragment
