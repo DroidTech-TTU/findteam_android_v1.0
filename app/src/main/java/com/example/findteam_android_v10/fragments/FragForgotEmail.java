@@ -13,9 +13,10 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.example.findteam_android_v10.ForgetActivity;
 import com.example.findteam_android_v10.R;
 
 public class FragForgotEmail extends Fragment {
@@ -23,24 +24,31 @@ public class FragForgotEmail extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_frag_forgot_email, container, false);
-
-        ForgetActivity forgetActivity = (ForgetActivity) getActivity();
-        if (forgetActivity != null && forgetActivity.data != null)
-            Navigation.findNavController(view).navigate(R.id.action_meSecurityCode_to_meNewPass);
+        View view = inflater.inflate(R.layout.frag_forgot_email, container, false);
 
         Button resetBtn = view.findViewById(R.id.resetBtn);
         ImageView lock_ic = view.findViewById(R.id.lock_ic);
 
-        Animation animFadeIn = AnimationUtils.loadAnimation(getContext(), R.anim.fadein);
+        EditText forgot_email = view.findViewById(R.id.forgot_email);
 
+        Animation animFadeIn = AnimationUtils.loadAnimation(getContext(), R.anim.fadein);
         lock_ic.startAnimation(animFadeIn);
 
         resetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Navigation.findNavController(view).navigate(R.id.action_meForgetEmail_to_meSecurityCode);
+                String email = forgot_email.getText().toString();
+
+                if(email.isEmpty()) {
+                    Toast.makeText(getContext(), "Invalid Email Address", Toast.LENGTH_SHORT).show();
+                }
+                else {
+
+
+                    FragForgotEmailDirections.ActionMeForgetEmailToMeSentEmail action = FragForgotEmailDirections.actionMeForgetEmailToMeSentEmail(email);
+                    Navigation.findNavController(view).navigate(action);
+                }
             }
         });
         return view;

@@ -3,6 +3,6 @@
     android:shape="rectangle">
 
     <corners android:bottomLeftRadius="170dp" />
-    <solid android:color="#fc7c51"/>
+    <solid android:color="@color/find_team_orange"/>
 
 </shape>

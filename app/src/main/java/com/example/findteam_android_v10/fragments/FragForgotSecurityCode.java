@@ -15,12 +15,12 @@ import android.widget.Button;
 import com.example.findteam_android_v10.R;
 
 
-public class FragSecurityCode extends Fragment {
+public class FragForgotSecurityCode extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_frag_security_code, container, false);
+        View view = inflater.inflate(R.layout.frag_forgot_security_code, container, false);
 
         Button securityBtn = view.findViewById(R.id.securityCodeBtn);
 

@@ -57,5 +57,8 @@
     <string name="password_n_updated">Password\nUpdated</string>
     <string name="your_password_has_been_updated">Your password has been updated!</string>
     <string name="findteam">FindTeam</string>
+    <string name="email_sent">Email Sent!</string>
+    <string name="email_has_been_sent_to">Email has been sent to:</string>
+    <string name="please_check_your_inbox_to_reset_your_password">Please check your inbox to reset your password.</string>
 
 </resources>

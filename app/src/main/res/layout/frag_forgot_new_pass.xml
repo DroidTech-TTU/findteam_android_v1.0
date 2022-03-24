@@ -8,7 +8,7 @@
     android:background="@drawable/fragment_bg"
     android:elevation="10dp"
     android:padding="30dp"
-    tools:context=".fragments.FragNewPass">
+    tools:context=".fragments.FragForgotNewPass">
 
     <TextView
         android:id="@+id/newPassMsg2"

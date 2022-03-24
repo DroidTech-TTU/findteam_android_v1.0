@@ -27,15 +27,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
+import cz.msebera.android.httpclient.util.EntityUtils;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    public static final String TAG = "RegisterActivity222";
-    EditText etFirstName, etMiddleName, etLastName, etEmail, etPassword;
+    public static final String TAG = "RegisterActivity";
+    TextInputLayout etFirstName, etMiddleName, etLastName, etEmail, etPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,46 +48,43 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         registerBtn = findViewById(R.id.registerAct_btn);
-        etFirstName = ((TextInputLayout) findViewById(R.id.etFirstName)).getEditText();
-        etMiddleName = ((TextInputLayout) findViewById(R.id.etMiddleName)).getEditText();
-        etLastName = ((TextInputLayout) findViewById(R.id.etLastName)).getEditText();
-        etEmail = ((TextInputLayout) findViewById(R.id.etEmailAddress)).getEditText();
-        etPassword = ((TextInputLayout) findViewById(R.id.etPassword)).getEditText();
+        etFirstName = ((TextInputLayout) findViewById(R.id.etFirstName));
+        etMiddleName = ((TextInputLayout) findViewById(R.id.etMiddleName));
+        etLastName = ((TextInputLayout) findViewById(R.id.etLastName));
+        etEmail = ((TextInputLayout) findViewById(R.id.etEmailAddress));
+        etPassword = ((TextInputLayout) findViewById(R.id.etPassword));
 
         //does the process after the user register
-        registerBtn.setOnClickListener(new View.OnClickListener() {
+        registerBtn.setOnClickListener(view -> {
 
-            @Override
-            public void onClick(View view) {
+            try {
 
-                try {
-                    createNewUser();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
+                if(etEmail.getEditText().getText().toString().isEmpty()) etEmail.setError("Invalid email. Please enter email address");
+                if(etPassword.getEditText().getText().toString().isEmpty()) etPassword.setError("Invalid password. Please enter passsword");
+                createNewUser();
+            } catch (JSONException | IOException e) {
+                e.printStackTrace();
             }
+
+            //Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            //startActivity(intent);
         });
 
     }
 
-    void createNewUser() throws JSONException, UnsupportedEncodingException {
+    void createNewUser() throws JSONException, IOException {
 
         RequestParams params = new RequestParams();
-
         JSONObject user = new JSONObject();
-        user.put("first_name", etFirstName.getText().toString());
-        user.put("middle_name", etMiddleName.getText().toString());
-        user.put("last_name", etLastName.getText().toString());
-        user.put("email", etEmail.getText().toString());
-        user.put("password", etPassword.getText().toString());
+        user.put("first_name", etFirstName.getEditText().getText().toString());
+        user.put("middle_name", etMiddleName.getEditText().getText().toString());
+        user.put("last_name", etLastName.getEditText().getText().toString());
+        user.put("email", etEmail.getEditText().getText().toString());
+        user.put("password", etPassword.getEditText().getText().toString());
 
         StringEntity entity = new StringEntity(user.toString());
 
+        Log.i(TAG,EntityUtils.toString(entity));
         FindTeamClient.post(this,"register", entity, new JsonHttpResponseHandler(){
 
             @Override

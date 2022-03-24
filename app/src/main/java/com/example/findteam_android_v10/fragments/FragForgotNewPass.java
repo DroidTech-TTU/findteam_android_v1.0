@@ -14,15 +14,17 @@ import android.widget.Button;
 
 import com.example.findteam_android_v10.R;
 
-public class FragNewPass extends Fragment {
+public class FragForgotNewPass extends Fragment {
+
+    private static final String TAG = "FragNewPass";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_frag_new_pass, container, false);
+        View view = inflater.inflate(R.layout.frag_forgot_new_pass, container, false);
 
         Button resetBtn = view.findViewById(R.id.newPassBtn);
-
+        
         resetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

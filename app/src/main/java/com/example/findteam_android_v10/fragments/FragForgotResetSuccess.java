@@ -18,12 +18,12 @@ import android.widget.ImageView;
 import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
 
-public class FragResetSuccess extends Fragment {
+public class FragForgotResetSuccess extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_frag_reset_success, container, false);
+        View view = inflater.inflate(R.layout.frag_forgot_reset_success, container, false);
 
         Button successBtn = view.findViewById(R.id.successBtn);
         ImageView password_success_icon = view.findViewById(R.id.password_success_icon);
