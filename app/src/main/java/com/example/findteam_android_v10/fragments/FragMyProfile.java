@@ -18,7 +18,7 @@ import java.util.List;
 
 import co.lujun.androidtagview.TagContainerLayout;
 
-public class FragProfiles extends Fragment {
+public class FragMyProfile extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +28,8 @@ public class FragProfiles extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.frag_profile, container, false);
+        View view = inflater.inflate(R.layout.frag_my_profile, container, false);
+
 
         Button changeProfile = view.findViewById(R.id.change_profile);
 

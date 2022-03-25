@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.R;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 public class FragForgotEmail extends Fragment {
+
+    public static final String TAG = "FragForgotEmail";
 
     @Nullable
     @Override
@@ -45,6 +55,22 @@ public class FragForgotEmail extends Fragment {
                 }
                 else {
 
+                    //add a post statement here
+                    RequestParams requestParams = new RequestParams();
+                    requestParams.put("email", email);
+
+                    FindTeamClient.post("user/reset", requestParams, new JsonHttpResponseHandler(){
+
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            Log.i(TAG, "email has been sent successfully");
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            Log.e(TAG, "email has not been sent. Error code: " + statusCode);
+                        }
+                    });
 
                     FragForgotEmailDirections.ActionMeForgetEmailToMeSentEmail action = FragForgotEmailDirections.actionMeForgetEmailToMeSentEmail(email);
                     Navigation.findNavController(view).navigate(action);

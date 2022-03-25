@@ -15,7 +15,7 @@
         android:label="FragFindProjects" />
     <fragment
         android:id="@+id/item_my_profile"
-        android:name="com.example.findteam_android_v10.fragments.FragProfiles"
+        android:name="com.example.findteam_android_v10.fragments.FragMyProfile"
         android:label="FragProfiles" >
         <action
             android:id="@+id/action_meProfile_to_editProfile"

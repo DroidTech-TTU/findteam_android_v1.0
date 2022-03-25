@@ -27,19 +27,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/meSecurityCode"
-        android:name="com.example.findteam_android_v10.fragments.FragForgotSecurityCode"
-        android:label="FragSecurityCode">
-        <action
-            android:id="@+id/action_meSecurityCode_to_meNewPass"
-            app:destination="@id/meNewPass"
-            app:enterAnim="@anim/anim_slide_in_right"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
-
-    <fragment
         android:id="@+id/meNewPass"
         android:name="com.example.findteam_android_v10.fragments.FragForgotNewPass"
         android:label="FragNewPass"
