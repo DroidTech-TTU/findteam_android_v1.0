@@ -24,7 +24,7 @@ import com.example.findteam_android_v10.classes.Project;
 
 import java.util.ArrayList;
 
-public class FragMyProjects extends Fragment implements View.OnClickListener {
+public class FragMyProjects extends Fragment{
 
     RecyclerView lwMyProjectsSearch;
     String[] projectNames = {"Project 1", "Project 2", "Project 3", "Project 4", "Project 1", "Project 2", "Project 3", "Project 4"
@@ -49,7 +49,15 @@ public class FragMyProjects extends Fragment implements View.OnClickListener {
         this.lwMyProjectsSearch = (RecyclerView) view.findViewById(R.id.rvMyProjectsSearch);
         this.btCreateProject = view.findViewById(R.id.btCreateMyProject);
 
-        btCreateProject.setOnClickListener(this);
+        btCreateProject.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), CreateProjectActivity.class);
+                view.getContext().startActivity(intent);
+            }
+        });
+
         arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, projectNames);
 //        this.lwMyProjectsSearch.setAdapter(arrayAdapter);
 
@@ -89,10 +97,4 @@ public class FragMyProjects extends Fragment implements View.OnClickListener {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent(view.getContext(), CreateProjectActivity.class);
-        view.getContext().startActivity(intent);
-    }
 }
