@@ -2,6 +2,7 @@ package com.example.findteam_android_v10.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,14 @@ import com.example.findteam_android_v10.DetailMyProjectActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.classes.Project;
 
+import java.util.Arrays;
 import java.util.List;
+
+import co.lujun.androidtagview.TagContainerLayout;
 
 public class myProjectsAdapter extends RecyclerView.Adapter<myProjectsAdapter.ViewHolder> implements View.OnClickListener {
     private List<Project> projects;
+
     TextView twProjectName;
     TextView twProjectStatus;
     public myProjectsAdapter(List<Project> Projects) {
@@ -55,7 +60,11 @@ public class myProjectsAdapter extends RecyclerView.Adapter<myProjectsAdapter.Vi
         TextView twStatus = holder.twProjectStatus;
         twStatus.setText(project.getName());
         Button button = holder.btView;
+
+        List<String> skills = Arrays.asList("C#", "Python", "Java", "Software Developer","C#", "Python");
+        holder.myProjectsTags.setTags(skills);
 //        button.setText(String.valueOf(project.getId()));
+
     }
 
     @Override
@@ -78,6 +87,9 @@ public class myProjectsAdapter extends RecyclerView.Adapter<myProjectsAdapter.Vi
         public TextView twProjectName;
         public TextView twProjectStatus;
         public Button btView;
+        public TagContainerLayout my_projects_tags;
+
+        TagContainerLayout myProjectsTags;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -88,6 +100,7 @@ public class myProjectsAdapter extends RecyclerView.Adapter<myProjectsAdapter.Vi
 
             twProjectName = (TextView) itemView.findViewById(R.id.twProjectName);
             twProjectStatus = (TextView) itemView.findViewById(R.id.twProjectStatus) ;
+            myProjectsTags = itemView.findViewById(R.id.tgMyProjects);
 //            btView = (Button) itemView.findViewById(R.id.btView);
         }
     }

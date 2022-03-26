@@ -2,16 +2,19 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/wgSearchMyproject"
-        android:icon="@drawable/ic_baseline_find_in_page_24"
+        android:id="@+id/action_find_my_projects"
+        android:icon="@drawable/ic_search"
         android:title="Search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
     <item
-        android:id="@+id/btCreateMyProject"
-        android:icon="@drawable/ic_baseline_person_add_alt_1_24"
+        android:id="@+id/action_create_projects"
+        android:icon="@drawable/ic_baseline_add_24"
         android:title="Create Project"
         app:actionViewClass="android.widget.Button"
         app:showAsAction="ifRoom|collapseActionView"/>
+
+
 </menu>

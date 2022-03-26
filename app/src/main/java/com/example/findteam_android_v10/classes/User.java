@@ -1,5 +1,7 @@
 package com.example.findteam_android_v10.classes;
 
+import java.util.List;
+
 public class User {
     private int uid;
     private String first_name;
@@ -7,16 +9,27 @@ public class User {
     private String last_name;
     private String email;
     private String passwords;
+    private List<Project> projects;
 
-    public User(int uid, String first_name, String middle_name, String last_name, String email, String passwords, String picture) {
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+    public User(int uid, String first_name, String middle_name, String last_name, String email, String passwords, List<Project> projects, String picture) {
         this.uid = uid;
         this.first_name = first_name;
         this.middle_name = middle_name;
         this.last_name = last_name;
         this.email = email;
         this.passwords = passwords;
+        this.projects = projects;
         this.picture = picture;
     }
+
     public User() {
     }
 
