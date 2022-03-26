@@ -3,18 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ForgetActivity">
+    android:layout_height="500dp"
+    android:layout_margin="15dp"
+    android:background="@drawable/fragment_bg"
+    android:elevation="10dp"
+    android:padding="30dp"
+    tools:context=".fragments.FragForgotEmail">
 
-    <TextView
-        android:id="@+id/forgot_pass_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="@string/forgot_pass_title"
-        android:textColor="#000000"
-        android:textSize="34sp"
+
+    <ImageView
+        android:id="@+id/lock_ic"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="36dp"
+        android:src="@drawable/ic_lock"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,37 +26,42 @@
         android:id="@+id/forget_pass_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="108dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/questrial"
         android:text="@string/forgot_pass_msg"
         android:textAlignment="center"
+        android:textColor="#373737"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forgot_pass_title" />
+        app:layout_constraintTop_toBottomOf="@+id/lock_ic" />
 
     <EditText
         android:id="@+id/forgot_email"
-        android:inputType="textEmailAddress"
-        android:hint="@string/email_hint"
-        android:autofillHints="forgot pass"
-        android:layout_width="289dp"
-        android:layout_height="53dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
+        android:autofillHints="forgot pass"
+        android:background="@drawable/edit_text_bg"
+        android:fontFamily="@font/questrial"
+        android:hint="@string/email_hint"
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
         android:textAlignment="center"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/forget_pass_msg" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/resetBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/recover"
+        android:background="@drawable/round_shadow_button"
+        android:text="@string/reset"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"

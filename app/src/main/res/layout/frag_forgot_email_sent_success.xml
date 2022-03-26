@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:layout_margin="15dp"
+    android:background="@drawable/fragment_bg"
+    android:elevation="10dp"
+    android:padding="30dp"
+    tools:context=".fragments.FragForgotEmailSentSuccess">
+
+    <TextView
+        android:id="@+id/emailSuccessMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="@string/email_sent"
+        android:textAlignment="center"
+        android:textColor="#434141"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/emailSuccessMsg2"
+        android:layout_width="289dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/questrial"
+        android:text="@string/email_has_been_sent_to"
+        android:textAlignment="center"
+        android:textColor="#373737"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_sent_success_icon" />
+
+    <TextView
+        android:id="@+id/emailSuccessMsg3"
+        android:layout_width="289dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/questrial"
+        android:text="@string/please_check_your_inbox_to_reset_your_password"
+        android:textAlignment="center"
+        android:textColor="#373737"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailOfUser" />
+
+    <TextView
+        android:id="@+id/emailOfUser"
+        android:layout_width="289dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/questrial"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#373737"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailSuccessMsg2"
+        tools:text="john.manacup@gmail.com" />
+
+    <Button
+        android:id="@+id/emailSuccessBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/round_shadow_button"
+        android:text="@string/login"
+        android:textColor="#ffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailSuccessMsg3" />
+
+    <ImageView
+        android:id="@+id/email_sent_success_icon"
+        android:layout_width="154dp"
+        android:layout_height="153dp"
+        android:layout_marginTop="8dp"
+        android:elevation="20dp"
+        android:src="@drawable/ic_baseline_mark_email_read_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailSuccessMsg"
+        tools:ignore="ContentDescription" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

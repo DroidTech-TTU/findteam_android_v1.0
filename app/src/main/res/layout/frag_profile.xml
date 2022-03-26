@@ -1,208 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tbCreateProject"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/profile_menu"
-        app:title="@string/frag_profile"
-        app:titleTextColor="@color/white" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profilePic"
-        android:layout_width="113dp"
-        android:layout_height="113dp"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/profile_pic_placeholder"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbCreateProject"
-        app:srcCompat="@drawable/profile_pic_placeholder"
-        tools:ignore="ContentDescription" />
-
-    <ImageView
-        android:id="@+id/editBtn"
-        android:layout_width="52dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="104dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.643"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbCreateProject"
-        app:srcCompat="@android:drawable/ic_menu_edit"
-        tools:ignore="ContentDescription" />
-
-    <TextView
-        android:id="@+id/profFullName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="An Lam"
-        android:textColor="#3A3636"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilePic"
-        tools:text="An Lam" />
-
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_default="wrap"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_main_bottom_navigation_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profFullName">
+        android:layout_height="wrap_content"
+        android:id="@+id/frag_profile_id">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cons_inside"
+        <co.lujun.androidtagview.TagContainerLayout
+            android:id="@+id/skills_tag"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="75dp"
+            app:container_background_color="@android:color/transparent"
+            app:container_border_width="0dp"
+            android:padding="10dp"
+            app:container_enable_drag="false"
+            app:container_border_color="@android:color/transparent"
+            app:horizontal_interval="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profSkills_text_my"
+            app:tag_clickable="true"
+            app:tag_theme="random"
+            app:vertical_interval="10dp" />
 
-            <co.lujun.androidtagview.TagContainerLayout
-                android:id="@+id/skills_tag"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="28dp"
-                android:layout_marginEnd="75dp"
-                android:padding="10dp"
-                app:container_enable_drag="false"
-                app:horizontal_interval="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profSkills_text"
-                app:tag_clickable="true"
-                app:tag_theme="random"
-                app:vertical_interval="10dp" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tbCreateProject"
+            android:layout_width="409dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/profile_menu"
+            app:title="@string/frag_profile"
+            app:titleTextColor="@color/white" />
 
-            <TextView
-                android:id="@+id/profSkills_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="12dp"
-                android:lineSpacingExtra="20sp"
-                android:text="Skills:"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profUrl_text" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profilePic"
+            android:layout_width="113dp"
+            android:layout_height="113dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/profile_pic_placeholder"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tbCreateProject"
+            app:srcCompat="@drawable/profile_pic_placeholder"
+            tools:ignore="ContentDescription" />
 
-            <TextView
-                android:id="@+id/profUrl_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="12dp"
-                android:lineSpacingExtra="20sp"
-                android:text="URL:"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profLastName_text" />
+        <TextView
+            android:id="@+id/profFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="An Lam"
+            android:textColor="#3A3636"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profilePic"
+            tools:text="An Lam" />
 
-            <TextView
-                android:id="@+id/profLastName_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="12dp"
-                android:lineSpacingExtra="20sp"
-                android:text="@string/last_name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profMiddleName_text" />
 
-            <TextView
-                android:id="@+id/profLastName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="12dp"
-                android:textColor="#171717"
-                app:layout_constraintStart_toEndOf="@+id/profLastName_text"
-                app:layout_constraintTop_toBottomOf="@+id/profMiddleName"
-                tools:text="Lam" />
+        <co.lujun.androidtagview.TagContainerLayout
+            android:id="@+id/location_tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="75dp"
+            android:padding="10dp"
+            app:container_background_color="@android:color/transparent"
+            app:container_border_color="@android:color/transparent"
+            app:container_enable_drag="false"
+            app:horizontal_interval="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profLocation_text"
+            app:tag_clickable="true"
+            app:tag_theme="random"
+            app:vertical_interval="10dp" />
 
-            <TextView
-                android:id="@+id/profMiddleName_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="12dp"
-                android:lineSpacingExtra="20sp"
-                android:text="@string/middle_name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profFirstName_text" />
+        <TextView
+            android:id="@+id/profSkills_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="12dp"
+            android:lineSpacingExtra="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profUrl_text" />
 
-            <TextView
-                android:id="@+id/profMiddleName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="12dp"
-                android:textColor="#171717"
-                app:layout_constraintStart_toEndOf="@+id/profMiddleName_text"
-                app:layout_constraintTop_toBottomOf="@+id/profFirstName"
-                tools:text="Wassup" />
+        <TextView
+            android:id="@+id/profUrl_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="28dp"
+            android:lineSpacingExtra="20sp"
+            android:text="URL:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profFullName" />
 
-            <TextView
-                android:id="@+id/profFirstName_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:lineSpacingExtra="20sp"
-                android:text="@string/first_name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/profLocation_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="20sp"
+            android:text="Location:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profUrl_text" />
 
-            <TextView
-                android:id="@+id/profFirstName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:textColor="#171717"
-                app:layout_constraintStart_toEndOf="@+id/profFirstName_text"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="An" />
+        <TextView
+            android:id="@+id/profSkills_text_my"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="20dp"
+            android:lineSpacingExtra="20sp"
+            android:text="Skills:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/location_tag" />
 
-            <Button
-                android:id="@+id/change_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Change Profile"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/skills_tag" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/activity_main_bottom_navigation_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation_menu"
-        android:visibility="invisible" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

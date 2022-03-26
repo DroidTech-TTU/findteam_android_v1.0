@@ -3,26 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/meMyProjs">
+    app:startDestination="@id/item_search">
 
     <fragment
-        android:id="@+id/meChat"
+        android:id="@+id/item_chat"
         android:name="com.example.findteam_android_v10.fragments.FragChat"
         android:label="FragChat" />
     <fragment
-        android:id="@+id/meFindProjs"
+        android:id="@+id/item_search"
         android:name="com.example.findteam_android_v10.fragments.FragFindProjects"
         android:label="FragFindProjects" />
     <fragment
-        android:id="@+id/meFindMems"
-        android:name="com.example.findteam_android_v10.fragments.FragFindMembers"
-        android:label="FragFindMembers" />
+        android:id="@+id/item_my_profile"
+        android:name="com.example.findteam_android_v10.fragments.FragMyProfile"
+        android:label="FragProfiles" >
+        <action
+            android:id="@+id/action_meProfile_to_editProfile"
+            app:destination="@id/editProfile"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
     <fragment
-        android:id="@+id/meProfile"
-        android:name="com.example.findteam_android_v10.fragments.FragProfiles"
-        android:label="FragProfiles" />
-    <fragment
-        android:id="@+id/meMyProjs"
+        android:id="@+id/item_my_proj"
         android:name="com.example.findteam_android_v10.fragments.FragMyProjects"
         android:label="FragMyProjects" />
+    <fragment
+        android:id="@+id/editProfile"
+        android:name="com.example.findteam_android_v10.fragments.FragEditProfile"
+        android:label="FragEditProfile" />
+
 </navigation>

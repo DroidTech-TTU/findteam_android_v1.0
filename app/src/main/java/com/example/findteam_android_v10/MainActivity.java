@@ -1,5 +1,7 @@
 package com.example.findteam_android_v10;
 
+import static androidx.navigation.Navigation.findNavController;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
@@ -25,14 +27,9 @@ public class MainActivity extends AppCompatActivity {
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
 //        setContentView(R.layout.activity_main);
 
-        NavController navController = Navigation.findNavController(this, R.id.activity_main_nav_host_fragment);
+        NavController navController = findNavController(this, R.id.activity_main_nav_host_fragment);
         BottomNavigationView bottomNavigationView = findViewById(R.id.activity_main_bottom_navigation_view);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 }

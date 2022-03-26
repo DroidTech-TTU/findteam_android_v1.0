@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:layout_margin="15dp"
+    android:background="@drawable/fragment_bg"
+    android:elevation="10dp"
+    android:padding="30dp"
+    tools:context=".fragments.FragForgotResetSuccess">
+
+    <TextView
+        android:id="@+id/successMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="@string/password_n_updated"
+        android:textAlignment="center"
+        android:textColor="#434141"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/successMsg2"
+        android:layout_width="289dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/questrial"
+        android:text="@string/your_password_has_been_updated"
+        android:textAlignment="center"
+        android:textColor="#373737"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_success_icon" />
+
+    <Button
+        android:id="@+id/successBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/round_shadow_button"
+        android:text="@string/login"
+        android:textColor="#ffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/successMsg2" />
+
+    <ImageView
+        android:id="@+id/password_success_icon"
+        android:layout_width="171dp"
+        android:layout_height="224dp"
+        android:layout_marginTop="8dp"
+        android:alpha="0.8"
+        android:elevation="20dp"
+        android:src="@drawable/password_updated_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/successMsg"
+        tools:ignore="ContentDescription" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
