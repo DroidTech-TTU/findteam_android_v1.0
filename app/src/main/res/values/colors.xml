@@ -4,5 +4,6 @@
     <color name="white">#FFFFFF</color>
     <color name="round_button_color">#D3D3D3</color>
     <color name="find_team_orange">#fc7c51</color>
+    <color name="find_team_hover_orange">#FAAC92</color>
     <color name="find_team_dark">#4a4948</color>
 </resources>

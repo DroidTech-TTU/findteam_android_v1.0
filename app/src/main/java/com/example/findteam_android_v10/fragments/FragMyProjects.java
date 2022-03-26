@@ -2,6 +2,7 @@ package com.example.findteam_android_v10.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,10 +24,14 @@ import com.example.findteam_android_v10.adapters.myProjectsAdapter;
 import com.example.findteam_android_v10.classes.Project;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class FragMyProjects extends Fragment implements View.OnClickListener {
+import co.lujun.androidtagview.TagContainerLayout;
 
-    RecyclerView lwMyProjectsSearch;
+public class FragMyProjects extends Fragment{
+
+    RecyclerView rvContacts;
     String[] projectNames = {"Project 1", "Project 2", "Project 3", "Project 4", "Project 1", "Project 2", "Project 3", "Project 4"
     ,"Project 1", "Project 2", "Project 3", "Project 4","Project 1", "Project 2", "Project 3", "Project 4","Project 1", "Project 2", "Project 3", "Project 4","Project 1", "Project 2", "Project 3", "Project 4", "Project 1", "Project 2", "Project 3", "Project 4"
             ,"Project 1", "Project 2", "Project 3", "Project 4","Project 1", "Project 2", "Project 3", "Project 4","Project 1", "Project 2", "Project 3", "Project 4"};
@@ -46,14 +51,17 @@ public class FragMyProjects extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_my_projects, container, false);
-        this.lwMyProjectsSearch = (RecyclerView) view.findViewById(R.id.rvMyProjectsSearch);
+        this.rvContacts = (RecyclerView) view.findViewById(R.id.rvMyProjectsSearch);
         this.btCreateProject = view.findViewById(R.id.btCreateMyProject);
 
-        btCreateProject.setOnClickListener(this);
-        arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, projectNames);
-//        this.lwMyProjectsSearch.setAdapter(arrayAdapter);
+        btCreateProject.setOnClickListener(new View.OnClickListener(){
 
-        RecyclerView rvContacts = (RecyclerView) view.findViewById(R.id.rvMyProjectsSearch);
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), CreateProjectActivity.class);
+                view.getContext().startActivity(intent);
+            }
+        });
 
         // Initialize contacts
         projects = Project.creatProjectsList(40);
@@ -68,10 +76,15 @@ public class FragMyProjects extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
 
         inflater.inflate(R.menu.my_projects_menu, menu);
-        MenuItem menuItem = menu.findItem(R.id.wgSearchMyproject);
+        MenuItem menuItem = menu.findItem(R.id.btSearchProjects);
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Type here to search");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -89,10 +102,4 @@ public class FragMyProjects extends Fragment implements View.OnClickListener {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent(view.getContext(), CreateProjectActivity.class);
-        view.getContext().startActivity(intent);
-    }
 }
