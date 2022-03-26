@@ -66,11 +66,6 @@ public class LoginActivity extends AppCompatActivity {
         loginInLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                i.putExtra("access_token", sharedPreferences.getString("access_token", ""));
-                startActivity(i);
-                finish();
 
                 RequestParams params = new RequestParams();
                 params.put("grant_type", "password");

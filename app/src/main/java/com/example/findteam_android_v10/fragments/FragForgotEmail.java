@@ -23,8 +23,10 @@ import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.RegisterActivity;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,32 +60,28 @@ public class FragForgotEmail extends Fragment {
 
                 String email = forgot_email.getText().toString();
 
-                //add a post statement here
-                RequestParams params = new RequestParams();
-
                 if (email.isEmpty()) {
                     Toast.makeText(getContext(), "Invalid Email Address", Toast.LENGTH_SHORT).show();
 
                 } else {
 
-                    FindTeamClient.post("user/reset?email=" + email, null, new JsonHttpResponseHandler() {
-
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-
-                        }
+                    FindTeamClient.post("user/reset?email=" + email, new TextHttpResponseHandler() {
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            Log.e(TAG, "email has been sent successfully" + " " + throwable);
+                        }
 
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, String responseString) {
                             Log.i(TAG, "email has been sent successfully");
 
                             FragForgotEmailDirections.ActionMeForgetEmailToMeSentEmail action = FragForgotEmailDirections.actionMeForgetEmailToMeSentEmail(email);
                             Navigation.findNavController(view).navigate(action);
-
-
                         }
+
                     });
+
                 }
             }
         });

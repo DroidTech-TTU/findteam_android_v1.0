@@ -44,13 +44,14 @@
         android:id="@+id/emailSuccessMsg3"
         android:layout_width="289dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/questrial"
         android:text="@string/please_check_your_inbox_to_reset_your_password"
         android:textAlignment="center"
         android:textColor="#373737"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailOfUser" />
 
