@@ -33,6 +33,45 @@
         <entry key="..\:/Android/findteam_android_v1.0/app/src/main/res/menu/my_projects_menu.xml" value="0.19739583333333333" />
         <entry key="..\:/Android/findteam_android_v1.0/app/src/main/res/menu/navigation_menu.xml" value="0.33" />
         <entry key="..\:/Android/findteam_android_v1.0/app/src/main/res/menu/profile_menu.xml" value="0.20052083333333334" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.35833333333333334" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/ic_search.xml" value="0.35833333333333334" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/item_project_shape.xml" value="0.22135416666666666" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/round_shadow_button.xml" value="0.35833333333333334" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/shape_bot_corner.xml" value="0.2994791666666667" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/shape_bot_organe.xml" value="0.2994791666666667" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/shape_bot_right_corner.xml" value="0.2994791666666667" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/shape_four_conners.xml" value="0.2994791666666667" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/shape_four_conners_white.xml" value="0.3828125" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/shape_header_search.xml" value="0.2994791666666667" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/shape_left_corner.xml" value="0.2994791666666667" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/shape_rectange_editText_white.xml" value="0.3828125" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/shape_rectange_edittext_white.xml" value="0.30520833333333336" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/shape_right_corner.xml" value="0.2994791666666667" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/shape_search_edit_text.xml" value="0.35833333333333334" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/shape_top_corner.xml" value="0.2994791666666667" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/shape_top_right_top_left.xml" value="0.2994791666666667" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/activity_create_project.xml" value="0.22" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/activity_detail_my_project.xml" value="0.2833333333333333" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/activity_forget_main.xml" value="0.2833333333333333" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/activity_main.xml" value="0.2833333333333333" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/frag_forgot_email_sent_success.xml" value="0.2833333333333333" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/frag_forgot_new_pass.xml" value="0.2833333333333333" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/frag_forgot_reset_success.xml" value="0.2833333333333333" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/frag_my_profile.xml" value="0.20520833333333333" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/frag_my_projects.xml" value="0.33" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/frag_profile.xml" value="0.20520833333333333" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/item_galary_create_project.xml" value="0.2984375" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/item_my_project.xml" value="0.22" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/item_my_project_detail.xml" value="0.20520833333333333" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/menu/chat_menu.xml" value="0.20520833333333333" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/menu/create_project_menu.xml" value="0.2833333333333333" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/menu/detail_project_menu.xml" value="0.2833333333333333" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/menu/find_members_menu.xml" value="0.2833333333333333" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/menu/find_projects_menu.xml" value="0.2833333333333333" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/menu/login_menu.xml" value="0.2833333333333333" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/menu/my_projects_menu.xml" value="0.33" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/menu/navigation_menu.xml" value="0.3421875" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/menu/profile_menu.xml" value="0.3421875" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/drawable/button_bg.xml" value="0.163" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/drawable/circle.xml" value="0.1635" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/drawable/droidtech.xml" value="0.1" />
@@ -96,7 +135,7 @@
     <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
     <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

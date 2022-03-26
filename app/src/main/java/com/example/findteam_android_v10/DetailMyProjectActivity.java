@@ -8,7 +8,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,12 +39,12 @@ public class DetailMyProjectActivity extends AppCompatActivity {
         this.ivStatus = (ImageView) findViewById(R.id.ivStatusMyProjectDetail) ;
         this.ivOneDrive = (ImageView) findViewById(R.id.ivOneDriveMyDetailProjects);
 
-        members = UserProject.creatUserProjectsList(4);
-        members.get(0).setUserName(memberNames[0]);
-        members.get(0).setRole("Owner");
-        members.get(1).setUserName(memberNames[1]);
-        members.get(2).setUserName(memberNames[2]);
-        members.get(3).setUserName(memberNames[3]);
+//        members = UserProject.creatUserProjectsList(4);
+//        members.get(0).setUserName(memberNames[0]);
+//        members.get(0).setRole("Owner");
+//        members.get(1).setUserName(memberNames[1]);
+//        members.get(2).setUserName(memberNames[2]);
+//        members.get(3).setUserName(memberNames[3]);
 
         final detailMyProjectAdapter adapter = new detailMyProjectAdapter(members);
         this.rvMembers.setAdapter(adapter);

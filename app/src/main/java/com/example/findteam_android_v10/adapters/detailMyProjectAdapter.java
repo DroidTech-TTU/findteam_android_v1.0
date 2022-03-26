@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -59,7 +58,7 @@ public class detailMyProjectAdapter extends RecyclerView.Adapter<detailMyProject
             this.status = (TextView) view.findViewById(R.id.tvStatusDetailMyProject);
         }
         public void bind(UserProject member){
-            memberName.setText(member.getUserName());
+//            memberName.setText(member.getUserName());
             role.setText(member.getRole());
             status.setText(member.getStatus());
         }

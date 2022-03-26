@@ -5,7 +5,8 @@
     android:id="@+id/main_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    >
 
 
 <!--    android:theme="@style/Theme.AppCompat.NoActionBar"-->
@@ -26,7 +27,7 @@
         android:id="@+id/activity_main_bottom_navigation_view"
         android:layout_width="match_parent"
         app:itemIconTint="@drawable/item_selector"
-        android:background="#ffffff"
+        android:background="@drawable/shape_bot_corner"
         app:labelVisibilityMode="unlabeled"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
