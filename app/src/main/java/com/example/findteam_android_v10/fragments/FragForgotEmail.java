@@ -1,5 +1,6 @@
 package com.example.findteam_android_v10.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,13 +20,20 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.findteam_android_v10.FindTeamClient;
+import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
+import com.example.findteam_android_v10.RegisterActivity;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class FragForgotEmail extends Fragment {
 
@@ -50,33 +58,36 @@ public class FragForgotEmail extends Fragment {
 
                 String email = forgot_email.getText().toString();
 
-                if(email.isEmpty()) {
+                //add a post statement here
+                RequestParams params = new RequestParams();
+
+                if (email.isEmpty()) {
                     Toast.makeText(getContext(), "Invalid Email Address", Toast.LENGTH_SHORT).show();
-                }
-                else {
 
-                    //add a post statement here
-                    RequestParams requestParams = new RequestParams();
-                    requestParams.put("email", email);
+                } else {
 
-                    FindTeamClient.post("user/reset", requestParams, new JsonHttpResponseHandler(){
+                    FindTeamClient.post("user/reset?email=" + email, null, new JsonHttpResponseHandler() {
 
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                            Log.i(TAG, "email has been sent successfully");
+
                         }
 
                         @Override
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                            Log.e(TAG, "email has not been sent. Error code: " + statusCode);
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+                            Log.i(TAG, "email has been sent successfully");
+
+                            FragForgotEmailDirections.ActionMeForgetEmailToMeSentEmail action = FragForgotEmailDirections.actionMeForgetEmailToMeSentEmail(email);
+                            Navigation.findNavController(view).navigate(action);
+
+
                         }
                     });
-
-                    FragForgotEmailDirections.ActionMeForgetEmailToMeSentEmail action = FragForgotEmailDirections.actionMeForgetEmailToMeSentEmail(email);
-                    Navigation.findNavController(view).navigate(action);
                 }
             }
         });
+
         return view;
     }
 
