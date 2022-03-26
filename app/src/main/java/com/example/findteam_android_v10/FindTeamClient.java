@@ -2,6 +2,7 @@ package com.example.findteam_android_v10;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import com.loopj.android.http.*;
 
@@ -20,7 +21,7 @@ public class FindTeamClient {
     public static void post(Context context, String url, HttpEntity entity, AsyncHttpResponseHandler responseHandler) {
         client.post(context, getAbsoluteUrl(url), entity, "application/json", responseHandler);
     }
-    public static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler){
+    public static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.post(getAbsoluteUrl(url), params, responseHandler);
     }
 

@@ -27,7 +27,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profUrl_text3"
+            app:layout_constraintTop_toBottomOf="@+id/profSkills_text_my"
             app:tag_clickable="true"
             app:tag_theme="random"
             app:vertical_interval="10dp" />
@@ -91,7 +91,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profUrl_text2"
+            app:layout_constraintTop_toBottomOf="@+id/profLocation_text"
             app:tag_clickable="true"
             app:tag_theme="random"
             app:vertical_interval="10dp" />
@@ -118,7 +118,7 @@
             app:layout_constraintTop_toBottomOf="@+id/profFullName" />
 
         <TextView
-            android:id="@+id/profUrl_text2"
+            android:id="@+id/profLocation_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
@@ -129,7 +129,7 @@
             app:layout_constraintTop_toBottomOf="@+id/profUrl_text" />
 
         <TextView
-            android:id="@+id/profUrl_text3"
+            android:id="@+id/profSkills_text_my"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"

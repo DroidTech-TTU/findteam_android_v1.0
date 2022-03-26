@@ -6,6 +6,8 @@
         <item name="colorPrimary">#4a4948</item>
         <item name="colorPrimaryDark">#4a4948</item>
         <item name="colorAccent">#4a4948</item>
+
+
         <!-- Customize your theme here. -->
     </style>
 </resources>

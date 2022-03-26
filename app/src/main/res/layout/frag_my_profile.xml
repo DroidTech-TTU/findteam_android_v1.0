@@ -3,34 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#FBFBFB"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="false">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
+        android:fitsSystemWindows="false"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="false"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
-                android:src="@drawable/ic_team_bro"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:scaleType="centerCrop"
+                android:src="@drawable/sample_prof_pic"
                 app:layout_collapseMode="parallax"
-                android:minHeight="100dp" />
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -44,12 +42,13 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FBFBFB"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/frag_profile_id"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <co.lujun.androidtagview.TagContainerLayout
                 android:id="@+id/skills_tag"
@@ -67,25 +66,24 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profUrl_text3"
+                app:layout_constraintTop_toBottomOf="@+id/profSkills_text_my"
                 app:tag_clickable="true"
                 app:tag_theme="random"
                 app:vertical_interval="10dp" />
+
 
             <TextView
                 android:id="@+id/profFullName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="An Lam"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="AN LAM"
                 android:textColor="#3A3636"
-                android:textSize="24sp"
-                android:textStyle="bold"
+                android:textSize="48sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:text="An Lam" />
-
+                app:layout_constraintTop_toTopOf="parent" />
 
             <co.lujun.androidtagview.TagContainerLayout
                 android:id="@+id/location_tag"
@@ -102,53 +100,149 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profUrl_text2"
+                app:layout_constraintTop_toBottomOf="@+id/profLocation_text"
                 app:tag_clickable="true"
                 app:tag_theme="random"
                 app:vertical_interval="10dp" />
 
-            <TextView
-                android:id="@+id/profSkills_text"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/url_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="12dp"
-                android:lineSpacingExtra="20sp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profUrl_text" />
+                app:layout_constraintTop_toBottomOf="@+id/finished_project_card">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/profUrl_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_black"
+                        android:lineSpacingExtra="20sp"
+                        android:text="URL:"
+                        android:textColor="@color/find_team_dark"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvUrls"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="28dp"
+                        android:layout_marginTop="28dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/profUrl_text" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/profUrl_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="36dp"
-                android:layout_marginTop="28dp"
-                android:lineSpacingExtra="20sp"
-                android:text="URL:"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profFullName" />
-
-            <TextView
-                android:id="@+id/profUrl_text2"
+                android:id="@+id/profLocation_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="36dp"
                 android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto_black"
                 android:lineSpacingExtra="20sp"
                 android:text="Location:"
+                android:textColor="@color/find_team_dark"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profUrl_text" />
+                app:layout_constraintTop_toBottomOf="@+id/url_card" />
 
             <TextView
-                android:id="@+id/profUrl_text3"
+                android:id="@+id/profSkills_text_my"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="36dp"
                 android:layout_marginTop="20dp"
+                android:fontFamily="@font/roboto_black"
                 android:lineSpacingExtra="20sp"
                 android:text="Skills:"
+                android:textColor="@color/find_team_dark"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/location_tag" />
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/finished_project_card"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="20dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profFullName">
+
+                <TextView
+                    android:id="@+id/finished_project_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="15dp"
+                    android:fontFamily="@font/questrial"
+                    android:textColor="@color/find_team_dark"
+                    android:textSize="24sp"
+                    tools:text="5" />
+
+                <TextView
+                    android:id="@+id/finished_project_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/staatliches"
+                    android:text="Finished Project"
+                    android:textColor="@color/find_team_dark"
+                    android:textSize="16sp" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/active_project_card"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="20dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="20dp"
+                app:layout_constraintStart_toEndOf="@+id/finished_project_card"
+                app:layout_constraintTop_toBottomOf="@+id/profFullName">
+
+                <TextView
+                    android:id="@+id/active_project_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="15dp"
+                    android:fontFamily="@font/questrial"
+                    android:textColor="@color/find_team_dark"
+                    android:textSize="24sp"
+                    tools:text="2" />
+
+                <TextView
+                    android:id="@+id/active_project_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/staatliches"
+                    android:text="Active Project"
+                    android:textColor="@color/find_team_dark"
+                    android:textSize="16sp" />
+
+            </androidx.cardview.widget.CardView>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -158,9 +252,15 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/find_team_orange"
+        android:elevation="20dp"
+        android:tint="@color/find_team_dark"
+        app:backgroundTint="@color/white"
+        app:borderWidth="3dp"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_dialog_email"
+        app:srcCompat="@drawable/ic_baseline_edit_24"
         tools:ignore="ContentDescription" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

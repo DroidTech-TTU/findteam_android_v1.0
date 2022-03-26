@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.findteam_android_v10.R;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,12 +30,11 @@ public class FragMyProfile extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.frag_my_profile, container, false);
-
-
         Button changeProfile = view.findViewById(R.id.change_profile);
 
+
         List<String> location = Arrays.asList("Houston", "California", "New York");
-        List<String> skills = Arrays.asList("C#", "Python", "Java", "Software Developer","C#", "Python", "Java", "Software Developer","C1#", "P1ython", "Ja1va", "Softw1are Developer","Software Dev2eloper","C1#2", "P12ython", "Ja1v2a", "Softw1are De2veloper");
+        List<String> skills = Arrays.asList("C#", "Python", "Java", "Software Developer");
         TagContainerLayout skillsTag = view.findViewById(R.id.skills_tag);
         TagContainerLayout locationTag = view.findViewById(R.id.location_tag);
 
