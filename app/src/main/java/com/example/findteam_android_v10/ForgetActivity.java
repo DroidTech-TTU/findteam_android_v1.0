@@ -27,7 +27,7 @@ public class ForgetActivity extends AppCompatActivity {
 
         //get uri information
         if(savedInstanceState == null && data != null) {
-            Log.i(TAG, data.getEncodedQuery());
+            //Log.i(TAG, data.getEncodedQuery());
             Navigation.findNavController(this, R.id.activity_forget_host_fragment).navigate(R.id.meNewPass);
         }
     }

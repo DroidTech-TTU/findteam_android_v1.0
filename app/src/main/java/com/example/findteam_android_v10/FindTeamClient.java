@@ -21,8 +21,13 @@ public class FindTeamClient {
     public static void post(Context context, String url, HttpEntity entity, AsyncHttpResponseHandler responseHandler) {
         client.post(context, getAbsoluteUrl(url), entity, "application/json", responseHandler);
     }
+
     public static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.post(getAbsoluteUrl(url), params, responseHandler);
+    }
+
+    public static void post(String url, AsyncHttpResponseHandler responseHandler){
+        client.post(getAbsoluteUrl(url), responseHandler);
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {
