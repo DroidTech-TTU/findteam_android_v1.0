@@ -35,7 +35,7 @@
         android:background="@drawable/edit_text_bg"
         android:fontFamily="@font/questrial"
         android:hint="@string/pass_hint"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:textAlignment="center"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
