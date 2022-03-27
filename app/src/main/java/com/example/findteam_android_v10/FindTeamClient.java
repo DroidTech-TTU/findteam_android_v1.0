@@ -18,6 +18,10 @@ public class FindTeamClient {
         client.get(context, getAbsoluteUrl(url), entity, "application/json", responseHandler);
     }
 
+    public static void get(String url, AsyncHttpResponseHandler responseHandler) {
+        client.get(getAbsoluteUrl(url), responseHandler);
+    }
+
     public static void post(Context context, String url, HttpEntity entity, AsyncHttpResponseHandler responseHandler) {
         client.post(context, getAbsoluteUrl(url), entity, "application/json", responseHandler);
     }
@@ -30,6 +34,9 @@ public class FindTeamClient {
         client.post(getAbsoluteUrl(url), responseHandler);
     }
 
+    public static void setAuth(String accessToken){
+        client.setBearerAuth(accessToken);
+    }
     private static String getAbsoluteUrl(String relativeUrl) {
         return BASE_URL + relativeUrl;
     }

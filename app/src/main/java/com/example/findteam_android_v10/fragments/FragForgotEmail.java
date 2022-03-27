@@ -69,7 +69,7 @@ public class FragForgotEmail extends Fragment {
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            Log.e(TAG, "email has been sent successfully" + " " + throwable);
+                            Log.e(TAG, "email has not sent"+ " " + responseString);
                         }
 
                         @Override

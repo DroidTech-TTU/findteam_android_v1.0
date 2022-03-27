@@ -10,6 +10,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.findteam_android_v10.fragments.FragForgotNewPassDirections;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 public class ForgetActivity extends AppCompatActivity {
 
     public static Uri data;
@@ -27,8 +33,14 @@ public class ForgetActivity extends AppCompatActivity {
 
         //get uri information
         if(savedInstanceState == null && data != null) {
-            //Log.i(TAG, data.getEncodedQuery());
-            Navigation.findNavController(this, R.id.activity_forget_host_fragment).navigate(R.id.meNewPass);
+
+            Bundle bundle = new Bundle();
+            try {
+                bundle.putString("access_token", URLDecoder.decode(data.getEncodedQuery().replace("access_token=", ""), StandardCharsets.UTF_8.toString()));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            Navigation.findNavController(this, R.id.activity_forget_host_fragment).navigate(R.id.meNewPass, bundle);
         }
     }
 
