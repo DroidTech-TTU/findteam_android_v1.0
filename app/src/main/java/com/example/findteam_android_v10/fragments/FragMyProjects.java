@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.findteam_android_v10.CreateProjectActivity;
+import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.adapters.myProjectsAdapter;
 import com.example.findteam_android_v10.classes.Project;
@@ -53,6 +54,9 @@ public class FragMyProjects extends Fragment{
         View view = inflater.inflate(R.layout.frag_my_projects, container, false);
         this.rvContacts = (RecyclerView) view.findViewById(R.id.rvMyProjectsSearch);
         this.btCreateProject = view.findViewById(R.id.btCreateMyProject);
+
+        // String URL = "";
+        // FindTeamClient.get();
 
         btCreateProject.setOnClickListener(new View.OnClickListener(){
 

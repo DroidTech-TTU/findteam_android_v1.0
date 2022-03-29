@@ -50,10 +50,11 @@
         <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/shape_search_edit_text.xml" value="0.35833333333333334" />
         <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/shape_top_corner.xml" value="0.2994791666666667" />
         <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/drawable/shape_top_right_top_left.xml" value="0.2994791666666667" />
-        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/activity_create_project.xml" value="0.22" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/font/roboto_bold.xml" value="0.31354166666666666" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/activity_create_project.xml" value="0.25" />
         <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/activity_detail_my_project.xml" value="0.2833333333333333" />
         <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/activity_forget_main.xml" value="0.2833333333333333" />
-        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/activity_main.xml" value="0.2833333333333333" />
+        <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/frag_forgot_email_sent_success.xml" value="0.2833333333333333" />
         <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/frag_forgot_new_pass.xml" value="0.2833333333333333" />
         <entry key="..\:/Android/newFindteam/findteam_android_v1.0/app/src/main/res/layout/frag_forgot_reset_success.xml" value="0.2833333333333333" />

@@ -1,9 +1,11 @@
 package com.example.findteam_android_v10.classes;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Project {
+public class Project extends JSONObject {
     private int id;
     private String title;
     private String status;
