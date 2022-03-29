@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewcp1">
 
         <ImageButton
-            android:id="@+id/ibSave"
+            android:id="@+id/ibSaveCreateProject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_four_conners"
-            app:layout_constraintEnd_toStartOf="@+id/ibSave"
+            app:layout_constraintEnd_toStartOf="@+id/ibSaveCreateProject"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginRight="5dp"
             android:padding="10dp"
@@ -79,7 +79,8 @@
                 android:layout_height="150dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@+id/btAddPicture" />
+                app:layout_constraintTop_toBottomOf="@+id/btAddPicture"
+                tools:layout_editor_absoluteX="10dp" />
 
             <TextView
                 android:id="@+id/textview19"
@@ -101,7 +102,7 @@
                 android:text="Description: "
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+                app:layout_constraintTop_toBottomOf="@+id/etProjectTitle" />
 
 
             <TextView
@@ -113,10 +114,10 @@
                 android:text="Tags: "
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+                app:layout_constraintTop_toBottomOf="@+id/etDescriptionCreateProject" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName2"
+                android:id="@+id/etProjectTitle"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
@@ -131,7 +132,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textview19" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName3"
+                android:id="@+id/etDescriptionCreateProject"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginLeft="10dp"
