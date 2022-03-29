@@ -20,6 +20,7 @@
         android:icon="@drawable/ic_baseline_assignment_24"
         android:title="@null"
         app:showAsAction="ifRoom"/>
+
     <item
         android:id="@+id/item_my_profile"
         android:icon="@drawable/ic_baseline_person_24"

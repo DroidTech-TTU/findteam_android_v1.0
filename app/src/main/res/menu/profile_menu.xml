@@ -1,8 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/btBackProfile"
-        android:title="@null"
-        app:actionViewClass="android.widget.Button"
-        app:showAsAction="ifRoom|collapseActionView"/>
+        android:id="@+id/action_create_projects"
+        app:showAsAction="ifRoom"
+        android:title="Logout"/>
 </menu>
