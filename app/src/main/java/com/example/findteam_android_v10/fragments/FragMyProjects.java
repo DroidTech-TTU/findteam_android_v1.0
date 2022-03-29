@@ -24,6 +24,7 @@ import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.adapters.myProjectsAdapter;
 import com.example.findteam_android_v10.classes.Project;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.List;
 import co.lujun.androidtagview.TagContainerLayout;
 
 public class FragMyProjects extends Fragment{
-
+    public static String TAG = "FragMyProjects";
     RecyclerView rvContacts;
     String[] projectNames = {"Project 1", "Project 2", "Project 3", "Project 4", "Project 1", "Project 2", "Project 3", "Project 4"
     ,"Project 1", "Project 2", "Project 3", "Project 4","Project 1", "Project 2", "Project 3", "Project 4","Project 1", "Project 2", "Project 3", "Project 4","Project 1", "Project 2", "Project 3", "Project 4", "Project 1", "Project 2", "Project 3", "Project 4"
@@ -44,8 +45,14 @@ public class FragMyProjects extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "On create");
 
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "On results");
     }
 
     @Nullable
@@ -105,5 +112,4 @@ public class FragMyProjects extends Fragment{
         });
         super.onCreateOptionsMenu(menu, inflater);
     }
-
 }

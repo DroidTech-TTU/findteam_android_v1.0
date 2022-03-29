@@ -172,31 +172,26 @@ public class CreateProjectActivity extends AppCompatActivity {
         project.put("tags", tagSkillsJSON);
         //End Fake
 
-        Intent intent = new Intent(CreateProjectActivity.this, MainActivity.class);
-//        intent.putExtra(MainActivity.REQUEST_FRAG, MainActivity.FRAG_MY_PROJECTS);
-        startActivity(intent);
-
-
-        String createProjectURL = CREATE_PROJECT_API_URL + "?";
-
         StringEntity entity = new StringEntity(project.toString());
-//        FindTeamClient.post(this,"CREATE_PROJECT_API_URL", entity, new JsonHttpResponseHandler(){
-//
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                Log.i(TAG, "the status code for this request is: " + statusCode);
-//                Toast.makeText(context, "Successfully Created Account", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(CreateProjectActivity.this, MainActivity.class);
-//                intent.putExtra(MainActivity.REQUEST_FRAG, MainActivity.FRAG_MY_PROJECTS);
-//                startActivity(intent);
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                Log.e(TAG, "the status code for this request is" + statusCode);
-//                Toast.makeText(context, "Failure to create project", Toast.LENGTH_LONG).show();
-//            }
-//        });
+        FindTeamClient.post(this,CREATE_PROJECT_API_URL, entity, new JsonHttpResponseHandler(){
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i(TAG, "the status code for this request is: " + statusCode);
+                Toast.makeText(context, "Successfully Created Account", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent();
+                Log.d(TAG, response.toString());
+                finish();
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.e(TAG, "the status code for this request is" + statusCode);
+                Toast.makeText(context, "Failure to create project", Toast.LENGTH_LONG).show();
+            }
+        });
+
 
 
 
