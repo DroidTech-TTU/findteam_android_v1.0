@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.example.findteam_android_v10.adapters.galleryCreateProjectAdapter;
 import com.example.findteam_android_v10.adapters.myProjectsAdapter;
 import com.example.findteam_android_v10.classes.Project;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -35,9 +36,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +55,8 @@ public class CreateProjectActivity extends AppCompatActivity {
     Context context;
     RecyclerView rvGallery;
     public static String TAG = "CreateProjectActivity";
-    public static String CREATE_PROJECT_API_URL = "https://findteam.2labz.com/create";
+    public static String CREATE_PROJECT_API_URL = "create";
+    public static String SAVE_PICTURE_API_URL = "project/picture?pid=";
     galleryCreateProjectAdapter adapter;
     Project project;
     List<String> picturesURLs;
@@ -61,8 +66,10 @@ public class CreateProjectActivity extends AppCompatActivity {
     EditText etTagsCreateProject;
     ImageButton ibSaveCreateProject;
     EditText etProjectTitle;
+    ImageButton ibCancel;
     EditText etDescriptionCreateProject;
     TagContainerLayout myProjectsTags;
+    List<Bitmap> pictureFiles;
     public static int STATUS = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +77,7 @@ public class CreateProjectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_project);
         context = this;
         tagSkills = new ArrayList<>();
+        pictureFiles = new ArrayList<>();
         etTagsCreateProject = findViewById(R.id.etTagsCreateProject);
         ibAddTag = findViewById(R.id.ibAddTag);
         etProjectTitle = findViewById(R.id.etProjectTitle);
@@ -79,7 +87,9 @@ public class CreateProjectActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
+                    Log.d(TAG, "Save Project Button is on click");
                     saveProject();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (UnsupportedEncodingException e) {
@@ -88,7 +98,13 @@ public class CreateProjectActivity extends AppCompatActivity {
             }
 
         });
-
+        ibCancel = findViewById(R.id.ibCancel);
+        ibCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         ibAddTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,9 +142,6 @@ public class CreateProjectActivity extends AppCompatActivity {
         });
 
         this.rvGallery = findViewById(R.id.rvGallery);
-//        // Initialize contacts
-//        projects = Project.creatProjectsList(40);
-//        // Create adapter passing in the sample user data
         picturesURLs = new ArrayList<String>();
         adapter = new galleryCreateProjectAdapter(this, picturesURLs);
 //        // Attach the adapter to the recyclerview to populate items
@@ -149,9 +162,9 @@ public class CreateProjectActivity extends AppCompatActivity {
     private void saveProject() throws JSONException, UnsupportedEncodingException {
         String title = etProjectTitle.getText().toString();
         String description = etDescriptionCreateProject.getText().toString();
-        //Fake Data
+
         JSONObject member = new JSONObject();
-        member.put("uid", 22);
+        member.put("uid", LoginActivity.currentUser.get("uid"));
         member.put("membership_type", 2 );
 
         JSONArray members = new JSONArray();
@@ -161,6 +174,8 @@ public class CreateProjectActivity extends AppCompatActivity {
         for (String skill: tagSkills) {
             JSONObject tag = new JSONObject();
             tag.put("text", skill);
+            tag.put("category", "None");
+            tag.put("is_user_requirement", false);
             tagSkillsJSON.put(tag);
         }
 
@@ -170,31 +185,79 @@ public class CreateProjectActivity extends AppCompatActivity {
         project.put("description", description);
         project.put("members", members);
         project.put("tags", tagSkillsJSON);
-        //End Fake
+
+        Log.d(TAG, project.toString());
 
         StringEntity entity = new StringEntity(project.toString());
-        FindTeamClient.post(this,CREATE_PROJECT_API_URL, entity, new JsonHttpResponseHandler(){
+        FindTeamClient.post(this,CREATE_PROJECT_API_URL, entity, new AsyncHttpResponseHandler(){
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 Log.i(TAG, "the status code for this request is: " + statusCode);
                 Toast.makeText(context, "Successfully Created Account", Toast.LENGTH_SHORT).show();
 //                Intent intent = new Intent();
-                Log.d(TAG, response.toString());
-                finish();
 
+                //save Pictures
+                int pid = Integer.parseInt(new String(responseBody, StandardCharsets.UTF_8));
+                Log.d(TAG, String.valueOf(pid));
+
+                for (Bitmap pic: pictureFiles) {
+                    try {
+                        Log.d(TAG, pic.toString());
+                        savePicture(pid, pic);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                finish();
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.e(TAG, "the status code for this request is" + statusCode);
                 Toast.makeText(context, "Failure to create project", Toast.LENGTH_LONG).show();
             }
+
         });
 
 
 
 
+    }
+
+    private void savePicture(int pid, Bitmap pic) throws IOException {
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+        pic.compress(Bitmap.CompressFormat.JPEG, 90, bao);
+        byte[] ba = bao.toByteArray();
+
+        File f = new File(context.getCacheDir(), pic.toString()+".jpeg");
+        f.createNewFile();
+
+        //write binary to jpeg file
+        FileOutputStream fos = new FileOutputStream(f);
+        fos.write(ba);
+        fos.flush();
+        fos.close();
+
+        RequestParams params = new RequestParams();
+        params.put("picture", f, "image/jpeg");
+
+        String URL = SAVE_PICTURE_API_URL + pid;
+        Log.d(TAG, pic.toString());
+        FindTeamClient.post(URL, params , new AsyncHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Log.i(TAG, "the status code for this request is: " + statusCode);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.e(TAG, "the status code for this request is" + statusCode + " " + error);
+                Toast.makeText(context, "Failure to create project", Toast.LENGTH_LONG).show();
+            }
+
+        });
     }
 
     // PICK_PHOTO_CODE is a constant integer
@@ -237,13 +300,27 @@ public class CreateProjectActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if ((data != null) && requestCode == PICK_PHOTO_CODE) {
             Uri photoUri = data.getData();
-            Log.d(TAG, photoUri.toString());
             // Load the image located at photoUri into selectedImage
             Bitmap selectedImage = loadFromUri(photoUri);
+            if(pictureFiles.isEmpty()){
+                pictureFiles.add(selectedImage);
+                // Load the selected image into a preview
+                picturesURLs.add(0, photoUri.toString());
+                adapter.notifyItemInserted(0);
+            }else{
+                for (Bitmap b: pictureFiles
+                ) {
+                    if(!b.sameAs(selectedImage)){
+                        pictureFiles.add(selectedImage);
+                        // Load the selected image into a preview
+                        picturesURLs.add(0, photoUri.toString());
+                        adapter.notifyItemInserted(0);
+                    }
+                }
+            }
 
-            // Load the selected image into a preview
-            picturesURLs.add(0, photoUri.toString());
-            adapter.notifyItemInserted(0);
+
+
         }
     }
 
