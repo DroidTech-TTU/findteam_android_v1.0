@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,7 +45,10 @@ public class FragMyProfile extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.frag_my_profile, container, false);
-        Button changeProfile = view.findViewById(R.id.change_profile);
+
+        //Elements of the my profile
+        TextView fullName;
+        fullName = view.findViewById(R.id.profFullName);
 
         try {
             Log.i(TAG, LoginActivity.currentUser.getString("email"));
@@ -54,6 +58,8 @@ public class FragMyProfile extends Fragment {
 
         //Toolbar toolbar = view.findViewById(R.id.detail_toolbar);
         //((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+
         List<String> location = Arrays.asList("Houston", "California", "New York");
         List<String> skills = Arrays.asList("C#", "Python", "Java", "Software Developer");
         TagContainerLayout skillsTag = view.findViewById(R.id.skills_tag);
