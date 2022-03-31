@@ -10,6 +10,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -30,5 +31,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = findNavController(this, R.id.activity_main_nav_host_fragment);
         BottomNavigationView bottomNavigationView = findViewById(R.id.activity_main_bottom_navigation_view);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

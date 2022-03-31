@@ -16,12 +16,10 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,13 +46,13 @@ import co.lujun.androidtagview.TagView;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
-public class CreateProjectActivity extends AppCompatActivity {
+public class UpdateProjectActivity extends AppCompatActivity {
     Context context;
     RecyclerView rvGallery;
     public static String TAG = "CreateProjectActivity";
-    public static String CREATE_PROJECT_API_URL = "create";
+    public static String UPDATE_PROJECT_API_URL = "update";
     public static String SAVE_PICTURE_API_URL = "project/picture?pid=";
-    public String message = "";
+    public String message = "Successfully Create a New Project";
     GalleryCreateProjectAdapter adapter;
 
     Button btAddPicture;
@@ -71,15 +69,15 @@ public class CreateProjectActivity extends AppCompatActivity {
     TagContainerLayout myProjectsTags;
     List<Bitmap> pictureFiles;
     public static int STATUS = 0;
+    JSONObject project;
 
-    public int requestCodeInt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_project);
-        requestCodeInt = getIntent().getIntExtra("requestCode", -1);
 
         context = this;
+
         tagSkills = new ArrayList<>();
         pictureFiles = new ArrayList<>();
         etTagsCreateProject = findViewById(R.id.etTagsCreateProject);
@@ -88,17 +86,25 @@ public class CreateProjectActivity extends AppCompatActivity {
         etDescriptionCreateProject = findViewById(R.id.etDescriptionCreateProject);
         ibSaveCreateProject = findViewById(R.id.ibSaveCreateProject);
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
+
+        String projectString = this.getIntent().getStringExtra("project");
+        try {
+            project = new JSONObject(projectString);
+            filloutInterface();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         ibSaveCreateProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
                     Log.d(TAG, "Save Project Button is on click");
                     if( validateInputs()) {
-                        Log.d(TAG, "ibSaveCreateProject: " + message );
                         saveProject();
                     }else{
-                        onButtonSavePopupWindowClick(view, message);
-
+                        tvErrorMessage.setText(message);
+                        tvErrorMessage.setVisibility(view.VISIBLE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -112,7 +118,7 @@ public class CreateProjectActivity extends AppCompatActivity {
         ibCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onButtonShowPopupWindowClick(view);
+                finish();
             }
         });
         ibAddTag.setOnClickListener(new View.OnClickListener() {
@@ -169,32 +175,30 @@ public class CreateProjectActivity extends AppCompatActivity {
         });
     }
 
+    private void filloutInterface() {
+
+    }
+
     private boolean validateInputs() {
-        boolean isValid = true;
-        int count = 1;
-        message="";
+
         if(picturesURLs == null || picturesURLs.isEmpty()) {
-            message = message + count+".The Images List cannot be empty!\n";
-            count++;
-            isValid = false;
+            message = "The Images List cannot be empty!";
+            return false;
         }
         if(tagSkills == null || tagSkills.isEmpty()) {
-            message = message + count+".The Tags List cannot be empty!\n";
-            count++;
-            isValid = false;
+            message = "The Tags List cannot be empty!";
+            return false;
         }
         if(etDescriptionCreateProject.getText().toString().trim().length() == 0) {
-            message = message + count+".The Description cannot be empty!\n";
-            count++;
-            isValid = false;
+            message = "The Description cannot be empty!";
+            return false;
         }
         if(etProjectTitle.getText().toString().trim().length() == 0) {
-            message =message +  count+".The Title cannot be empty!\n";
-            count++;
-            isValid = false;
+            message = "The Title cannot be empty!";
+            return false;
         }
-
-        return isValid;
+        message = "Valid Information";
+        return true;
     }
 
     private void saveProject() throws JSONException, UnsupportedEncodingException {
@@ -219,18 +223,16 @@ public class CreateProjectActivity extends AppCompatActivity {
             tagSkillsJSON.put(tag);
         }
 
-        JSONObject project = new JSONObject();
         project.put("title", title);
         project.put("status", STATUS);
         project.put("description", description);
         project.put("members", members);
-        project.put("owner_uid", LoginActivity.currentUser.getInt("uid"));
         project.put("tags", tagSkillsJSON);
 
         Log.d(TAG, project.toString());
-
+        String URL = UPDATE_PROJECT_API_URL + "?pid=" + project.getString("pid");
         StringEntity entity = new StringEntity(project.toString());
-        FindTeamClient.post(this,CREATE_PROJECT_API_URL, entity, new AsyncHttpResponseHandler(){
+        FindTeamClient.post(this,UPDATE_PROJECT_API_URL, entity, new AsyncHttpResponseHandler(){
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -253,7 +255,6 @@ public class CreateProjectActivity extends AppCompatActivity {
                 Intent i = new Intent();
                 Log.d(TAG, "Back to MyProjects:" + project.toString());
                 i.putExtra("project", project.toString());
-                setResult(1122, i);
                 finish();
             }
 
@@ -371,35 +372,35 @@ public class CreateProjectActivity extends AppCompatActivity {
     }
 
     public void onButtonShowPopupWindowClick(View view) {
+        Button btYesCancelProject = view.findViewById(R.id.btYesCancelProject);
+        Button btNoCancelProject = view.findViewById(R.id.btNoCancelProject);
+
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_cancel_create_project, null);
 
         // create the popup window
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+//        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+//        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow popupWindow = new PopupWindow(popupView,width,height,focusable);
+        final PopupWindow popupWindow = new PopupWindow(popupView);
 
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-        // dismiss the popup window when touched
-        popupView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });
-        Button btYesCancelProject = popupView.findViewById(R.id.btYesCancelProject);
-        Button btNoCancelProject = popupView.findViewById(R.id.btNoCancelProject);
+//        // dismiss the popup window when touched
+//        popupView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                return false;
+//            }
+//        });
 
         btYesCancelProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popupWindow.dismiss();
                 finish();
             }
         });
@@ -407,33 +408,6 @@ public class CreateProjectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-            }
-        });
-    }
-
-    public void onButtonSavePopupWindowClick(View view, String message) {
-        // inflate the layout of the popup window
-        LayoutInflater inflater = (LayoutInflater)
-                getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.popup_invalid_inputs_create_project, null);
-        TextView tvPopup_Invalid_Inputs = popupView.findViewById(R.id.tvPopup_Invalid_Inputs);
-        tvPopup_Invalid_Inputs.setText(message);
-
-        // create the popup window
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow popupWindow = new PopupWindow(popupView,width,height,focusable);
-
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
-        // dismiss the popup window when touched
-        popupView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
             }
         });
     }

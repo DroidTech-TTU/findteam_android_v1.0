@@ -59,4 +59,18 @@ public class UserProject {
         return status;
     }
 
+    public static String getMemType(int memTypeInt){
+        switch (memTypeInt){
+            case 0:{
+                return "Waiting";
+            }
+            case 2:{
+                return "Memeber";
+            }
+            default:{
+                return "Unknown";
+            }
+
+        }
+    }
 }

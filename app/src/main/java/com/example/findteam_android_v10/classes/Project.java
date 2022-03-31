@@ -1,8 +1,10 @@
 package com.example.findteam_android_v10.classes;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Project extends JSONObject {
@@ -122,5 +124,19 @@ public class Project extends JSONObject {
         }
 
         return projects;
+    }
+
+    public static String getStringStatus(int i){
+        return 0==i?"In Progress":"Done";
+    }
+    public static List<String> getTagsList(JSONObject project) throws JSONException {
+        List<String> tags = new ArrayList<>();
+
+        if(project.getJSONArray("tags").length() >0){
+            tags = Arrays.asList((project.getJSONArray("tags").getJSONObject(0).getString("text") + ","+project.getString("title")).split(","));
+        }else{
+            tags.add(project.getString("title"));
+        }
+       return tags;
     }
 }

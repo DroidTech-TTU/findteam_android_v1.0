@@ -8,14 +8,13 @@
     tools:context=".CreateProjectActivity"
     android:background="@color/find_team_orange">
 
-
     <TextView
         android:id="@+id/textViewcp1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
         android:fontFamily="@font/roboto_black"
-        android:text="Create Project"
+        android:text="Update Project"
         android:textColor="@color/white"
         android:textSize="19dp"
         app:layout_constraintEnd_toEndOf="parent"

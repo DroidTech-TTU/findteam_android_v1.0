@@ -27,10 +27,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "LoginActivity";
     public static JSONObject currentUser;
+    private SharedPreferences mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        super.onCreate(savedInstanceState);
 
         //Elements present in the app
         Button registerInLoginBtn, loginInLoginBtn;
@@ -38,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         TextInputLayout username, password;
         SharedPreferences sharedPreferences;
 
-        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
 
         //Grabbing the elements on the UI
@@ -121,6 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                     currentUser = response;
+                                    Log.e(TAG, statusCode + " " + currentUser.toString());
                                 }
 
                                 @Override

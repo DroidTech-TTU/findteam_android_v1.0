@@ -1,7 +1,6 @@
 package com.example.findteam_android_v10.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.classes.UserProject;
 
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class detailMyProjectAdapter extends RecyclerView.Adapter<detailMyProjectAdapter.ViewHolder> {
-    private List<UserProject> members;
+public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProjectAdapter.ViewHolder> {
+
     private final String TAG = "detailMyProjectAdapter";
-
-    public detailMyProjectAdapter(List<UserProject> members) {
+    private JSONArray members;
+    private  Context context;
+    public DetailMyProjectAdapter(Context context, JSONArray members) {
+        this.context = context;
         this.members = members;
-        Log.d(TAG, String.valueOf(this.members));
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,32 +38,38 @@ public class detailMyProjectAdapter extends RecyclerView.Adapter<detailMyProject
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        UserProject member = members.get(position);
-        Log.d(TAG, String.valueOf(position));
-        // Set item views based on your views and data model
-        holder.bind(member);
+        try {
+            holder.bind(members.getJSONObject(position));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public int getItemCount() {
-        Log.d(TAG, String.valueOf(members.size()));
-        return members.size();
+        return 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView memberName;
-        public TextView status;
-        public TextView role;
+        public TextView membership_type;
+
         public ViewHolder(View view) {
             super(view);
             this.memberName = (TextView) view.findViewById(R.id.tvMemberNameDetailMyProject);
-            this.role = (TextView) view.findViewById(R.id.tvRoleDetailMyProject);
-            this.status = (TextView) view.findViewById(R.id.tvStatusDetailMyProject);
+            this.membership_type = (TextView) view.findViewById(R.id.tvRoleDetailMyProject);
         }
-        public void bind(UserProject member){
-//            memberName.setText(member.getUserName());
-            role.setText(member.getRole());
-            status.setText(member.getStatus());
+        public void bind(JSONObject memberProject) throws JSONException {
+            JSONObject member = getMember();
+            memberName.setText(member.getString("first_name") + " " + member.getString("last_name"));
+            membership_type.setText(UserProject.getMemType(memberProject.getInt("membership_type")));
+
         }
+
+        private JSONObject getMember() {
+            return new JSONObject();
+        }
+
     }
+
 }
