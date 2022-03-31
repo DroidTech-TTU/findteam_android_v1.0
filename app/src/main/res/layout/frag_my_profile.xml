@@ -21,6 +21,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
+                android:id="@+id/myProfPic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
@@ -33,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
+                android:titleTextColor="@color/white"
                 app:menu="@menu/profile_menu"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
@@ -49,15 +51,16 @@
             android:id="@+id/frag_profile_id"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
                 android:id="@+id/profFullName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="25dp"
                 android:fontFamily="@font/roboto_bold"
                 android:text="AN LAM"
                 android:textColor="#3A3636"
-                android:textSize="48sp"
+                android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -98,8 +101,7 @@
                         android:id="@+id/rvUrls"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="28dp"
-                        android:layout_marginTop="28dp"
+                        android:layout_marginTop="10dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/profUrl_text" />
 
@@ -131,7 +133,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/staatliches"
                         android:lineSpacingExtra="20sp"
-                        android:text="Location:"
+                        android:text="Locations:"
                         android:textColor="@color/find_team_dark"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -155,6 +157,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/profLocation_text"
                         app:tag_clickable="true"
                         app:tag_theme="random"
+                        app:tag_text_color="@color/find_team_dark"
                         app:vertical_interval="10dp" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -206,6 +209,7 @@
                         app:container_border_width="0dp"
                         app:container_enable_drag="false"
                         app:horizontal_interval="10dp"
+                        app:tag_border_color="@color/find_team_dark"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -237,10 +241,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginBottom="15dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/questrial"
+                    android:text="0"
                     android:textColor="@color/find_team_dark"
-                    android:textSize="24sp"
-                    tools:text="5" />
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/finished_project_text"
@@ -274,10 +279,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginBottom="15dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/questrial"
+                    android:text="0"
                     android:textColor="@color/find_team_dark"
-                    android:textSize="24sp"
-                    tools:text="2" />
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/active_project_text"
@@ -291,31 +297,6 @@
                     android:textSize="16sp" />
 
             </androidx.cardview.widget.CardView>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="10dp"
-                android:id="@+id/divider"
-                app:layout_constraintTop_toBottomOf="@+id/skills_card"
-                android:background="@android:color/darker_gray"/>
-
-            <TextView
-                android:id="@+id/logout"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="164dp"
-                android:layout_marginTop="4dp"
-                android:fontFamily="@font/roboto_black"
-                android:text="Log out"
-                android:textColor="#FF4D4D"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider">
-
-            </TextView>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
