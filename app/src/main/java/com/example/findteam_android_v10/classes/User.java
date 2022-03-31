@@ -90,4 +90,5 @@ public class User {
     public String getPicture() {
         return picture;
     }
+
 }

@@ -1,7 +1,6 @@
 package com.example.findteam_android_v10.adapters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,28 +13,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.findteam_android_v10.R;
 
-import java.util.Arrays;
 import java.util.List;
 
-public class galleryCreateProjectAdapter extends RecyclerView.Adapter<galleryCreateProjectAdapter.galleryViewHolder>{
+public class GalleryCreateProjectAdapter extends RecyclerView.Adapter<GalleryCreateProjectAdapter.galleryViewHolder>{
     Context context;
     List<String> pictureURLs;
     public static String TAG = "galleryCreateProjectAdapter";
 
-    public galleryCreateProjectAdapter(Context context, List<String> picturesUrls) {
+    public GalleryCreateProjectAdapter(Context context, List<String> picturesUrls) {
         this.pictureURLs = picturesUrls;
         this.context = context;
         //Log.d(TAG, String.valueOf(this.pictureURLs));
     }
     @NonNull
     @Override
-    public galleryCreateProjectAdapter.galleryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public GalleryCreateProjectAdapter.galleryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View galleryView =  LayoutInflater.from(context).inflate(R.layout.item_galary_create_project, parent, false);
         return new galleryViewHolder(galleryView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull galleryCreateProjectAdapter.galleryViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull GalleryCreateProjectAdapter.galleryViewHolder holder, int position) {
         Log.d(TAG, String.valueOf(this.pictureURLs.get(position)));
         holder.bind(pictureURLs.get(position));
     }

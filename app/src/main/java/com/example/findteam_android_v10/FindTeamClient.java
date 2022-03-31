@@ -13,13 +13,18 @@ public class FindTeamClient {
 
     private static final String BASE_URL = "https://findteam.2labz.com/";
     private static AsyncHttpClient client = new AsyncHttpClient();
-
+    public static String TAG = "FindTeamClient";
     public static void get(Context context, String url, HttpEntity entity, AsyncHttpResponseHandler responseHandler) {
         client.get(context, getAbsoluteUrl(url), entity, "application/json", responseHandler);
     }
 
     public static void get(String url, AsyncHttpResponseHandler responseHandler) {
+        Log.d(TAG, getAbsoluteUrl(url));
         client.get(getAbsoluteUrl(url), responseHandler);
+    }
+    public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        Log.d(TAG, getAbsoluteUrl(url));
+        client.get(getAbsoluteUrl(url), params, responseHandler);
     }
 
     public static void post(Context context, String url, HttpEntity entity, AsyncHttpResponseHandler responseHandler) {
@@ -27,6 +32,7 @@ public class FindTeamClient {
     }
 
     public static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        Log.d(TAG, getAbsoluteUrl(url));
         client.post(getAbsoluteUrl(url), params, responseHandler);
     }
 

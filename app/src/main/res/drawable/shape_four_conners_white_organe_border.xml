@@ -1,0 +1,21 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+<item>
+    <shape
+        android:shape="rectangle">
+        <corners android:radius="10dp"/>
+        <stroke android:width="2dp" android:color="@color/find_team_orange" />
+        <solid android:color="@color/white" />
+
+    </shape>
+</item>
+
+<item android:top="2dp" android:bottom="2dp">
+    <shape
+        android:shape="rectangle">
+        <corners android:radius="10dp"/>
+        <stroke android:width="2dp" android:color="@color/white" />
+        <solid android:color="@color/find_team_orange" />
+    </shape>
+</item>
+
+</layer-list>
