@@ -39,7 +39,6 @@ import com.example.findteam_android_v10.EditProfileActivity;
 import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
-import com.example.findteam_android_v10.adapters.galleryCreateProjectAdapter;
 import com.example.findteam_android_v10.adapters.urlAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
