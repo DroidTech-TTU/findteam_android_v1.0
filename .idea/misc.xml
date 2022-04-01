@@ -78,6 +78,7 @@
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/drawable/droidtech.xml" value="0.1" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/drawable/edit_text_bg.xml" value="0.163" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/drawable/fragment_bg.xml" value="0.1" />
+        <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/drawable/ic__pngtree_continuous_line_telephone_receiver_minimalist_5046931_modified.xml" value="0.1" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.1" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/drawable/ic_baseline_assignment_24.xml" value="0.1" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/drawable/ic_baseline_chat_24.xml" value="0.1635" />
@@ -106,7 +107,7 @@
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/font/archivo_narrow.xml" value="0.30277777777777776" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/font/roboto_bold.xml" value="0.1675925925925926" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/activity_create_project.xml" value="0.1757852077001013" />
-        <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/activity_edit_profile.xml" value="0.22083333333333333" />
+        <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/activity_edit_profile.xml" value="0.343144848954299" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/activity_forget.xml" value="0.24909420289855072" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/activity_forget_main.xml" value="0.264" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/activity_login.xml" value="0.536" />
@@ -115,6 +116,7 @@
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/activity_reset.xml" value="0.4" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/frag_chat.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/frag_edit_profile.xml" value="0.20643363728470113" />
+        <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/frag_find_members.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/frag_my_profile.xml" value="0.34450506625097427" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/frag_my_projects.xml" value="0.38903985507246375" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/frag_profile.xml" value="0.264" />
@@ -125,11 +127,15 @@
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/fragment_frag_new_pass.xml" value="0.264" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/fragment_frag_reset_success.xml" value="0.2477355072463768" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/fragment_frag_security_code.xml" value="0.4" />
+        <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/item_edit_text_url.xml" value="0.2128623188405797" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/item_galary_create_project.xml" value="0.22780797101449277" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/item_my_project.xml" value="0.38903985507246375" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/item_my_project_detail.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/item_url.xml" value="0.4" />
+        <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/menu/chat_menu.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/menu/create_project_menu.xml" value="0.287962962962963" />
+        <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/menu/detail_project_menu.xml" value="0.22083333333333333" />
+        <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/menu/edit_profile_menu.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/menu/find_members_menu.xml" value="0.287962962962963" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/menu/find_projects_menu.xml" value="0.4" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/menu/login_menu.xml" value="0.26979166666666665" />
