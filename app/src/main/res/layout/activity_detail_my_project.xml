@@ -35,27 +35,26 @@
         app:layout_constraintTop_toBottomOf="@+id/tvProjecTitleDetailProject">
 
         <ImageButton
-            android:id="@+id/ibSaveCreateProject"
+            android:id="@+id/ibEditProject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
             android:background="@drawable/shape_four_conners"
-            android:layout_marginRight="5dp"
-            android:padding="7dp"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_save_24" />
+            app:srcCompat="@drawable/ic_baseline_edit_24" />
 
         <ImageButton
-            android:id="@+id/ibCancel"
+            android:id="@+id/ibDeleteProject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
             android:background="@drawable/shape_four_conners"
             android:padding="10dp"
-            app:layout_constraintEnd_toStartOf="@+id/ibSaveCreateProject"
+            app:layout_constraintEnd_toStartOf="@+id/ibEditProject"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+            app:srcCompat="@android:drawable/ic_delete" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -146,7 +145,6 @@
         app:tag_clickable="true"
         app:tag_theme="random"
         app:vertical_interval="10dp" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

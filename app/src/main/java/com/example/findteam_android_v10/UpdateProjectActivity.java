@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.findteam_android_v10.adapters.GalleryCreateProjectAdapter;
+import com.example.findteam_android_v10.classes.Project;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -39,6 +40,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import co.lujun.androidtagview.TagContainerLayout;
@@ -49,7 +53,7 @@ import cz.msebera.android.httpclient.entity.StringEntity;
 public class UpdateProjectActivity extends AppCompatActivity {
     Context context;
     RecyclerView rvGallery;
-    public static String TAG = "CreateProjectActivity";
+    public static String TAG = "UpdateProjectActivity";
     public static String UPDATE_PROJECT_API_URL = "update";
     public static String SAVE_PICTURE_API_URL = "project/picture?pid=";
     public String message = "Successfully Create a New Project";
@@ -57,11 +61,11 @@ public class UpdateProjectActivity extends AppCompatActivity {
 
     Button btAddPicture;
     ImageButton ibAddTag;
-    EditText etTagsCreateProject;
-    ImageButton ibSaveCreateProject;
+    EditText etTags;
+    ImageButton ibSave;
     List<String> picturesURLs;
     List<String> tagSkills;
-    EditText etDescriptionCreateProject;
+    EditText etDescription;
     EditText etProjectTitle;
     TextView tvErrorMessage;
     ImageButton ibCancel;
@@ -74,28 +78,54 @@ public class UpdateProjectActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_project);
+        setContentView(R.layout.activity_update_project);
 
         context = this;
-
         tagSkills = new ArrayList<>();
         pictureFiles = new ArrayList<>();
-        etTagsCreateProject = findViewById(R.id.etTagsCreateProject);
+        etTags = findViewById(R.id.etTagsCreateProject);
         ibAddTag = findViewById(R.id.ibAddTag);
         etProjectTitle = findViewById(R.id.etProjectTitle);
-        etDescriptionCreateProject = findViewById(R.id.etDescriptionCreateProject);
-        ibSaveCreateProject = findViewById(R.id.ibSaveCreateProject);
+        etDescription = findViewById(R.id.etDescriptionCreateProject);
+        ibSave = findViewById(R.id.ibSaveCreateProject);
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
-
+        rvGallery = findViewById(R.id.rvGallery);
+        myProjectsTags = findViewById(R.id.tgCreateProject);
+        ibCancel = findViewById(R.id.ibCancel);
+        ibAddTag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String newTag = etTags.getText().toString();
+                Log.d(TAG, newTag);
+                tagSkills.add(newTag);
+                myProjectsTags.addTag(newTag);
+                etTags.setText("");
+            }
+        });
+        ibCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        btAddPicture = findViewById(R.id.btAddPicture);
+        btAddPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onPickPhoto(view);
+            }
+        });
         String projectString = this.getIntent().getStringExtra("project");
         try {
             project = new JSONObject(projectString);
-            filloutInterface();
+            Log.d(TAG, "Oncreate: " + projectString);
+            filloutInterface(project);
+            Log.d(TAG, "Done Fillout:");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        ibSaveCreateProject.setOnClickListener(new View.OnClickListener() {
+        ibSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -103,8 +133,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
                     if( validateInputs()) {
                         saveProject();
                     }else{
-                        tvErrorMessage.setText(message);
-                        tvErrorMessage.setVisibility(view.VISIBLE);
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -114,68 +143,28 @@ public class UpdateProjectActivity extends AppCompatActivity {
             }
 
         });
-        ibCancel = findViewById(R.id.ibCancel);
-        ibCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-        ibAddTag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String newTag = etTagsCreateProject.getText().toString();
-                Log.d(TAG, newTag);
-                tagSkills.add(newTag);
-                myProjectsTags.addTag(newTag);
-                etTagsCreateProject.setText("");
-            }
-        });
+    }
 
-        myProjectsTags = findViewById(R.id.tgCreateProject);
-        myProjectsTags.setTags(tagSkills);
-        myProjectsTags.setOnTagClickListener(new TagView.OnTagClickListener() {
-            @Override
-            public void onTagClick(int position, String text) {
+    private void filloutInterface(JSONObject project) throws JSONException {
+        //load images
 
-            }
-
-            @Override
-            public void onTagLongClick(int position, String text) {
-                tagSkills.remove(position);
-                myProjectsTags.removeTag(position);
-            }
-
-            @Override
-            public void onSelectedTagDrag(int position, String text) {
-
-            }
-
-            @Override
-            public void onTagCrossClick(int position) {
-
-            }
-        });
-
-        this.rvGallery = findViewById(R.id.rvGallery);
-        picturesURLs = new ArrayList<String>();
-        adapter = new GalleryCreateProjectAdapter(this, picturesURLs);
+        picturesURLs = new ArrayList<>();
+        JSONArray jsonArray = project.getJSONArray("pictures");
+        for(int i = 0; i< jsonArray.length(); i++){
+            picturesURLs.add(jsonArray.get(i).toString());
+        }
+        adapter = new GalleryCreateProjectAdapter(context, picturesURLs);
 //        // Attach the adapter to the recyclerview to populate items
         rvGallery.setAdapter(adapter);
 //        // Set layout manager to position the items
         rvGallery.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
-
-
-        btAddPicture = findViewById(R.id.btAddPicture);
-        btAddPicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onPickPhoto(view);
-            }
-        });
-    }
-
-    private void filloutInterface() {
+        //load title
+        etProjectTitle.setText(project.getString("title"));
+        //load description
+        etDescription.setText(project.getString("description"));
+        //load tags
+        tagSkills = Project.getTagsList(project);
+        myProjectsTags.setTags(tagSkills);
 
     }
 
@@ -189,7 +178,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
             message = "The Tags List cannot be empty!";
             return false;
         }
-        if(etDescriptionCreateProject.getText().toString().trim().length() == 0) {
+        if(etDescription.getText().toString().trim().length() == 0) {
             message = "The Description cannot be empty!";
             return false;
         }
@@ -201,9 +190,11 @@ public class UpdateProjectActivity extends AppCompatActivity {
         return true;
     }
 
+
+
     private void saveProject() throws JSONException, UnsupportedEncodingException {
         String title = etProjectTitle.getText().toString();
-        String description = etDescriptionCreateProject.getText().toString();
+        String description = etDescription.getText().toString();
 
         JSONObject member = new JSONObject();
         member.put("uid", LoginActivity.currentUser.get("uid"));
@@ -253,8 +244,9 @@ public class UpdateProjectActivity extends AppCompatActivity {
                 }
 
                 Intent i = new Intent();
-                Log.d(TAG, "Back to MyProjects:" + project.toString());
+                Log.d(TAG, "Back to DetailMyProject:" + project.toString());
                 i.putExtra("project", project.toString());
+                setResult(DetailMyProjectActivity.EDIT_PROJECT_CODE, i);
                 finish();
             }
 
@@ -369,46 +361,5 @@ public class UpdateProjectActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-    }
-
-    public void onButtonShowPopupWindowClick(View view) {
-        Button btYesCancelProject = view.findViewById(R.id.btYesCancelProject);
-        Button btNoCancelProject = view.findViewById(R.id.btNoCancelProject);
-
-        // inflate the layout of the popup window
-        LayoutInflater inflater = (LayoutInflater)
-                getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.popup_cancel_create_project, null);
-
-        // create the popup window
-//        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-//        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow popupWindow = new PopupWindow(popupView);
-
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
-//        // dismiss the popup window when touched
-//        popupView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                return false;
-//            }
-//        });
-
-        btYesCancelProject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        btNoCancelProject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
     }
 }

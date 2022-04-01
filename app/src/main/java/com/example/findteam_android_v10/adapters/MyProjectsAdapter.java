@@ -7,11 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.findteam_android_v10.DetailMyProjectActivity;
@@ -19,7 +17,8 @@ import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.classes.Project;
-import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.example.findteam_android_v10.classes.User;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +34,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.my
     private JSONArray jsonProjects;
     Context context;
     public static String TAG = "myProjectsAdapter";
+
     public MyProjectsAdapter(Context context, JSONArray jsonProjects) {
         Log.d(TAG, jsonProjects.toString());
         this.context = context;
@@ -63,9 +63,51 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.my
             // Set item views based on your views and data model
             holder.twProjectName.setText(project.getString("title"));
             holder.twProjectStatus.setText(Project.getStringStatus(project.getInt("status")));
-            holder.tvOwner.setText(project.getString("owner_uid"));
-            holder.tvRole.setText(LoginActivity.currentUser.getString("uid"));
+            holder.itMyProject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "itMyProject.setOnLongClickListener");
+                    Intent i = new Intent(context, DetailMyProjectActivity.class);
+                    try {
+                        i.putExtra("pid", project.getInt("pid"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    context.startActivity(i);
+                }
+            });
+
+//            "user?uid="
+            FindTeamClient.get(User.GET_USER_URL + project.getString("owner_uid"), new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    try {
+                        JSONObject user = response;
+                        holder.tvOwner.setText(user.getString("first_name") + " " + user.getString("last_name"));
+                        Log.d(TAG, "onBindViewHolder: Success");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.d(TAG, "onBindViewHolder: On Failure");
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    Log.e(TAG, statusCode + " " + responseString + " " + throwable);
+                }
+            });
+
+            JSONArray members = project.getJSONArray("members");
+            for(int i = 0; i <members.length(); i++){
+                JSONObject member = members.getJSONObject(i);
+                if(LoginActivity.currentUser.getInt("uid") == member.getInt("uid")){
+                    String role = Project.getMemType(member.getInt("membership_type"));
+                    holder.tvRole.setText(role);
+                }
+            }
             holder.itMyProject.setOnLongClickListener(new View.OnLongClickListener() {
+
                 @Override
                 public boolean onLongClick(View v) {
                     Intent i = new Intent(context, DetailMyProjectActivity.class);
@@ -121,6 +163,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.my
             tvRole = itemView.findViewById(R.id.tvRoleMyProjects);
             itMyProject = itemView.findViewById(R.id.itMyProject);
 
+
         }
 
     }
@@ -134,4 +177,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.my
         notifyDataSetChanged();
     }
 
+    public void getUser(){
+
+    }
 }

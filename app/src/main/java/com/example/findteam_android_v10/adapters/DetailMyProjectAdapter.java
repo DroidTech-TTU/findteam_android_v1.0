@@ -1,6 +1,7 @@
 package com.example.findteam_android_v10.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +10,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.R;
-import com.example.findteam_android_v10.classes.UserProject;
+import com.example.findteam_android_v10.classes.Project;
+import com.example.findteam_android_v10.classes.User;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProjectAdapter.ViewHolder> {
 
@@ -22,6 +28,7 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
     private JSONArray members;
     private  Context context;
     public DetailMyProjectAdapter(Context context, JSONArray members) {
+        Log.d(TAG, "Constructor: " + members.toString());
         this.context = context;
         this.members = members;
     }
@@ -31,6 +38,7 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
+        Log.d(TAG, "onCreateViewHolder: " + members.toString());
         View view = inflater.inflate(R.layout.item_my_project_detail, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
@@ -47,7 +55,7 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
 
     @Override
     public int getItemCount() {
-        return 0;
+        return members.length();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -60,12 +68,29 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
             this.membership_type = (TextView) view.findViewById(R.id.tvRoleDetailMyProject);
         }
         public void bind(JSONObject memberProject) throws JSONException {
-            JSONObject member = getMember();
-            memberName.setText(member.getString("first_name") + " " + member.getString("last_name"));
-            membership_type.setText(UserProject.getMemType(memberProject.getInt("membership_type")));
+            Log.d(TAG, "bind: " + memberProject.toString());
+            FindTeamClient.get(User.GET_USER_URL+memberProject.getString("uid"), new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    try {
+                        memberName.setText(response.getString("first_name") + " " + response.getString("last_name"));
+                        Log.d(TAG, "onBindViewHolder: Success");
 
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.d(TAG, "onBindViewHolder: On Failure-- " + statusCode );
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    Log.e(TAG, statusCode + " " + responseString + " " + throwable);
+                }
+            });
+
+
+            membership_type.setText(Project.getMemType(memberProject.getInt("membership_type")));
         }
-
         private JSONObject getMember() {
             return new JSONObject();
         }
