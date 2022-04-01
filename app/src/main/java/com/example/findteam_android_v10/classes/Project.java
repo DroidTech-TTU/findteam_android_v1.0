@@ -1,5 +1,8 @@
 package com.example.findteam_android_v10.classes;
 
+import android.util.Log;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Project extends JSONObject {
+    public static final String TAG = "ProjectClass";
     private int id;
     private String title;
     private String status;
@@ -138,5 +142,32 @@ public class Project extends JSONObject {
             tags.add(project.getString("title"));
         }
        return tags;
+    }
+
+    public static JSONArray search(JSONArray jsonArrayProjects, String searchKey) throws JSONException {
+        searchKey = searchKey.trim().toLowerCase();
+        JSONArray results = new JSONArray();
+        for(int i=0; i<jsonArrayProjects.length(); i++){
+            JSONObject project = jsonArrayProjects.getJSONObject(i);
+            String title = project.getString("title").trim().toLowerCase();
+            if(title.contains(searchKey) ) {
+                results.put(project);
+                continue;
+            }
+
+            JSONArray tags = project.getJSONArray("tags");
+            for(int j = 0; j<tags.length(); j++){
+                if(tags.getJSONObject(j).getString("text").trim().toLowerCase().contains(searchKey) ) {
+                    results.put(project);
+                    break;
+                }
+                if(tags.getJSONObject(j).getString("category").trim().toLowerCase().contains(searchKey) ) {
+                    results.put(project);
+                    break;
+                }
+            }
+
+        }
+        return results;
     }
 }

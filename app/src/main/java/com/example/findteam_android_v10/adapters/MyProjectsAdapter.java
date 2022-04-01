@@ -7,15 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.findteam_android_v10.DetailMyProjectActivity;
+import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.classes.Project;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +28,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 import co.lujun.androidtagview.TagContainerLayout;
+import cz.msebera.android.httpclient.Header;
 
 
 public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.myProjectViewHolder>{
@@ -120,5 +125,13 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.my
 
     }
 
+    public void clear(){
+        this.jsonProjects = new JSONArray();
+        notifyDataSetChanged();
+    }
+    public void addAll(JSONArray jsonProjects) {
+        this.jsonProjects = jsonProjects;
+        notifyDataSetChanged();
+    }
 
 }

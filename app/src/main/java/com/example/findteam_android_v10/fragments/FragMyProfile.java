@@ -50,7 +50,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import co.lujun.androidtagview.TagContainerLayout;
@@ -107,7 +106,6 @@ public class FragMyProfile extends Fragment {
 
             JSONArray urlsJson = LoginActivity.currentUser.getJSONArray("urls"),
                     tagsJson = LoginActivity.currentUser.getJSONArray("tags");
-
 
             //get every url in the user
             for(int i = 0; i < urlsJson.length(); i++){
@@ -211,8 +209,6 @@ public class FragMyProfile extends Fragment {
 
                         if(isFinished){
                             Log.i(TAG, "It finished on EditProfileActivity");
-                            //update the user
-                            //update the fields in the my profile
                         }
 
                         //else, we ignore

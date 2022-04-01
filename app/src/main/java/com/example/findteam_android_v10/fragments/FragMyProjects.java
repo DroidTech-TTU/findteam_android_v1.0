@@ -3,6 +3,7 @@ package com.example.findteam_android_v10.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.adapters.MyProjectsAdapter;
+import com.example.findteam_android_v10.classes.Project;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -109,6 +111,16 @@ public class FragMyProjects extends Fragment{
             }
         });
 
+        this.btSearchMyProjects.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    search();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         return view;
     }
 
@@ -127,22 +139,16 @@ public class FragMyProjects extends Fragment{
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 Log.i(TAG, "the status code for this request is: " + statusCode );
-
                 try {
                     jsonProjects = new JSONArray(new String(responseBody));
                     Log.i(TAG, "Data: " + jsonProjects);
-                    //       Log.d(TAG, "OncreateView: " + jsonProjects.toString());
                     adapter = new MyProjectsAdapter(getContext(), jsonProjects);
-                    // Attach the adapter to the recyclerview to populate items
                     rvContacts.setAdapter(adapter);
-                    // Set layout manager to position the items
                     rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
                     Toast.makeText(getContext(), "Successfully Get Projects:", Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
 
             @Override
@@ -153,13 +159,39 @@ public class FragMyProjects extends Fragment{
         });
     }
 
+    public void search() throws JSONException {
 
-    public void searchProjects() {
-       JSONArray searchProjects = new JSONArray();
-        for (int i=0; i < this.jsonProjects.length(); i++  ) {
+        int uid = LoginActivity.currentUser.getInt("uid");
 
-        }
+        String URL = GET_MY_SEARCH +"?uid=" + uid;
+        Log.d(TAG,"searchEmpty:" + URL );
+        FindTeamClient.get(URL, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Log.i(TAG, "the status code for this request is: " + statusCode );
+                try {
+                    jsonProjects = new JSONArray(new String(responseBody));
+                    Log.i(TAG, "Data: " + jsonProjects);
+                    String searchKey = etSearchMyProjects.getText().toString();
+                    if(!searchKey.trim().isEmpty()){
+                        jsonProjects = Project.search(jsonProjects, searchKey);
 
+
+                    }
+                    Log.i(TAG, "Search Results: " + jsonProjects);
+                    adapter.clear();
+                    adapter.addAll(jsonProjects);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.e(TAG, "the status code for this request is" + statusCode);
+                Toast.makeText(getContext(), "Search Projects Failure: ", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
