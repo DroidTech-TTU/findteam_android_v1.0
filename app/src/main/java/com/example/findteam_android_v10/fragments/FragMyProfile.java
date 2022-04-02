@@ -163,9 +163,9 @@ public class FragMyProfile extends Fragment {
     private void loadProfile(Boolean update) {
 
         if(update){
-            urls = new ArrayList<>();
-            locations = new ArrayList<>();
-            skills = new ArrayList<>();
+            urls.clear();
+            locations.clear();
+            skills.clear();
         }
 
         try {
@@ -184,6 +184,7 @@ public class FragMyProfile extends Fragment {
             for(int i = 0; i < urlsJson.length(); i++){
                 JSONObject urlObj = (JSONObject) urlsJson.get(i);
                 urls.add(urlObj.getString("domain") + urlObj.getString("path"));
+                Log.i(TAG, urls.get(i));
             }
 
             urlAdapter.notifyDataSetChanged();
@@ -232,7 +233,7 @@ public class FragMyProfile extends Fragment {
 
                         //check to see if the user finished updating the profile
                         boolean isFinished = data.getBooleanExtra("finished", false);
-                        loadProfile(true);
+                        loadProfile(isFinished);
 
                     }
                     //else, we ignore

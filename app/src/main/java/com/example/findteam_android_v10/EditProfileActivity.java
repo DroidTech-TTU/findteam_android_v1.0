@@ -53,6 +53,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.lujun.androidtagview.TagContainerLayout;
+import co.lujun.androidtagview.TagView;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
@@ -65,7 +66,7 @@ public class EditProfileActivity extends AppCompatActivity {
     ImageView editProfPic;
     TagContainerLayout locationTagContainer, skillsTagContainer;
 
-    ProgressDialog dialog;
+    ProgressDialog dialog, dialog2;
 
     Uri profPicUri;
 
@@ -143,11 +144,18 @@ public class EditProfileActivity extends AppCompatActivity {
 
 
         try {
-            //load the current profile picture if any
-            Glide.with(this).load("https://findteam.2labz.com/picture/" + LoginActivity.currentUser.getString("picture")).into(editProfPic);
+
+            if(!LoginActivity.currentUser.get("picture").equals(null)){
+                // load the current profile picture if any
+                Glide
+                        .with(this)
+                        .load("https://findteam.2labz.com/picture/" + LoginActivity.currentUser.getString("picture"))
+                        .into(editProfPic);
+
+            }
 
 
-            //load the first name, middle name, and last name
+            // load the first name, middle name, and last name
             firstName.setText(LoginActivity.currentUser.getString("first_name"));
             middleName.setText(LoginActivity.currentUser.getString("middle_name"));
             lastName.setText(LoginActivity.currentUser.getString("last_name"));
@@ -174,6 +182,43 @@ public class EditProfileActivity extends AppCompatActivity {
             locationTagContainer.setTagTypeface(ResourcesCompat.getFont(this, R.font.questrial));
             locationTagContainer.setTags(locations);
 
+            locationTagContainer.setOnTagClickListener(
+                    new TagView.OnTagClickListener() {
+
+                        @Override
+                        public void onTagClick(int position, String text) {}
+
+                        @Override
+                        public void onTagLongClick(int position, String text) {}
+
+                        @Override
+                        public void onSelectedTagDrag(int position, String text) {}
+
+                        @Override
+                        public void onTagCrossClick(int position) {
+                            locationTagContainer.removeTag(position);
+                        }
+                    }
+            );
+
+            skillsTagContainer.setOnTagClickListener(
+                    new TagView.OnTagClickListener() {
+                        @Override
+                        public void onTagClick(int position, String text) {}
+
+                        @Override
+                        public void onTagLongClick(int position, String text) {}
+
+                        @Override
+                        public void onSelectedTagDrag(int position, String text) {}
+
+                        @Override
+                        public void onTagCrossClick(int position) {
+                            skillsTagContainer.removeTag(position);
+                        }
+                    }
+            );
+
             //inflate the skills tag container
             skillsTagContainer.setTagTypeface(ResourcesCompat.getFont(this,R.font.questrial));
             skillsTagContainer.setTags(skills);
@@ -198,11 +243,12 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        dialog = ProgressDialog.show(EditProfileActivity.this, "Loading", "Please Wait", true);
-
         try{
             //update the profile picture
             if(profPicUri != null) {
+
+                dialog = ProgressDialog.show(EditProfileActivity.this, "Updating", "Updating Picture", true);
+
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
                 Bitmap map = null;
@@ -227,6 +273,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                         Log.i(TAG, "the status code for this request is: " + statusCode);
+                        dialog.dismiss();
                     }
 
                     @Override
@@ -237,6 +284,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 });
             }
 
+            dialog2 = ProgressDialog.show(EditProfileActivity.this, "Updating", "Updating User", true);
             //update about info
             JSONObject updateUser = new JSONObject();
             updateUser.put("first_name", firstName.getText().toString());
@@ -248,15 +296,17 @@ public class EditProfileActivity extends AppCompatActivity {
             JSONArray urlsArray = new JSONArray();
             if (!urls.isEmpty()) {
                 for (int i = 0; i < urls.size(); i++) {
-                    JSONObject url = new JSONObject();
-                    URI uriUrl = new URI("https://" + urls.get(i));
+                    if(!urls.get(i).equals("")) {
+                        JSONObject url = new JSONObject();
+                        URI uriUrl = new URI("https://" + urls.get(i));
 
-                    Log.i(TAG, uriUrl.getHost() + " " + uriUrl.getPath());
+                        Log.i(TAG, uriUrl.getHost() + " " + uriUrl.getPath());
 
-                    url.put("domain", uriUrl.getHost());
-                    url.put("path", uriUrl.getPath());
+                        url.put("domain", uriUrl.getHost());
+                        url.put("path", uriUrl.getPath());
 
-                    urlsArray.put(url);
+                        urlsArray.put(url);
+                    }
                 }
             }
             updateUser.put("urls", urlsArray);
@@ -321,7 +371,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 intent.putExtra("finished", true);
                 setResult(200, intent);
 
-                dialog.dismiss();
+                dialog2.dismiss();
                 finish();
             }
 
