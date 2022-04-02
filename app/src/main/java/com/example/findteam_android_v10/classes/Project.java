@@ -27,12 +27,14 @@ public class Project extends JSONObject {
     }
     public static List<String> getTagsList(JSONObject project) throws JSONException {
         List<String> tags = new ArrayList<>();
-
-        if(project.getJSONArray("tags").length() >0){
-            tags = Arrays.asList((project.getJSONArray("tags").getJSONObject(0).getString("text") + ","+project.getString("title")).split(","));
-        }else{
-            tags.add(project.getString("title"));
+        JSONArray pTags = project.optJSONArray("tags");
+        Log.d(TAG, pTags.toString());
+        for(int i =0; i< pTags.length(); i++){
+            JSONObject tag = pTags.getJSONObject(i);
+            Log.d(TAG, tag.toString());
+            tags.add(tag.getString("text"));
         }
+        Log.d(TAG, "tags = " + tags.toString());
        return tags;
     }
 

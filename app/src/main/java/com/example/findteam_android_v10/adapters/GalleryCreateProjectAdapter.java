@@ -2,6 +2,7 @@ package com.example.findteam_android_v10.adapters;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,12 +36,28 @@ public class GalleryCreateProjectAdapter extends RecyclerView.Adapter<GalleryCre
     @Override
     public void onBindViewHolder(@NonNull GalleryCreateProjectAdapter.galleryViewHolder holder, int position) {
         Log.d(TAG, String.valueOf(this.pictureURLs.get(position)));
+//        int pos = position;
+//        holder.ivItemGallery.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                pictureURLs.remove(pos);
+//                notifyDataSetChanged();
+//                return false;
+//            }
+//        });
         holder.bind(pictureURLs.get(position));
     }
 
     @Override
     public int getItemCount() {
         return pictureURLs.size();
+    }
+
+    public void addAll(List<String> picturesURLs) {
+        Log.d(TAG, "Add All" + picturesURLs);
+
+        this.pictureURLs.addAll(picturesURLs);
+        notifyDataSetChanged();
     }
 
     public class galleryViewHolder extends RecyclerView.ViewHolder {

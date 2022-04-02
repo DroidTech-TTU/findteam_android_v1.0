@@ -97,4 +97,12 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
 
     }
 
+    public void clear(){
+        members = new JSONArray();
+        notifyDataSetChanged();
+    }
+    public void addAll(JSONArray members){
+       this.members = members;
+        notifyDataSetChanged();
+    }
 }

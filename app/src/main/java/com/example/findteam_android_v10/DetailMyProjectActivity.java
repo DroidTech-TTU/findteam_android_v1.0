@@ -74,6 +74,28 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                 project = response;
                 try {
 
+                    if(!isOwner(project.getInt("owner_uid"))){
+                        ibEditProject.setVisibility(View.INVISIBLE);
+                        ibDeleteProject.setVisibility(View.INVISIBLE);
+                    }else{
+                        ibEditProject.setVisibility(View.VISIBLE);
+                        ibDeleteProject.setVisibility(View.VISIBLE);
+                        ibDeleteProject.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Log.d(TAG, "On Delete Project Button");
+                            }
+                        });
+                        ibEditProject.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent i = new Intent(context, UpdateProjectActivity.class);
+                                i.putExtra("project", project.toString());
+                                startActivityForResult(i, EDIT_PROJECT_CODE);
+                                Log.d(TAG, "On Edit Project Button");
+                            }
+                        });
+                    }
                     Log.d(TAG, "On Create: " + project.toString());
                     tvProjecTitleDetailProject.setText(project.getString("title"));
                     tvDescription.setText(project.getString("description"));
@@ -85,21 +107,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                     detailMyProjectAdapter = new DetailMyProjectAdapter(context, project.getJSONArray("members"));
                     rvMembers.setAdapter(detailMyProjectAdapter);
                     rvMembers.setLayoutManager(new LinearLayoutManager(context));
-                    ibDeleteProject.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Log.d(TAG, "On Delete Project Button");
-                        }
-                    });
-                    ibEditProject.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(context, UpdateProjectActivity.class);
-                            i.putExtra("project", project.toString());
-                            startActivityForResult(i, EDIT_PROJECT_CODE);
-                            Log.d(TAG, "On Edit Project Button");
-                        }
-                    });
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -113,7 +121,33 @@ public class DetailMyProjectActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "onActivityResult: resultCode = " + resultCode);
+        if(data!=null && resultCode == EDIT_PROJECT_CODE){
+
+            JSONObject updatedProject = null;
+            try {
+                JSONObject resultProject = new JSONObject(data.getStringExtra("project"));
+                Log.d(TAG, "onActivityResult: data = " + resultProject.toString());
+                Log.d(TAG, "onActivityResult: resultCode = " + resultCode);
+
+                tvProjecTitleDetailProject.setText(resultProject.getString("title"));
+                tvDescription.setText(resultProject.getString("description"));
+                String status = resultProject.getInt("status") == STATUS_IN_PROGRESS_INT?STATUS_IN_PROGRESS_STRING:STATUS_FINISHED_STRING;
+                tvProjectStatus.setText(status);
+                List<String> tags = Project.getTagsList(resultProject);
+                tgDetailProject.setTags(tags);
+
+
+                members = resultProject.getJSONArray("members");
+                detailMyProjectAdapter.clear();
+                detailMyProjectAdapter.addAll(members);
+                rvMembers.setAdapter(detailMyProjectAdapter);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
     }
 
     public void deleteProject(int pid){
@@ -129,6 +163,10 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                 Log.d(TAG, "On Failure DeleteProject: " + statusCode);
             }
         });
+    }
+    public boolean isOwner(int owner_id) throws JSONException {
+
+        return LoginActivity.currentUser.getInt("uid") == owner_id;
     }
 
 }

@@ -89,7 +89,6 @@ public class CreateProjectActivity extends AppCompatActivity {
         etProjectTitle = findViewById(R.id.etProjectTitle);
         etDescriptionCreateProject = findViewById(R.id.etDescriptionCreateProject);
         ibSaveCreateProject = findViewById(R.id.ibSaveCreateProject);
-        tvErrorMessage = findViewById(R.id.tvErrorMessage);
         ibSaveCreateProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -242,7 +241,6 @@ public class CreateProjectActivity extends AppCompatActivity {
                 //save Pictures
                 int pid = Integer.parseInt(new String(responseBody, StandardCharsets.UTF_8));
                 Log.d(TAG, String.valueOf(pid));
-
                 for (Bitmap pic: pictureFiles) {
                     try {
                         Log.d(TAG, pic.toString());
@@ -252,11 +250,17 @@ public class CreateProjectActivity extends AppCompatActivity {
                     }
                 }
 
-                Intent i = new Intent();
-                Log.d(TAG, "Back to MyProjects:" + project.toString());
-                i.putExtra("project", project.toString());
-                setResult(FragMyProjects.CREATE_PROJECT_CODE, i);
-                finish();
+                try {
+                    Intent i = new Intent();
+                    project.put("pid", pid);
+                    Log.d(TAG, "Back to MyProjects:" + project.toString());
+                    i.putExtra("project", project.toString());
+                    setResult(FragMyProjects.CREATE_PROJECT_CODE, i);
+                    finish();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override
@@ -344,23 +348,11 @@ public class CreateProjectActivity extends AppCompatActivity {
             Uri photoUri = data.getData();
             // Load the image located at photoUri into selectedImage
             Bitmap selectedImage = loadFromUri(photoUri);
-            if(pictureFiles.isEmpty()){
-                pictureFiles.add(selectedImage);
-                // Load the selected image into a preview
-                picturesURLs.add(0, photoUri.toString());
-                adapter.notifyItemInserted(0);
-            }else{
-                for (Bitmap b: pictureFiles
-                ) {
-                    if(!b.sameAs(selectedImage)){
-                        pictureFiles.add(selectedImage);
-                        // Load the selected image into a preview
-                        picturesURLs.add(0, photoUri.toString());
-                        adapter.notifyItemInserted(0);
-                    }
-                }
-            }
+            pictureFiles.add(selectedImage);
 
+            // Load the selected image into a preview
+            picturesURLs.add(0, photoUri.toString());
+            adapter.notifyItemInserted(0);
 
 
         }

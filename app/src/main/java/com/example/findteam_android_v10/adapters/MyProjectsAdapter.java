@@ -60,20 +60,24 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.my
 //        Project project = projects.get(position);
         try {
             JSONObject project = (JSONObject) jsonProjects.get(position);
+            Log.d(TAG, "itMyProject.setOnLongClickListener: positon =" + position + "--" +project.toString());
             // Set item views based on your views and data model
             holder.twProjectName.setText(project.getString("title"));
             holder.twProjectStatus.setText(Project.getStringStatus(project.getInt("status")));
             holder.itMyProject.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "itMyProject.setOnLongClickListener");
-                    Intent i = new Intent(context, DetailMyProjectActivity.class);
+                    Log.d(TAG, "itMyProject.setOnLongClickListener: project = " + project.toString());
+
                     try {
+                        Intent i = new Intent(context, DetailMyProjectActivity.class);
+                        Log.d(TAG, "itMyProject.setOnLongClickListener: " + project.getInt("pid"));
                         i.putExtra("pid", project.getInt("pid"));
+                        context.startActivity(i);
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        Log.d(TAG, "itMyProject.setOnLongClickListener: " + e.toString());
                     }
-                    context.startActivity(i);
+
                 }
             });
 
