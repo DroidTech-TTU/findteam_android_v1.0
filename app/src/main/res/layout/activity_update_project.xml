@@ -73,7 +73,7 @@
             android:layout_height="wrap_content">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvGallery"
+                android:id="@+id/rvGalleryUpdateProject"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:orientation="horizontal"
@@ -90,7 +90,7 @@
                 android:fontFamily="@font/roboto_black"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rvGallery" />
+                app:layout_constraintTop_toBottomOf="@+id/rvGalleryUpdateProject" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -147,7 +147,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
             <EditText
-                android:id="@+id/etTagsCreateProject"
+                android:id="@+id/etTagsUpdateProject"
                 android:layout_width="300dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
@@ -185,7 +185,7 @@
                 android:background="@color/find_team_orange"
                 android:foregroundGravity="center"
                 android:padding="5dp"
-                app:layout_constraintStart_toEndOf="@+id/etTagsCreateProject"
+                app:layout_constraintStart_toEndOf="@+id/etTagsUpdateProject"
                 app:layout_constraintTop_toBottomOf="@+id/tgCreateProject"
                 app:srcCompat="@drawable/ic_enter" />
 
@@ -197,19 +197,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.556"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvErrorMessage" />
-
-            <TextView
-                android:id="@+id/tvErrorMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Error"
-                android:background="@drawable/shape_four_conners_white"
-                android:textColor="@color/find_team_error"
-                android:layout_marginLeft="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:visibility="invisible"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

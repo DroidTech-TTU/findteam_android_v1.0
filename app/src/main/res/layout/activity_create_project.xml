@@ -198,19 +198,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.556"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvErrorMessage" />
-
-            <TextView
-                android:id="@+id/tvErrorMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Error"
-                android:background="@drawable/shape_four_conners_white"
-                android:textColor="@color/find_team_error"
-                android:layout_marginLeft="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:visibility="invisible"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

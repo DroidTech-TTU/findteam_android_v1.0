@@ -61,7 +61,8 @@ public class FragMyProjects extends Fragment{
                         try {
                             JSONObject js = new JSONObject(i.getStringExtra("project"));
                             jsonProjects.put(0, js);
-                            adapter.notifyItemInserted(0);
+                            adapter.addAll(jsonProjects);
+                            adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -75,14 +76,6 @@ public class FragMyProjects extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "On create");
-
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
 
     }
 
