@@ -1,85 +1,172 @@
 package com.example.findteam_android_v10;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.findteam_android_v10.adapters.detailMyProjectAdapter;
-import com.example.findteam_android_v10.classes.UserProject;
+import com.example.findteam_android_v10.adapters.DetailMyProjectAdapter;
+import com.example.findteam_android_v10.classes.Project;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
-import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.security.Policy;
+import java.util.List;
+
+import co.lujun.androidtagview.TagContainerLayout;
+import cz.msebera.android.httpclient.Header;
 
 public class DetailMyProjectActivity extends AppCompatActivity {
+    public static final int EDIT_PROJECT_CODE = 1123;
+    public static final String GET_PROJECT_API_URL = "project?pid=";
+    public static final String STATUS_IN_PROGRESS_STRING = "In Progress";
+    public static final int STATUS_IN_PROGRESS_INT = 0;
+    public static final String STATUS_FINISHED_STRING = "Finished";
+    public static final int STATUS_IN_FINISHED_INT = 1;
+    public static final String TAG = "DetailMyProjectActivity";
     RecyclerView rvMembers;
-    String[] memberNames = {"Ikemen Kuma", "Đạt Manacup", "Rory Eckel", "Samantha Holmes"};
+    Context context;
     TextView tvDescription;
+    TextView tvProjecTitleDetailProject;
     TextView tvProjectStatus;
+    ImageButton ibEditProject;
+    ImageButton ibDeleteProject;
     ImageView ivStatus;
-    ImageView ivGitHub;
-    ImageView ivOneDrive;
-
-    ArrayList<UserProject> members;
+    JSONObject project;
+    JSONArray members;
+    TagContainerLayout tgDetailProject;
+    DetailMyProjectAdapter detailMyProjectAdapter;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this;
         setContentView(R.layout.activity_detail_my_project);
         this.rvMembers = (RecyclerView) findViewById(R.id.rvMembers);
         this.tvDescription = (TextView) findViewById(R.id.tvDescriptionMyDetailProjects);
         this.tvProjectStatus = (TextView) findViewById(R.id.tvStatusMyProjectDetailMain);
-        this.ivGitHub = (ImageView) findViewById(R.id.ivGitHubMyDetailProjects) ;
         this.ivStatus = (ImageView) findViewById(R.id.ivStatusMyProjectDetail) ;
-        this.ivOneDrive = (ImageView) findViewById(R.id.ivOneDriveMyDetailProjects);
+        this.tvProjecTitleDetailProject = findViewById(R.id.tvProjecTitleDetailProject);
+        this.tgDetailProject = findViewById(R.id.tgDetailProject);
+        this.ibEditProject= findViewById(R.id.ibEditProject);
+        this.ibDeleteProject= findViewById(R.id.ibDeleteProject);
+        int pid = getIntent().getIntExtra("pid", -1);
+        String URL = GET_PROJECT_API_URL + pid;
+        FindTeamClient.get(URL, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                project = response;
+                try {
 
-//        members = UserProject.creatUserProjectsList(4);
-//        members.get(0).setUserName(memberNames[0]);
-//        members.get(0).setRole("Owner");
-//        members.get(1).setUserName(memberNames[1]);
-//        members.get(2).setUserName(memberNames[2]);
-//        members.get(3).setUserName(memberNames[3]);
+                    if(!isOwner(project.getInt("owner_uid"))){
+                        ibEditProject.setVisibility(View.INVISIBLE);
+                        ibDeleteProject.setVisibility(View.INVISIBLE);
+                    }else{
+                        ibEditProject.setVisibility(View.VISIBLE);
+                        ibDeleteProject.setVisibility(View.VISIBLE);
+                        ibDeleteProject.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Log.d(TAG, "On Delete Project Button");
+                            }
+                        });
+                        ibEditProject.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent i = new Intent(context, UpdateProjectActivity.class);
+                                i.putExtra("project", project.toString());
+                                startActivityForResult(i, EDIT_PROJECT_CODE);
+                                Log.d(TAG, "On Edit Project Button");
+                            }
+                        });
+                    }
+                    Log.d(TAG, "On Create: " + project.toString());
+                    tvProjecTitleDetailProject.setText(project.getString("title"));
+                    tvDescription.setText(project.getString("description"));
+                    String status = project.getInt("status") == STATUS_IN_PROGRESS_INT?STATUS_IN_PROGRESS_STRING:STATUS_FINISHED_STRING;
+                    tvProjectStatus.setText(status);
+                    List<String> tags = Project.getTagsList(project);
+                    tgDetailProject.setTags(tags);
+                    members = project.getJSONArray("members");
+                    detailMyProjectAdapter = new DetailMyProjectAdapter(context, project.getJSONArray("members"));
+                    rvMembers.setAdapter(detailMyProjectAdapter);
+                    rvMembers.setLayoutManager(new LinearLayoutManager(context));
 
-        final detailMyProjectAdapter adapter = new detailMyProjectAdapter(members);
-        this.rvMembers.setAdapter(adapter);
-        this.rvMembers.setLayoutManager(new LinearLayoutManager(this));
-//        this.rvMembers.notifyDataSetChanged();
-
-        this.tvDescription.setText("Software.Enterprises, a\n" +
-                "         subsidiary of Silicon Spectra, is one\n" +
-                "         of the leading providers of Enterprise so\n" +
-                "         ftware solutions, comprehensive IT solutions\n" +
-                "         , including Systems Integration, Consulting,\n" +
-                "         Information Systems outsourcing, IT-enabled\n" +
-                "          services, telecommunication, RD etc. We spe\n" +
-                "          cialize in placement of UI Developer\n" +
-                "          s, ReactJS, AngularJS, Quality Assurance Analyst, Data ");
-        this.tvProjectStatus.setText("In Progress");
-
-        this.ivGitHub.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_VIEW);
-                intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                intent.setData(Uri.parse("https://github.com/DroidTech-TTU/findteam_android_v1.0"));
-                startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.d(TAG, "On Create: " + project.toString());
+                Log.i(TAG, "the status code for this request is: " + statusCode);
             }
         });
 
-        this.ivOneDrive.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_VIEW);
-                intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                intent.setData(Uri.parse("https://texastechuniversity-my.sharepoint.com/personal/rory_eckel_ttu_edu/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Frory%5Feckel%5Fttu%5Fedu%2FDocuments%2F4%20Senior%20Year%2FCS%204366&FolderCTID=0x012000E8796DCDDF83224DAAB4C5519E7FB231"));
-                startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data!=null && resultCode == EDIT_PROJECT_CODE){
+
+            JSONObject updatedProject = null;
+            try {
+                JSONObject resultProject = new JSONObject(data.getStringExtra("project"));
+                Log.d(TAG, "onActivityResult: data = " + resultProject.toString());
+                Log.d(TAG, "onActivityResult: resultCode = " + resultCode);
+
+                tvProjecTitleDetailProject.setText(resultProject.getString("title"));
+                tvDescription.setText(resultProject.getString("description"));
+                String status = resultProject.getInt("status") == STATUS_IN_PROGRESS_INT?STATUS_IN_PROGRESS_STRING:STATUS_FINISHED_STRING;
+                tvProjectStatus.setText(status);
+                List<String> tags = Project.getTagsList(resultProject);
+                tgDetailProject.setTags(tags);
+
+
+                members = resultProject.getJSONArray("members");
+                detailMyProjectAdapter.clear();
+                detailMyProjectAdapter.addAll(members);
+                rvMembers.setAdapter(detailMyProjectAdapter);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+    }
+
+    public void deleteProject(int pid){
+        //Delete Project
+        FindTeamClient.post(Project.getURLDeleteProject(pid), new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Log.d(TAG, "On Success DeleteProject: " + statusCode);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.d(TAG, "On Failure DeleteProject: " + statusCode);
             }
         });
     }
+    public boolean isOwner(int owner_id) throws JSONException {
+
+        return LoginActivity.currentUser.getInt("uid") == owner_id;
+    }
+
 }

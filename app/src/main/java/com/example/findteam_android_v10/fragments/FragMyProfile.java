@@ -41,7 +41,6 @@ import com.example.findteam_android_v10.EditProfileActivity;
 import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
-import com.example.findteam_android_v10.adapters.galleryCreateProjectAdapter;
 import com.example.findteam_android_v10.adapters.urlAdapter;
 import com.example.findteam_android_v10.classes.User;
 import com.google.android.material.appbar.AppBarLayout;
@@ -54,7 +53,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import co.lujun.androidtagview.TagContainerLayout;

@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.findteam_android_v10.R;
-import com.example.findteam_android_v10.classes.UserProject;
 
 import java.net.URI;
 import java.net.URISyntaxException;
