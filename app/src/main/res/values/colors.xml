@@ -7,4 +7,6 @@
     <color name="find_team_hover_orange">#FAAC92</color>
     <color name="find_team_dark">#4a4948</color>
     <color name="find_team_error">#FF0000</color>
+    <color name="find_team_warming">#FF0000</color>
+    <color name="find_team_green_icon">#5AFF00</color>
 </resources>

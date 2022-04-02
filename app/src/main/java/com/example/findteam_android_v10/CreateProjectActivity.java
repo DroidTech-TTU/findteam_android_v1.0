@@ -59,7 +59,7 @@ public class CreateProjectActivity extends AppCompatActivity {
     public String message = "";
     GalleryCreateProjectAdapter adapter;
 
-    Button btAddPicture;
+    ImageButton btAddPicture;
     ImageButton ibAddTag;
     EditText etTagsCreateProject;
     ImageButton ibSaveCreateProject;

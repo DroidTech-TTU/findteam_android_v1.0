@@ -33,6 +33,21 @@
         <entry key="..\:/Android/findteam_android_v1.0/app/src/main/res/menu/my_projects_menu.xml" value="0.19739583333333333" />
         <entry key="..\:/Android/findteam_android_v1.0/app/src/main/res/menu/navigation_menu.xml" value="0.33" />
         <entry key="..\:/Android/findteam_android_v1.0/app/src/main/res/menu/profile_menu.xml" value="0.20052083333333334" />
+        <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/drawable/ic_delete_green.xml" value="0.28958333333333336" />
+        <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/drawable/ic_edit_green.xml" value="0.28958333333333336" />
+        <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/drawable/ic_enter_green.xml" value="0.22135416666666666" />
+        <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/drawable/ic_goback_green.xml" value="0.22135416666666666" />
+        <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/drawable/ic_green_add_project.xml" value="0.28958333333333336" />
+        <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/drawable/ic_green_search.xml" value="0.28958333333333336" />
+        <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/drawable/ic_save_green.xml" value="0.28958333333333336" />
+        <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/drawable/shapre_popup.xml" value="0.28958333333333336" />
+        <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/drawable/shapre_popup_button.xml" value="0.28958333333333336" />
+        <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/layout/activity_create_project.xml" value="0.36666666666666664" />
+        <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/layout/activity_detail_my_project.xml" value="0.33" />
+        <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/layout/activity_update_project.xml" value="0.2734375" />
+        <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/layout/frag_my_projects.xml" value="0.2734375" />
+        <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/layout/popup_cancel_create_project.xml" value="0.2734375" />
+        <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/layout/popup_invalid_inputs_create_project.xml" value="0.2734375" />
         <entry key="..\:/Android/kuma/findtem_android_v1.0/app/src/main/res/drawable/shape_four_conners_white_organe_border.xml" value="0.3828125" />
         <entry key="..\:/Android/kuma/findtem_android_v1.0/app/src/main/res/layout/activity_create_project.xml" value="0.25" />
         <entry key="..\:/Android/kuma/findtem_android_v1.0/app/src/main/res/layout/activity_detail_my_project.xml" value="0.33" />

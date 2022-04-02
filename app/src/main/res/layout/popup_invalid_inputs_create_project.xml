@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:background="@drawable/shape_four_conners_white_organe_border">
+    android:background="@drawable/shape_popup">
 
     <TextView
         android:id="@+id/tvPopup_Invalid_Inputs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:fontFamily="@font/roboto_black"
+        android:textColor="@color/find_team_warming"
         android:text="There is one or more empty fields"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:background="@drawable/shape_four_conners_white_organe_border">
+    android:background="@drawable/shape_popup">
 
     <TextView
         android:id="@+id/tvPopup_Cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:textColor="@color/find_team_warming"
+        android:fontFamily="@font/roboto_black"
         android:text="Cancel the project. All your input information will be lost!"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,16 +23,22 @@
         android:id="@+id/btYesCancelProject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/shape_popup_button"
+        android:fontFamily="@font/roboto_black"
         android:text="Yes"
-        android:layout_marginRight="80dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/find_team_green_icon"
+        app:layout_constraintEnd_toStartOf="@+id/btNoCancelProject"
         app:layout_constraintTop_toBottomOf="@+id/tvPopup_Cancel" />
 
     <Button
         android:id="@+id/btNoCancelProject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/shape_popup_button"
+        android:fontFamily="@font/roboto_black"
         android:text="No"
-        app:layout_constraintStart_toEndOf="@+id/btYesCancelProject"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/find_team_green_icon"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPopup_Cancel" />
 </androidx.constraintlayout.widget.ConstraintLayout>

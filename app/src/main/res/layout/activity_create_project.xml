@@ -41,11 +41,11 @@
             android:layout_height="wrap_content"
 
             android:background="@drawable/shape_four_conners"
-            android:layout_marginRight="5dp"
-            android:padding="7dp"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_save_24" />
+            app:srcCompat="@drawable/ic_green_save" />
 
         <ImageButton
             android:id="@+id/ibCancel"
@@ -56,7 +56,19 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginRight="5dp"
             android:padding="10dp"
-            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+            app:srcCompat="@drawable/ic_green_goback" />
+
+        <ImageButton
+            android:id="@+id/btAddPicture"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_four_conners"
+            android:foregroundGravity="center"
+            android:text="Add Picture"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_green_add_photo" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -79,7 +91,7 @@
                 android:layout_height="150dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@+id/btAddPicture"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="10dp" />
 
             <TextView
@@ -183,22 +195,13 @@
                 android:id="@+id/ibAddTag"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:background="@color/find_team_orange"
                 android:foregroundGravity="center"
                 android:padding="5dp"
                 app:layout_constraintStart_toEndOf="@+id/etTagsCreateProject"
                 app:layout_constraintTop_toBottomOf="@+id/tgCreateProject"
-                app:srcCompat="@drawable/ic_enter" />
-
-            <Button
-                android:id="@+id/btAddPicture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add Picture"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.556"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:srcCompat="@drawable/ic_gren_enter" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
