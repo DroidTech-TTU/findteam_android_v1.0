@@ -3,6 +3,7 @@ package com.example.findteam_android_v10.fragments;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -42,6 +43,7 @@ import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.adapters.galleryCreateProjectAdapter;
 import com.example.findteam_android_v10.adapters.urlAdapter;
+import com.example.findteam_android_v10.classes.User;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -67,6 +69,7 @@ public class FragMyProfile extends Fragment {
     List<String> urls, locations, skills;
     urlAdapter urlAdapter;
     TagContainerLayout skillsTag, locationTag;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -137,30 +140,13 @@ public class FragMyProfile extends Fragment {
             }
         });
 
-        updateUser();
-        loadProfile(false);
+        User.getUser();
+        loadProfile(false, LoginActivity.currentUser);
 
         return view;
     }
 
-    //always update when it loads the fragment
-    private void updateUser() {
-
-        FindTeamClient.get("user", new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                LoginActivity.currentUser = response;
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e(TAG, statusCode + " " + responseString + " " + throwable);
-            }
-        });
-
-    }
-
-    private void loadProfile(Boolean update) {
+    private void loadProfile(Boolean update, JSONObject user) {
 
         if(update){
             urls.clear();
@@ -172,13 +158,13 @@ public class FragMyProfile extends Fragment {
 
             //set the name in the my profile
             StringBuilder sb = new StringBuilder();
-            sb.append(LoginActivity.currentUser.getString("first_name")).append(" ")
-                    .append(LoginActivity.currentUser.getString("middle_name")).append(" ")
-                    .append(LoginActivity.currentUser.getString("last_name"));
+            sb.append(user.getString("first_name")).append(" ")
+                    .append(user.getString("middle_name")).append(" ")
+                    .append(user.getString("last_name"));
             fullName.setText(sb.toString());
 
-            JSONArray urlsJson = LoginActivity.currentUser.getJSONArray("urls"),
-                    tagsJson = LoginActivity.currentUser.getJSONArray("tags");
+            JSONArray urlsJson = user.getJSONArray("urls"),
+                    tagsJson = user.getJSONArray("tags");
 
             //get every url in the user
             for(int i = 0; i < urlsJson.length(); i++){
@@ -208,7 +194,7 @@ public class FragMyProfile extends Fragment {
 
             //update the profile picture
             Glide.with(getContext())
-                    .load("https://findteam.2labz.com/picture/" + LoginActivity.currentUser.getString("picture"))
+                    .load("https://findteam.2labz.com/picture/" + user.getString("picture"))
                     .into(ivProfilePic);
 
         } catch (JSONException e) {
@@ -228,14 +214,13 @@ public class FragMyProfile extends Fragment {
                     if(result.getResultCode() == 200){
 
                         Intent data = result.getData();
-
+                        User.getUser();
                         Log.i(TAG, "It finished on EditProfileActivity");
 
-                        //check to see if the user finished updating the profile
-                        boolean isFinished = data.getBooleanExtra("finished", false);
-                        loadProfile(isFinished);
+                        loadProfile(true, LoginActivity.currentUser);
 
                     }
+
                     //else, we ignore
                 }
             }

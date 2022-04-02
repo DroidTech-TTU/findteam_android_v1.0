@@ -1,5 +1,7 @@
 package com.example.findteam_android_v10;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -33,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         //Elements present in the app
-        Button registerInLoginBtn, loginInLoginBtn;
+        Button loginInLoginBtn;
         TextView forgotPass, signUpText;
         TextInputLayout username, password;
         SharedPreferences sharedPreferences;
@@ -50,26 +52,30 @@ public class LoginActivity extends AppCompatActivity {
 
         //checks to see if the user is persisted throughout the app, go login directly
         sharedPreferences = getSharedPreferences("FindTeam", MODE_PRIVATE);
-        if(!sharedPreferences.getString("access_token", "").equals("")){
+        if(!sharedPreferences.getString("access_token", "").equals("")) {
 
+            ProgressDialog progressDialog = ProgressDialog.show(this, "Loading", "Logging in", true);
             FindTeamClient.setAuth(sharedPreferences.getString("access_token", ""));
 
-            //retrieve the user from the API
-            FindTeamClient.get("user", new JsonHttpResponseHandler(){
+            User.getUser(new JsonHttpResponseHandler() {
+
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    currentUser = response;
+                    LoginActivity.currentUser = response;
+
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(i);
+                    progressDialog.dismiss();
+
+                    finish();
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    Log.e(TAG, statusCode + " " + responseString + " " + throwable);
+                    throwable.printStackTrace();
                 }
-            });
 
-            Intent i = new Intent(this, MainActivity.class);
-            startActivity(i);
-            finish();
+            });
         }
 
         //signup account
@@ -91,64 +97,8 @@ public class LoginActivity extends AppCompatActivity {
                 String user = username.getEditText().getText().toString(),
                         pass = password.getEditText().getText().toString();
 
+                User.loginUser(LoginActivity.this, user, pass);
 
-                //create a parameter to pass to the client
-                RequestParams params = new RequestParams();
-                params.put("grant_type", "password");
-                params.put("username", user);
-                params.put("password", pass);
-
-                //POST LOGIN
-                FindTeamClient.post("login", params, new JsonHttpResponseHandler(){
-
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-
-                        Log.i(TAG, "the status code for this request is: " + statusCode);
-
-                        try {
-
-                            //login success
-
-                            //temporarily store login access_token
-                            sharedPreferences.edit().putString("access_token", response.getString("access_token")).apply();
-
-                            //set the auth for logging in
-                            FindTeamClient.setAuth(response.getString("access_token"));
-
-                            //retrieve the user from the API
-                            FindTeamClient.get("user", new JsonHttpResponseHandler(){
-                                @Override
-                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                    currentUser = response;
-                                }
-
-                                @Override
-                                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                    Log.e(TAG, statusCode + " " + responseString + " " + throwable);
-                                }
-                            });
-
-                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                            i.putExtra("access_token", sharedPreferences.getString("access_token", ""));
-                            startActivity(i);
-
-                            finish();
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        Log.e(TAG, "the status code for this request is: " + statusCode);
-
-                        //Invalid credentials
-                        Toast.makeText(LoginActivity.this, "Invalid Credential. Please try again.", Toast.LENGTH_SHORT).show();
-                    }
-
-                });
             }
         });
 

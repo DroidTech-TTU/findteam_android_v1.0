@@ -52,47 +52,14 @@ public class FragForgotNewPass extends Fragment {
         //set the bearer auth
         FindTeamClient.setAuth(accessToken);
 
-        FindTeamClient.get("user", new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                user = response;
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e(TAG, statusCode + " " + responseString + " " + throwable);
-            }
-        });
-
         resetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(newPass1.getText().toString().equals(newPass2.getText().toString())){
-                    try {
-                        //add the new password to update the user
-                        user.put("password", newPass1.getText().toString());
-                        StringEntity entity = new StringEntity(user.toString());
-                        FindTeamClient.post(getContext(),"user", entity, new TextHttpResponseHandler(){
-
-
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                                Log.i(TAG, "the status code for this request is: " + statusCode);
-                                Navigation.findNavController(view).navigate(R.id.action_meNewPass_to_meResetSuccess);
-                            }
-
-                            @Override
-                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                Log.e(TAG, "the status code for this request is: " + statusCode + " " + throwable);
-                                Toast.makeText(getContext(), "Password does not match. Please try again", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    } catch (JSONException | UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-
-                }
+                if(!newPass1.getText().toString().equals(newPass2.getText().toString()))
+                    Toast.makeText(getContext(), "Password does not match. Please try again", Toast.LENGTH_LONG).show();
+                else
+                    User.resetPass(getContext(), view,  newPass1.getText().toString());
 
             }
         });

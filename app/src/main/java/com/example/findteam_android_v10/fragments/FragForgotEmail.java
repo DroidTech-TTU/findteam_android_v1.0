@@ -23,6 +23,7 @@ import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.RegisterActivity;
+import com.example.findteam_android_v10.classes.User;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -65,22 +66,10 @@ public class FragForgotEmail extends Fragment {
 
                 } else {
 
-                    FindTeamClient.post("user/reset?email=" + email, new TextHttpResponseHandler() {
+                    User.sendResetEmail(email);
 
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            Log.e(TAG, "email has not sent"+ " " + responseString);
-                        }
-
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                            Log.i(TAG, "email has been sent successfully");
-
-                            FragForgotEmailDirections.ActionMeForgetEmailToMeSentEmail action = FragForgotEmailDirections.actionMeForgetEmailToMeSentEmail(email);
-                            Navigation.findNavController(view).navigate(action);
-                        }
-
-                    });
+                    FragForgotEmailDirections.ActionMeForgetEmailToMeSentEmail action = FragForgotEmailDirections.actionMeForgetEmailToMeSentEmail(email);
+                    Navigation.findNavController(view).navigate(action);
 
                 }
             }

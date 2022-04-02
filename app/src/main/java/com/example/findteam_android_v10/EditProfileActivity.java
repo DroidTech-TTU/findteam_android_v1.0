@@ -34,9 +34,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.findteam_android_v10.adapters.editTextUrlsAdapter;
 import com.example.findteam_android_v10.adapters.urlAdapter;
+import com.example.findteam_android_v10.classes.User;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.ResponseHandlerInterface;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -47,14 +49,17 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 import co.lujun.androidtagview.TagContainerLayout;
 import co.lujun.androidtagview.TagView;
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class EditProfileActivity extends AppCompatActivity {
@@ -65,8 +70,9 @@ public class EditProfileActivity extends AppCompatActivity {
     EditText firstName, middleName, lastName;
     ImageView editProfPic;
     TagContainerLayout locationTagContainer, skillsTagContainer;
+    String imageFileName;
 
-    ProgressDialog dialog, dialog2;
+    ProgressDialog dialog;
 
     Uri profPicUri;
 
@@ -235,6 +241,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 @Override
                 public void onActivityResult(Uri result) {
                     profPicUri = result;
+
                     editProfPic.setImageURI(result);
                 }
             });
@@ -243,48 +250,35 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
+        if(profPicUri != null){
+
+            User.changeProfilePic(this, profPicUri, new AsyncHttpResponseHandler() {
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    Log.i(TAG, "Picture successfully saved. Status code for this request is: " + statusCode);
+
+                    updateUserInfo();
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Log.e(TAG, "the status code for this request is" + statusCode + " " + error);
+                }
+
+            });
+        } else
+            updateUserInfo();
+
+        return true;
+    }
+
+    private void updateUserInfo(){
+
+        dialog = ProgressDialog.show(this, "Loading", "Updating Profile", true);
         try{
-            //update the profile picture
-            if(profPicUri != null) {
 
-                dialog = ProgressDialog.show(EditProfileActivity.this, "Updating", "Updating Picture", true);
-
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-                Bitmap map = null;
-
-                map = MediaStore.Images.Media.getBitmap(getContentResolver(), profPicUri);
-                File f = new File(getCacheDir(), map.toString() + ".jpeg");
-                f.createNewFile();
-                map.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] image = stream.toByteArray();
-
-                //write binary to jpeg file
-                FileOutputStream fos = new FileOutputStream(f);
-                fos.write(image);
-                fos.flush();
-                fos.close();
-
-                RequestParams params = new RequestParams();
-                params.put("picture", f, "image/jpeg");
-
-                FindTeamClient.post("user/picture", params, new AsyncHttpResponseHandler() {
-
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        Log.i(TAG, "the status code for this request is: " + statusCode);
-                        dialog.dismiss();
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        Log.e(TAG, "the status code for this request is" + statusCode + " " + error);
-                    }
-
-                });
-            }
-
-            dialog2 = ProgressDialog.show(EditProfileActivity.this, "Updating", "Updating User", true);
+            //dialog = ProgressDialog.show(this, "Loading", "Updating Profile", true);
             //update about info
             JSONObject updateUser = new JSONObject();
             updateUser.put("first_name", firstName.getText().toString());
@@ -299,8 +293,6 @@ public class EditProfileActivity extends AppCompatActivity {
                     if(!urls.get(i).equals("")) {
                         JSONObject url = new JSONObject();
                         URI uriUrl = new URI("https://" + urls.get(i));
-
-                        Log.i(TAG, uriUrl.getHost() + " " + uriUrl.getPath());
 
                         url.put("domain", uriUrl.getHost());
                         url.put("path", uriUrl.getPath());
@@ -335,15 +327,29 @@ public class EditProfileActivity extends AppCompatActivity {
 
             updateUser.put("tags", tagsArray);
 
-            StringEntity entity = new StringEntity(updateUser.toString());
-            FindTeamClient.post(this,"user", entity, new TextHttpResponseHandler(){
+            User.updateUser(this, updateUser, new TextHttpResponseHandler() {
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, String responseString) {
+
                     Log.i(TAG, "Updating User... the status code for this request is: " + statusCode);
 
-                    //update the user
-                    updateUser();
+                    User.getUser(new JsonHttpResponseHandler(){
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                            LoginActivity.currentUser = response;
+                            Intent intent = new Intent();
+                            setResult(200, intent);
+                            dialog.dismiss();
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            super.onFailure(statusCode, headers, throwable, errorResponse);
+                        }
+                    });
 
                 }
 
@@ -351,36 +357,12 @@ public class EditProfileActivity extends AppCompatActivity {
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     Log.e(TAG, "the status code for this request is: " + statusCode + " " + throwable);
                 }
+
             });
 
-        } catch (IOException | JSONException | URISyntaxException e) {
+        } catch (JSONException | URISyntaxException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
-        return true;
-    }
-
-    private void updateUser() {
-
-        FindTeamClient.get("user", new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                LoginActivity.currentUser = response;
-
-                Intent intent = new Intent();
-                intent.putExtra("finished", true);
-                setResult(200, intent);
-
-                dialog2.dismiss();
-                finish();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e(TAG, statusCode + " " + responseString + " " + throwable);
-            }
-        });
-
     }
 
 
