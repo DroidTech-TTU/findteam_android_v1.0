@@ -49,9 +49,6 @@ public class User {
     public static final String KEY_FORGOT_PASSWORD = "user/reset?email=";
   
     public static final String GET_USER_URL = "user?uid=";
-    public static final int MEMBER_SHIP__TYPE_OWNER = 0;
-    public static final int MEMBER_SHIP__TYPE_PENDING = 1;
-    public static final int MEMBER_SHIP__TYPE_MEMBER = 2;
     public static String TAG = "UserClass";
 
 

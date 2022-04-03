@@ -59,10 +59,17 @@ public class FragMyProjects extends Fragment{
 //
                         Log.d(TAG, "Data from CreateProject: " + i.getStringExtra("project"));
                         try {
-                            JSONObject js = new JSONObject(i.getStringExtra("project"));
-                            jsonProjects.put(0, js);
+
+                            if(jsonProjects.length() >0){
+                                Log.d(TAG, "Projects has Items: ");
+                                int n = jsonProjects.length();
+                                for(int j=n-1; j>=0; j--){
+                                    jsonProjects.put(j+1, jsonProjects.getJSONObject(j));
+                                }
+                            }
+
+                            jsonProjects.put(0, new JSONObject(i.getStringExtra("project")));
                             adapter.addAll(jsonProjects);
-                            adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

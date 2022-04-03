@@ -26,7 +26,9 @@ public class Project extends JSONObject {
     public static final String STATUS_FINISHED_STRING = "Finished";
     public static final String STATUS_FINISHED_ICON = "ic_project_status_in_finished_green";
 
-
+    public static final int MEMBER_SHIP__TYPE_OWNER = 0;
+    public static final int MEMBER_SHIP__TYPE_PENDING = 1;
+    public static final int MEMBER_SHIP__TYPE_MEMBER = 2;
 
 
     public static final String TAG = "ProjectClass";
@@ -93,6 +95,7 @@ public class Project extends JSONObject {
     }
 
     public static String getMemType(int memTypeInt){
+        Log.d(TAG, "Member Type = " + memTypeInt);
         switch (memTypeInt){
             case 0:{
                 return "Owner";

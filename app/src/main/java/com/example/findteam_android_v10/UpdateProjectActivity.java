@@ -217,8 +217,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
 
         JSONObject member = new JSONObject();
         member.put("uid", LoginActivity.currentUser.get("uid"));
-        member.put("membership_type", 2 );
-
+        member.put("membership_type", 0);
         JSONArray members = new JSONArray();
         members.put(member);
 
@@ -243,45 +242,30 @@ public class UpdateProjectActivity extends AppCompatActivity {
         String URL = UPDATE_PROJECT_API_URL + project.getString("pid");
         int tmpPid = project.getInt("pid");
         String tmpPics = project.getString("pictures");
+
         project.remove("pid");
         project.remove("pictures");
+        project.remove("owner_uid");
         StringEntity entity = new StringEntity(project.toString());
 
         FindTeamClient.post(this,URL, entity, new AsyncHttpResponseHandler(){
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                Log.i(TAG, "the status code for this request is: " + statusCode);
+                Log.i(TAG, "saveProject(): the status code for this request is: " + statusCode);
                 Toast.makeText(context, "Successfully Created Account", Toast.LENGTH_SHORT).show();
 
-                CountDown.delay(20000);
-                Log.d(TAG, "On Count Down");
                 Intent i = new Intent();
                 i.putExtra("pid", tmpPid);
                 setResult(DetailMyProjectActivity.EDIT_PROJECT_CODE, i);
                 savePictures(tmpPid, pictureFiles);
                 finish();
-//                try {
-//                    project.put("pid", tmpPid);
-//                    project.put("pictures", tmpPics);
-//                    savePictures(tmpPid, pictureFiles);
-//                    Log.d(TAG, "URL" + Project.getURLGetProject(tmpPid));
-//                    Intent i = new Intent();
-//                    JSONObject ob = new JSONObject(new String(responseBody));
-//                    Log.d(TAG, "Back to DetailMyProject:" + ob);
-//                    i.putExtra("project", ob.toString());
-//                    setResult(DetailMyProjectActivity.EDIT_PROJECT_CODE, i);
-//                    finish();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-
-
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.e(TAG, "the status code for this request is" + statusCode);
+                Log.e(TAG, "saveProject(): project: " + project.toString());
+                Log.e(TAG, "saveProject(): the status code for this request is" + statusCode);
                 Toast.makeText(context, "Failure to create project", Toast.LENGTH_LONG).show();
             }
 
@@ -319,12 +303,12 @@ public class UpdateProjectActivity extends AppCompatActivity {
         FindTeamClient.post(URL, params , new AsyncHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                Log.i(TAG, "the status code for this request is: " + statusCode);
+                Log.i(TAG, "savePicture(): the status code for this request is: " + statusCode);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.e(TAG, "the status code for this request is" + statusCode + " " + error);
+                Log.e(TAG, "savePicture(): the status code for this request is" + statusCode + " " + error);
                 Toast.makeText(context, "Failure to create project", Toast.LENGTH_LONG).show();
             }
 
