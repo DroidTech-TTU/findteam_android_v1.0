@@ -4,11 +4,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -17,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.findteam_android_v10.adapters.DetailMyProjectAdapter;
+import com.example.findteam_android_v10.adapters.GalleryCreateProjectAdapter;
+import com.example.findteam_android_v10.classes.Picture;
 import com.example.findteam_android_v10.classes.Project;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -27,6 +32,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.security.Policy;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import co.lujun.androidtagview.TagContainerLayout;
@@ -34,16 +41,11 @@ import cz.msebera.android.httpclient.Header;
 
 public class DetailMyProjectActivity extends AppCompatActivity {
     public static final int EDIT_PROJECT_CODE = 1123;
-    public static final String GET_PROJECT_API_URL = "project?pid=";
-    public static final String STATUS_IN_PROGRESS_STRING = "In Progress";
-    public static final int STATUS_IN_PROGRESS_INT = 0;
-    public static final String STATUS_FINISHED_STRING = "Finished";
-    public static final int STATUS_IN_FINISHED_INT = 1;
     public static final String TAG = "DetailMyProjectActivity";
     RecyclerView rvMembers;
     Context context;
     TextView tvDescription;
-    TextView tvProjecTitleDetailProject;
+    TextView tvProjectTitleDetailProject;
     TextView tvProjectStatus;
     ImageButton ibEditProject;
     ImageButton ibDeleteProject;
@@ -52,22 +54,30 @@ public class DetailMyProjectActivity extends AppCompatActivity {
     JSONArray members;
     TagContainerLayout tgDetailProject;
     DetailMyProjectAdapter detailMyProjectAdapter;
+
+    List<String> picturesURLs;
+    List<Bitmap> pictureFiles;
+    GalleryCreateProjectAdapter adapter;
+    RecyclerView rvGallery;
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
         setContentView(R.layout.activity_detail_my_project);
+        pictureFiles = new ArrayList<>();
+        rvGallery = findViewById(R.id.rvGalleryDetailProject);
         this.rvMembers = (RecyclerView) findViewById(R.id.rvMembers);
         this.tvDescription = (TextView) findViewById(R.id.tvDescriptionMyDetailProjects);
         this.tvProjectStatus = (TextView) findViewById(R.id.tvStatusMyProjectDetailMain);
         this.ivStatus = (ImageView) findViewById(R.id.ivStatusMyProjectDetail) ;
-        this.tvProjecTitleDetailProject = findViewById(R.id.tvProjecTitleDetailProject);
+        this.tvProjectTitleDetailProject = findViewById(R.id.tvProjecTitleDetailProject);
         this.tgDetailProject = findViewById(R.id.tgDetailProject);
         this.ibEditProject= findViewById(R.id.ibEditProject);
         this.ibDeleteProject= findViewById(R.id.ibDeleteProject);
         int pid = getIntent().getIntExtra("pid", -1);
-        String URL = GET_PROJECT_API_URL + pid;
+        String URL = Project.GET_PROJECT_API_URL + pid;
         FindTeamClient.get(URL, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -96,11 +106,21 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                             }
                         });
                     }
+
+                    //Get Picture URLS
+                    picturesURLs = new ArrayList<>();
+                    picturesURLs = Project.getPictures(project);
+
+                    adapter = new GalleryCreateProjectAdapter(context, picturesURLs);
+                    // Attach the adapter to the recyclerview to populate items
+                    rvGallery.setAdapter(adapter);
+                    // Set layout manager to position the items
+                    rvGallery.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
+
                     Log.d(TAG, "On Create: " + project.toString());
-                    tvProjecTitleDetailProject.setText(project.getString("title"));
+                    tvProjectTitleDetailProject.setText(project.getString("title"));
                     tvDescription.setText(project.getString("description"));
-                    String status = project.getInt("status") == STATUS_IN_PROGRESS_INT?STATUS_IN_PROGRESS_STRING:STATUS_FINISHED_STRING;
-                    tvProjectStatus.setText(status);
+                    updateImageStatus(project.getInt("status"));
                     List<String> tags = Project.getTagsList(project);
                     tgDetailProject.setTags(tags);
                     members = project.getJSONArray("members");
@@ -122,29 +142,38 @@ public class DetailMyProjectActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(data!=null && resultCode == EDIT_PROJECT_CODE){
+            FindTeamClient.get(Project.getURLGetProject(data.getIntExtra("pid", -1)), new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
-            JSONObject updatedProject = null;
-            try {
-                JSONObject resultProject = new JSONObject(data.getStringExtra("project"));
-                Log.d(TAG, "onActivityResult: data = " + resultProject.toString());
-                Log.d(TAG, "onActivityResult: resultCode = " + resultCode);
+                    try {
+                        JSONObject resultProject = new JSONObject(new String(responseBody));
+                        Log.d(TAG, "On Activity Result: result = " + resultProject);
+                        tvProjectTitleDetailProject.setText(resultProject.getString("title"));
+                        tvDescription.setText(resultProject.getString("description"));
+                        updateImageStatus(resultProject.getInt("status"));
+                        List<String> tags = Project.getTagsList(resultProject);
+                        tgDetailProject.setTags(tags);
 
-                tvProjecTitleDetailProject.setText(resultProject.getString("title"));
-                tvDescription.setText(resultProject.getString("description"));
-                String status = resultProject.getInt("status") == STATUS_IN_PROGRESS_INT?STATUS_IN_PROGRESS_STRING:STATUS_FINISHED_STRING;
-                tvProjectStatus.setText(status);
-                List<String> tags = Project.getTagsList(resultProject);
-                tgDetailProject.setTags(tags);
+                        adapter.clear();
+                        adapter.addAll(Project.getPictures(resultProject));
 
+                        members = resultProject.getJSONArray("members");
+                        detailMyProjectAdapter.clear();
+                        detailMyProjectAdapter.addAll(members);
+                        rvMembers.setAdapter(detailMyProjectAdapter);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-                members = resultProject.getJSONArray("members");
-                detailMyProjectAdapter.clear();
-                detailMyProjectAdapter.addAll(members);
-                rvMembers.setAdapter(detailMyProjectAdapter);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                }
 
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Log.e(TAG, "Get Project Fail" + statusCode);
+                    Toast.makeText(context, "Failure to Get project", Toast.LENGTH_LONG).show();
+                }
+            });
 
         }
 
@@ -167,6 +196,26 @@ public class DetailMyProjectActivity extends AppCompatActivity {
     public boolean isOwner(int owner_id) throws JSONException {
 
         return LoginActivity.currentUser.getInt("uid") == owner_id;
+    }
+
+    public void updateImageStatus(int i){
+        Log.d(TAG, "Status ID = " + i);
+        switch (i){
+            case 0:{
+                tvProjectStatus.setText(Project.STATUS_IN_PROGRESS_STRING);
+                ivStatus.setImageResource(R.drawable.ic_project_status_in_progress_green);
+                break;
+            }
+            case 1:{
+                tvProjectStatus.setText(Project.STATUS_PENDING_STRING);
+                ivStatus.setImageResource(R.drawable.ic_project_status_in_pending_green);
+                break;
+            }
+            case 2:{
+                tvProjectStatus.setText(Project.STATUS_FINISHED_STRING);
+                ivStatus.setImageResource(R.drawable.ic_project_status_in_finished_green); break;
+            }
+        }
     }
 
 }

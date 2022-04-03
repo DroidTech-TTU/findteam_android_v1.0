@@ -160,7 +160,6 @@ public class CreateProjectActivity extends AppCompatActivity {
 //        // Set layout manager to position the items
         rvGallery.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
 
-
         btAddPicture = findViewById(R.id.btAddPicture);
         btAddPicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,7 +278,7 @@ public class CreateProjectActivity extends AppCompatActivity {
 
         File f = new File(context.getCacheDir(), pic.toString()+".jpeg");
         f.createNewFile();
-
+        Log.d(TAG, "Filename =" + pic.toString()+".jpeg");
         //write binary to jpeg file
         FileOutputStream fos = new FileOutputStream(f);
         fos.write(ba);
@@ -352,6 +351,7 @@ public class CreateProjectActivity extends AppCompatActivity {
 
             // Load the selected image into a preview
             picturesURLs.add(0, photoUri.toString());
+            Log.d(TAG, "onActivityResult: PhotoURL = " + photoUri.toString());
             adapter.notifyItemInserted(0);
 
 

@@ -57,6 +57,18 @@
             app:srcCompat="@drawable/ic_green_delete" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvGalleryDetailProject"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:layout_editor_absoluteX="10dp" />
+
     <TextView
         android:id="@+id/tvDescriptionMyDetailProjects"
         android:layout_width="match_parent"
@@ -80,34 +92,34 @@
         android:id="@+id/tvStatusMyProjectDetailMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:text="In Pogress"
         android:layout_margin="10dp"
+        android:layout_marginRight="10dp"
         android:fontFamily="@font/questrial"
+        android:text="In Pogress"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/rvGalleryDetailProject" />
 
     <ImageView
         android:id="@+id/ivStatusMyProjectDetail"
         android:layout_width="wrap_content"
         android:layout_height="18dp"
         android:paddingTop="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/tvDescriptionMyDetailProjects"
+        android:layout_marginTop="6dp"
         app:layout_constraintEnd_toStartOf="@+id/tvStatusMyProjectDetailMain"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:srcCompat="@drawable/ic_baseline_radio_button_checked_24" />
+        app:layout_constraintTop_toBottomOf="@+id/rvGalleryDetailProject"
+        app:srcCompat="@drawable/ic_project_status_in_progress_green" />
 
     <TextView
         android:id="@+id/textViewDes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Description: "
         android:layout_margin="10dp"
         android:fontFamily="@font/roboto_black"
+        android:text="Description: "
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/rvGalleryDetailProject" />
 
     <TextView
         android:id="@+id/textView3"
