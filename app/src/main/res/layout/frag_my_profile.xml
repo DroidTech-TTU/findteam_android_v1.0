@@ -75,7 +75,7 @@
                 app:cardCornerRadius="20dp"
                 app:cardPreventCornerOverlap="true"
                 app:cardUseCompatPadding="true"
-                app:contentPadding="20dp"
+                app:contentPadding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/finished_project_card">

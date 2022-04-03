@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.loopj.android.http.*;
 
+import org.json.JSONObject;
+
 import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
@@ -13,13 +15,21 @@ public class FindTeamClient {
 
     private static final String BASE_URL = "https://findteam.2labz.com/";
     private static AsyncHttpClient client = new AsyncHttpClient();
-
+    public static String TAG = "FindTeamClient";
     public static void get(Context context, String url, HttpEntity entity, AsyncHttpResponseHandler responseHandler) {
         client.get(context, getAbsoluteUrl(url), entity, "application/json", responseHandler);
     }
 
+    public static RequestHandle getObject(String url, AsyncHttpResponseHandler responseHandler) {
+       return client.get(getAbsoluteUrl(url), responseHandler);
+    }
+
     public static void get(String url, AsyncHttpResponseHandler responseHandler) {
         client.get(getAbsoluteUrl(url), responseHandler);
+    }
+    public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        Log.d(TAG, getAbsoluteUrl(url));
+        client.get(getAbsoluteUrl(url), params, responseHandler);
     }
 
     public static void post(Context context, String url, HttpEntity entity, AsyncHttpResponseHandler responseHandler) {

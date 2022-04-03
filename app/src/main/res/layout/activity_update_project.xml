@@ -8,14 +8,13 @@
     tools:context=".CreateProjectActivity"
     android:background="@color/find_team_orange">
 
-
     <TextView
         android:id="@+id/textViewcp1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
         android:fontFamily="@font/roboto_black"
-        android:text="Create Project"
+        android:text="Update Project"
         android:textColor="@color/white"
         android:textSize="19dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +38,6 @@
             android:id="@+id/ibSaveCreateProject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:background="@drawable/shape_four_conners"
             android:layout_marginRight="10dp"
             android:padding="10dp"
@@ -60,11 +58,11 @@
 
         <ImageButton
             android:id="@+id/btAddPicture"
-            android:layout_width="70dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_four_conners"
-            android:foregroundGravity="center"
             android:text="Add Picture"
+            android:layout_marginLeft="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -86,7 +84,7 @@
             android:layout_height="wrap_content">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvGallery"
+                android:id="@+id/rvGalleryUpdateProject"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:orientation="horizontal"
@@ -103,7 +101,7 @@
                 android:fontFamily="@font/roboto_black"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rvGallery" />
+                app:layout_constraintTop_toBottomOf="@+id/rvGalleryUpdateProject" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -160,7 +158,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
             <EditText
-                android:id="@+id/etTagsCreateProject"
+                android:id="@+id/etTagsUpdateProject"
                 android:layout_width="300dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
@@ -195,11 +193,10 @@
                 android:id="@+id/ibAddTag"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:background="@color/find_team_orange"
                 android:foregroundGravity="center"
                 android:padding="5dp"
-                app:layout_constraintStart_toEndOf="@+id/etTagsCreateProject"
+                app:layout_constraintStart_toEndOf="@+id/etTagsUpdateProject"
                 app:layout_constraintTop_toBottomOf="@+id/tgCreateProject"
                 app:srcCompat="@drawable/ic_gren_enter" />
 

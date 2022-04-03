@@ -6,15 +6,25 @@
     android:padding="10dp"
     android:layout_height="wrap_content">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/favicon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/tv_url"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="monospace"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="8dp"
         android:autoLink="web"
+        android:fontFamily="monospace"
         android:textColorLink="#E1714B"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/favicon"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="www.google.com/sample-text" />
 </androidx.constraintlayout.widget.ConstraintLayout>
