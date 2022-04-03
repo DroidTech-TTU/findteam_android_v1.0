@@ -12,12 +12,14 @@ import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.ClientCertRequest;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -26,10 +28,12 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.findteam_android_v10.Utils.CountDown;
 import com.example.findteam_android_v10.adapters.GalleryCreateProjectAdapter;
 import com.example.findteam_android_v10.classes.Picture;
 import com.example.findteam_android_v10.classes.Project;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
@@ -67,13 +71,13 @@ public class UpdateProjectActivity extends AppCompatActivity {
     EditText etTags;
     ImageButton ibSave;
     List<String> picturesURLs;
+    List<Bitmap> pictureFiles;
     List<String> tagSkills;
     EditText etDescription;
     EditText etProjectTitle;
     ImageButton ibCancel;
 
     TagContainerLayout myProjectsTags;
-    List<Bitmap> pictureFiles;
     public static int STATUS = 0;
     JSONObject project;
 
@@ -84,12 +88,12 @@ public class UpdateProjectActivity extends AppCompatActivity {
 
         context = this;
         pictureFiles = new ArrayList<>();
+        rvGallery = findViewById(R.id.rvGalleryUpdateProject);
         etTags = findViewById(R.id.etTagsUpdateProject);
         ibAddTag = findViewById(R.id.ibAddTag);
         etProjectTitle = findViewById(R.id.etProjectTitle);
         etDescription = findViewById(R.id.etDescriptionCreateProject);
         ibSave = findViewById(R.id.ibSaveCreateProject);
-        rvGallery = findViewById(R.id.rvGalleryUpdateProject);
         myProjectsTags = findViewById(R.id.tgCreateProject);
         ibCancel = findViewById(R.id.ibCancel);
 
@@ -249,17 +253,30 @@ public class UpdateProjectActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 Log.i(TAG, "the status code for this request is: " + statusCode);
                 Toast.makeText(context, "Successfully Created Account", Toast.LENGTH_SHORT).show();
-                try {
-                    project.put("pid", tmpPid);
-                    project.put("pictures", tmpPics);
-                    Intent i = new Intent();
-                    Log.d(TAG, "Back to DetailMyProject:" + project.toString());
-                    i.putExtra("project", project.toString());
-                    setResult(DetailMyProjectActivity.EDIT_PROJECT_CODE, i);
-                    finish();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
+                CountDown.delay(20000);
+                Log.d(TAG, "On Count Down");
+                Intent i = new Intent();
+                i.putExtra("pid", tmpPid);
+                setResult(DetailMyProjectActivity.EDIT_PROJECT_CODE, i);
+                savePictures(tmpPid, pictureFiles);
+                finish();
+//                try {
+//                    project.put("pid", tmpPid);
+//                    project.put("pictures", tmpPics);
+//                    savePictures(tmpPid, pictureFiles);
+//                    Log.d(TAG, "URL" + Project.getURLGetProject(tmpPid));
+//                    Intent i = new Intent();
+//                    JSONObject ob = new JSONObject(new String(responseBody));
+//                    Log.d(TAG, "Back to DetailMyProject:" + ob);
+//                    i.putExtra("project", ob.toString());
+//                    setResult(DetailMyProjectActivity.EDIT_PROJECT_CODE, i);
+//                    finish();
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+
+
             }
 
             @Override
@@ -270,7 +287,16 @@ public class UpdateProjectActivity extends AppCompatActivity {
 
         });
     }
-
+    private void savePictures(int pid, List<Bitmap> pictureFiles){
+        for (Bitmap pic: pictureFiles) {
+            try {
+                Log.d(TAG, pic.toString());
+                savePicture(pid, pic);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     private void savePicture(int pid, Bitmap pic) throws IOException {
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
         pic.compress(Bitmap.CompressFormat.JPEG, 90, bao);
@@ -395,6 +421,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
         popupView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
                 return false;
             }
         });
