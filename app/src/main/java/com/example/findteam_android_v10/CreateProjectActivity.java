@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.findteam_android_v10.adapters.GalleryCreateProjectAdapter;
+import com.example.findteam_android_v10.classes.Project;
 import com.example.findteam_android_v10.classes.User;
 import com.example.findteam_android_v10.fragments.FragMyProjects;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -203,7 +204,7 @@ public class CreateProjectActivity extends AppCompatActivity {
 
         JSONObject member = new JSONObject();
         member.put("uid", LoginActivity.currentUser.get("uid"));
-        member.put("membership_type", User.MEMBER_SHIP__TYPE_OWNER);
+        member.put("membership_type", Project.MEMBER_SHIP__TYPE_OWNER);
 
         JSONArray members = new JSONArray();
         members.put(member);
