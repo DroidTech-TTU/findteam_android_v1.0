@@ -3,14 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/find_team_orange">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMyProjectsSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
         android:fontFamily="@font/roboto_black"
-        android:text="My Projects"
+        android:text="Search Projects"
         android:textColor="@color/white"
         android:textSize="19dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +47,7 @@
 
         <EditText
             android:id="@+id/etSearchMyProjects"
-            android:layout_width="280dp"
+            android:layout_width="330dp"
             android:layout_height="30dp"
             android:layout_marginTop="7dp"
             android:background="@drawable/shape_search_edit_text"
@@ -49,25 +63,17 @@
             android:id="@+id/btSearchMyProjects"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/find_team_dark"
+            android:background="@drawable/shape_four_conners"
+            android:layout_marginRight="10dp"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
             android:paddingRight="0dp"
             android:paddingBottom="10dp"
-            app:layout_constraintEnd_toStartOf="@+id/btCreateMyProject"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_green_search" />
 
-        <ImageButton
-            android:id="@+id/btCreateMyProject"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_four_conners"
-            android:padding="10dp"
-            android:layout_marginRight="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_green_add_project" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
