@@ -315,12 +315,8 @@ public class CreateProjectActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-        // So as long as the result is not null, it's safe to use the intent.
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            // Bring up gallery to select a photo
-            startActivityForResult(intent, PICK_PHOTO_CODE);
-        }
+        // Bring up gallery to select a photo
+        startActivityForResult(intent, PICK_PHOTO_CODE);
     }
 
     public Bitmap loadFromUri(Uri photoUri) {
