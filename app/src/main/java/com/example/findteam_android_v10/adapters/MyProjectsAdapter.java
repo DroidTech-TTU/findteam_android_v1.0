@@ -106,7 +106,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.my
             for(int i = 0; i <members.length(); i++){
                 JSONObject member = members.getJSONObject(i);
                 if(LoginActivity.currentUser.getInt("uid") == member.getInt("uid")){
-                    String role = Project.getMemType(member.getInt("membership_type"));
+                    String role = Project.getMemTypeString(member.getInt("membership_type"));
                     holder.tvRole.setText(role);
                 }
             }

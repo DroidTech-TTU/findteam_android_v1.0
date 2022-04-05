@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:background="@drawable/shape_popup">
+
+    <TextView
+        android:id="@+id/tvPopup_Cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_black"
+        android:padding="10dp"
+        android:text="Your project will be deleted!"
+        android:textColor="@color/find_team_warming"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btYesCancelProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_popup_button"
+        android:fontFamily="@font/roboto_black"
+        android:text="Yes"
+        android:textColor="@color/find_team_green_icon"
+        app:layout_constraintEnd_toStartOf="@+id/btNoCancelProject"
+        app:layout_constraintTop_toBottomOf="@+id/tvPopup_Cancel" />
+
+    <Button
+        android:id="@+id/btNoCancelProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_popup_button"
+        android:fontFamily="@font/roboto_black"
+        android:text="No"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/find_team_green_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPopup_Cancel" />
+</androidx.constraintlayout.widget.ConstraintLayout>
