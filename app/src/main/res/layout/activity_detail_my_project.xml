@@ -34,15 +34,47 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvProjecTitleDetailProject">
 
+        <Button
+            android:id="@+id/btJoinProject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_four_conners"
+            android:padding="10dp"
+            android:text="Join"
+            android:textColor="@color/find_team_green_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btLeaveProject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_four_conners"
+            android:padding="10dp"
+            android:text="Leave"
+            android:textColor="@color/find_team_green_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/ibGoBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_four_conners"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_green_goback" />
+
         <ImageButton
             android:id="@+id/ibEditProject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
             android:background="@drawable/shape_four_conners"
-            android:layout_marginRight="10dp"
             android:padding="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ibGoBack"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_green_edit" />
 
@@ -68,6 +100,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         tools:layout_editor_absoluteX="10dp" />
+
 
     <TextView
         android:id="@+id/tvDescriptionMyDetailProjects"

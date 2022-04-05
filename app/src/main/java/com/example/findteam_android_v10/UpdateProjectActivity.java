@@ -217,7 +217,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
 
         JSONObject member = new JSONObject();
         member.put("uid", LoginActivity.currentUser.get("uid"));
-        member.put("membership_type", 0);
+        member.put("membership_type", Project.MEMBER_SHIP__TYPE_OWNER);
         JSONArray members = new JSONArray();
         members.put(member);
 
@@ -242,19 +242,25 @@ public class UpdateProjectActivity extends AppCompatActivity {
         String URL = UPDATE_PROJECT_API_URL + project.getString("pid");
         int tmpPid = project.getInt("pid");
         String tmpPics = project.getString("pictures");
-
+        int tmpOwnerId = project.getInt("owner_uid");
         project.remove("pid");
         project.remove("pictures");
         project.remove("owner_uid");
         StringEntity entity = new StringEntity(project.toString());
-
+        Log.d(TAG, project.toString());
+        project.put("pid", tmpPid);
+        project.put("pictures", tmpPics);
+        project.put("owner_uid", tmpOwnerId);
         FindTeamClient.post(this,URL, entity, new AsyncHttpResponseHandler(){
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 Log.i(TAG, "saveProject(): the status code for this request is: " + statusCode);
-                Toast.makeText(context, "Successfully Created Account", Toast.LENGTH_SHORT).show();
-
+                try {
+                    Log.i(TAG, "saveProject(): input : " + entity.getContent().toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 Intent i = new Intent();
                 i.putExtra("pid", tmpPid);
                 setResult(DetailMyProjectActivity.EDIT_PROJECT_CODE, i);
@@ -264,7 +270,13 @@ public class UpdateProjectActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.e(TAG, "saveProject(): project: " + project.toString());
+
+                try {
+                    Log.i(TAG, "saveProject(): input : " + entity.getContent().toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Log.e(TAG, "saveProject(): : " + new String(responseBody));
                 Log.e(TAG, "saveProject(): the status code for this request is" + statusCode);
                 Toast.makeText(context, "Failure to create project", Toast.LENGTH_LONG).show();
             }

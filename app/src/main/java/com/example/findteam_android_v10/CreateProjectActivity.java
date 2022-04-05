@@ -266,7 +266,7 @@ public class CreateProjectActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.e(TAG, "the status code for this request is" + statusCode);
-                Toast.makeText(context, "Failure to create project", Toast.LENGTH_LONG).show();
+                Log.e(TAG, "" + new String(responseBody));
             }
 
         });

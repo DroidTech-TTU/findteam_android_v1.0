@@ -1,6 +1,7 @@
 package com.example.findteam_android_v10.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.findteam_android_v10.FindTeamClient;
+import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.classes.Project;
 import com.example.findteam_android_v10.classes.User;
@@ -74,6 +76,34 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     try {
                         memberName.setText(response.getString("first_name") + " " + response.getString("last_name"));
+                        membership_type.setText(Project.getMemTypeString(memberProject.getInt("membership_type")));
+                        Log.d(TAG, "BIND MEMBER: " + memberProject.getInt("membership_type"));
+                        switch (memberProject.getInt("membership_type")){
+                            case Project.MEMBER_SHIP__TYPE_OWNER: {
+                                membership_type.setTextColor(Color.parseColor("#000000"));
+                                memberName.setTextColor(Color.parseColor("#000000"));
+                                break;
+                            }
+                            case Project.MEMBER_SHIP__TYPE_MEMBER: {
+                                membership_type.setTextColor(Color.parseColor("#5AFF00"));
+                                memberName.setTextColor(Color.parseColor("#5AFF00"));
+                                break;
+                            }
+                            case Project.MEMBER_SHIP__TYPE_PENDING: {
+                                membership_type.setTextColor(Color.parseColor("#4a4948"));
+                                memberName.setTextColor(Color.parseColor("#4a4948"));
+                                break;
+                            }
+                            default:{
+                                membership_type.setTextColor(Color.parseColor("#000000"));
+                                memberName.setTextColor(Color.parseColor("#000000"));
+                            }
+                        }
+
+                        if (LoginActivity.currentUser.getInt("uid") == memberProject.getInt("uid")) {
+                            membership_type.setTextColor(Color.parseColor("#FF0000"));
+                            memberName.setTextColor(Color.parseColor("#FF0000"));
+                        }
                         Log.d(TAG, "onBindViewHolder: Success");
 
                     } catch (JSONException e) {
@@ -89,7 +119,7 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
             });
 
 
-            membership_type.setText(Project.getMemType(memberProject.getInt("membership_type")));
+
         }
         private JSONObject getMember() {
             return new JSONObject();
@@ -100,6 +130,10 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
     public void clear(){
         members = new JSONArray();
         notifyDataSetChanged();
+    }
+    public void addTail(JSONArray members){
+        this.members = members;
+        notifyItemInserted(members.length());
     }
     public void addAll(JSONArray members){
        this.members = members;
