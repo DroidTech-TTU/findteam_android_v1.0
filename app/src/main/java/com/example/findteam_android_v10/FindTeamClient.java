@@ -36,11 +36,18 @@ public class FindTeamClient {
         client.post(context, getAbsoluteUrl(url), entity, "application/json", responseHandler);
     }
 
+
     public static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        Log.d(TAG, getAbsoluteUrl(url));
         client.post(getAbsoluteUrl(url), params, responseHandler);
+    }
+    public static void delete(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        Log.d(TAG, getAbsoluteUrl(url));
+        client.delete(getAbsoluteUrl(url), params, responseHandler);
     }
 
     public static void post(String url, AsyncHttpResponseHandler responseHandler){
+        Log.d(TAG, getAbsoluteUrl(url));
         client.post(getAbsoluteUrl(url), responseHandler);
     }
 

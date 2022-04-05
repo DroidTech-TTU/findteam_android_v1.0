@@ -3,6 +3,8 @@ package com.example.findteam_android_v10.classes;
 import android.util.Log;
 import android.util.Pair;
 
+import com.example.findteam_android_v10.LoginActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,16 +28,18 @@ public class Project extends JSONObject {
     public static final String STATUS_FINISHED_STRING = "Finished";
     public static final String STATUS_FINISHED_ICON = "ic_project_status_in_finished_green";
 
-    public static final int MEMBER_SHIP__TYPE_OWNER = 0;
+    public static final int MEMBER_SHIP__TYPE_OWNER = 2;
     public static final int MEMBER_SHIP__TYPE_PENDING = 1;
-    public static final int MEMBER_SHIP__TYPE_MEMBER = 2;
-
+    public static final int MEMBER_SHIP__TYPE_MEMBER = 0;
+    public static final int MEMBER_SHIP__TYPE_GUEST= 3;
 
     public static final String TAG = "ProjectClass";
     public static final String getURLDeleteProject(int pid){
+        Log.d(TAG, "DeleteProjectURL=" + "project?pid=" + pid);
         return "project?pid=" + pid;
     }
     public static final String getURLGetProject(int pid){return "project?pid=" + pid;}
+    public static final String getURLJoinProject(int pid){return "project/join?pid=" + pid;}
     public static final String getURLDeletePicture(int pid, String imageName){
         return "project/picture?pid=" + pid + "&picture_file="+ imageName;
     }
@@ -94,20 +98,20 @@ public class Project extends JSONObject {
         return pictureURLs;
     }
 
-    public static String getMemType(int memTypeInt){
+    public static String getMemTypeString(int memTypeInt){
         Log.d(TAG, "Member Type = " + memTypeInt);
         switch (memTypeInt){
-            case 0:{
+            case MEMBER_SHIP__TYPE_OWNER:{
                 return "Owner";
             }
-            case 1:{
+            case MEMBER_SHIP__TYPE_PENDING:{
                 return "Pending";
             }
-            case 2:{
+            case MEMBER_SHIP__TYPE_MEMBER:{
                 return "Member";
             }
             default:{
-                return "Unknown";
+                return "Guest";
             }
 
         }
@@ -140,6 +144,16 @@ public class Project extends JSONObject {
                 return statusMap;
             }
         }
+    }
+
+    public static int getUserMembershipType(int uid, JSONObject project) throws JSONException {
+        JSONArray mems = project.getJSONArray("members");
+        for(int i=0; i<mems.length(); i++){
+            if(uid == mems.getJSONObject(i).getInt("uid")){
+                return mems.getJSONObject(i).getInt("membership_type");
+            }
+        }
+        return MEMBER_SHIP__TYPE_GUEST;
     }
 
 }

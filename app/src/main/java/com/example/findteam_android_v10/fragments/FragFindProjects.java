@@ -1,6 +1,5 @@
 package com.example.findteam_android_v10.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,30 +9,20 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.findteam_android_v10.CreateProjectActivity;
 import com.example.findteam_android_v10.FindTeamClient;
-import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.adapters.MyProjectsAdapter;
-import com.example.findteam_android_v10.adapters.SearchTabAdapter;
 import com.example.findteam_android_v10.classes.Project;
-import com.google.android.material.tabs.TabLayout;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -152,34 +141,4 @@ public class FragFindProjects extends Fragment {
     public void onResume() {
         super.onResume();
     }
-//    @Override
-//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-////        tabLayout= view.findViewById(R.id.tabLayout);
-////        viewPager= view.findViewById(R.id.viewPager);
-////
-////        tabLayout.addTab(tabLayout.newTab().setText("Home"));
-////        tabLayout.addTab(tabLayout.newTab().setText("Sport"));
-////        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-////        searchTabAdapter = new SearchTabAdapter(view.getContext(), getFragmentManager(), 2, getLifecycle());
-////        viewPager.setAdapter(searchTabAdapter);
-////
-////
-////        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-////            @Override
-////            public void onTabSelected(TabLayout.Tab tab) {
-////                viewPager.setCurrentItem(tab.getPosition());
-////            }
-////
-////            @Override
-////            public void onTabUnselected(TabLayout.Tab tab) {
-////
-////            }
-////
-////            @Override
-////            public void onTabReselected(TabLayout.Tab tab) {
-////
-////            }
-////        });
-//    }
 }

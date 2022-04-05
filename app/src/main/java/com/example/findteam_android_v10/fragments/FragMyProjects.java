@@ -41,6 +41,7 @@ public class FragMyProjects extends Fragment{
     public static String TAG = "FragMyProjects";
     public static final String GET_MY_SEARCH = "project/search";
     public static final int CREATE_PROJECT_CODE = 1122;
+    public static final int DELETE_PROJECT_CODE = 1133;
     RecyclerView rvContacts;
     View btCreateProject;
     ImageButton btSearchMyProjects;
@@ -74,6 +75,10 @@ public class FragMyProjects extends Fragment{
                             e.printStackTrace();
                         }
 
+                    }
+                    if ((result.getData() != null) && result.getResultCode() == DELETE_PROJECT_CODE) {
+
+                        Log.d(TAG, "On DELETE_PROJECT_CODE: PID=" + i.getStringExtra("pid"));
                     }
                 }
             }
@@ -132,7 +137,6 @@ public class FragMyProjects extends Fragment{
     public void getAllProjects() throws JSONException {
 
         int uid = LoginActivity.currentUser.getInt("uid");
-
         String URL = GET_MY_SEARCH +"?uid=" + uid;
         Log.d(TAG,"getAllProjects:" + URL );
         FindTeamClient.get(URL, new AsyncHttpResponseHandler() {
@@ -176,7 +180,6 @@ public class FragMyProjects extends Fragment{
                     if(!searchKey.trim().isEmpty()){
                         jsonProjects = Project.search(jsonProjects, searchKey);
 
-
                     }
                     Log.i(TAG, "Search Results: " + jsonProjects);
                     adapter.clear();
@@ -197,6 +200,11 @@ public class FragMyProjects extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
+        try {
+            getAllProjects();
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
     }
 
 }
