@@ -29,7 +29,7 @@ import cz.msebera.android.httpclient.Header;
 public class FragFindProjects extends Fragment {
 
     public static String TAG = "FragFindProjects";
-    public static final String GET_MY_SEARCH = "project/search";
+    public static final String GET_MY_SEARCH = "project/search?query=";
     public static final int CREATE_PROJECT_CODE = 1133;
     RecyclerView rvContacts;
     ImageButton btSearchMyProjects;
@@ -106,7 +106,7 @@ public class FragFindProjects extends Fragment {
 
     public void search() throws JSONException {
 
-        String URL = GET_MY_SEARCH;
+        String URL = GET_MY_SEARCH + etSearchMyProjects.getText();
         Log.d(TAG,"searchEmpty:" + URL );
         FindTeamClient.get(URL, new AsyncHttpResponseHandler() {
             @Override
@@ -115,6 +115,7 @@ public class FragFindProjects extends Fragment {
                 try {
                     jsonProjects = new JSONArray(new String(responseBody));
                     Log.i(TAG, "Data: " + jsonProjects);
+                    Project.printProjects(TAG, jsonProjects);
                     String searchKey = etSearchMyProjects.getText().toString();
                     if(!searchKey.trim().isEmpty()){
                         jsonProjects = Project.search(jsonProjects, searchKey);
@@ -122,6 +123,7 @@ public class FragFindProjects extends Fragment {
 
                     }
                     Log.i(TAG, "Search Results: " + jsonProjects);
+                    Project.printProjects(TAG, jsonProjects);
                     adapter.clear();
                     adapter.addAll(jsonProjects);
                 } catch (JSONException e) {

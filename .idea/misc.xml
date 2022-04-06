@@ -59,9 +59,11 @@
         <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/layout/popup_cancel_create_project.xml" value="0.2734375" />
         <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/layout/popup_invalid_inputs_create_project.xml" value="0.2734375" />
         <entry key="..\:/Android/findteam_android_v3,0/app/src/main/res/layout/popup_view_photo.xml" value="0.30052083333333335" />
+        <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/activity_create_project.xml" value="0.18072916666666666" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/activity_detail_my_project.xml" value="0.25" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/activity_main.xml" value="0.3625" />
+        <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/activity_update_project.xml" value="0.18072916666666666" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/frag_find_projects.xml" value="0.33" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/frag_find_users.xml" value="0.3625" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/frag_my_profile.xml" value="0.25" />
