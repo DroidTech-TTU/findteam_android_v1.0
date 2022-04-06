@@ -167,7 +167,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/shape_four_conners_white"
                 android:ems="10"
-                android:hint="Java"
+                android:hint="Tag"
                 android:inputType="textPersonName"
                 android:paddingLeft="5dp"
                 android:windowSoftInputMode="adjustResize"
