@@ -29,9 +29,10 @@ public class Project extends JSONObject {
     public static final String STATUS_FINISHED_ICON = "ic_project_status_in_finished_green";
 
     public static final int MEMBER_SHIP__TYPE_OWNER = 2;
-    public static final int MEMBER_SHIP__TYPE_PENDING = 1;
-    public static final int MEMBER_SHIP__TYPE_MEMBER = 0;
+    public static final int MEMBER_SHIP__TYPE_PENDING = 0;
+    public static final int MEMBER_SHIP__TYPE_MEMBER = 1;
     public static final int MEMBER_SHIP__TYPE_GUEST= 3;
+    public static final int MEMBER_SHIP__TYPE_REJECT = 4;
 
     public static final String TAG = "ProjectClass";
     public static final String getURLDeleteProject(int pid){
@@ -109,6 +110,9 @@ public class Project extends JSONObject {
             }
             case MEMBER_SHIP__TYPE_MEMBER:{
                 return "Member";
+            }
+            case MEMBER_SHIP__TYPE_REJECT:{
+                return "Reject";
             }
             default:{
                 return "Guest";
