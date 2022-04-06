@@ -67,7 +67,7 @@ public class FragMyProfile extends Fragment {
     List<String> urls, locations, skills;
     urlAdapter urlAdapter;
     TagContainerLayout skillsTag, locationTag;
-
+    FloatingActionButton fab;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,7 +85,7 @@ public class FragMyProfile extends Fragment {
         fullName = view.findViewById(R.id.profFullName);
         ivProfilePic = view.findViewById(R.id.myProfPic);
 
-        FloatingActionButton fab = view.findViewById(R.id.fab);
+        fab = view.findViewById(R.id.fab);
 
         urls = new ArrayList<>();
         locations = new ArrayList<>();
@@ -138,7 +138,7 @@ public class FragMyProfile extends Fragment {
             }
         });
 
-        User.getUser();
+        User.getCurrentUser();
         loadProfile(false, LoginActivity.currentUser);
 
         return view;
@@ -212,7 +212,7 @@ public class FragMyProfile extends Fragment {
                     if(result.getResultCode() == 200){
 
                         Intent data = result.getData();
-                        User.getUser();
+                        User.getCurrentUser();
                         Log.i(TAG, "It finished on EditProfileActivity");
 
                         loadProfile(true, LoginActivity.currentUser);
