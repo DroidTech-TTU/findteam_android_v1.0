@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
             ProgressDialog progressDialog = ProgressDialog.show(this, "Loading", "Logging in", true);
             FindTeamClient.setAuth(sharedPreferences.getString("access_token", ""));
 
-            User.getUser(new JsonHttpResponseHandler() {
+            User.getCurrentUser(new JsonHttpResponseHandler() {
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

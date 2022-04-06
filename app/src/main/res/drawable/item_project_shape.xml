@@ -6,7 +6,4 @@
     android:radius="20dp"/>
     <solid
     android:color="@color/white" />
-    <stroke
-    android:width="3dp"
-    android:color="@color/find_team_hover_orange"/>
 </shape>

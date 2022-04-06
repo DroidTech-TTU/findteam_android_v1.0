@@ -47,13 +47,12 @@ public class User {
     public static final String KEY_PICTURE = "picture";
     public static final String KEY_USER_PICTURE = "user/picture";
     public static final String KEY_FORGOT_PASSWORD = "user/reset?email=";
-  
     public static final String GET_USER_URL = "user?uid=";
     public static String TAG = "UserClass";
 
 
     //update the Login user for new information
-    public static void getUser() {
+    public static void getCurrentUser() {
 
         FindTeamClient.get(KEY_USER, new JsonHttpResponseHandler(){
 
@@ -71,7 +70,7 @@ public class User {
     }
 
     //update the LoginUser and go to main
-    public static void getUser(AsyncHttpResponseHandler asyncHttpResponseHandler ) {
+    public static void getCurrentUser(AsyncHttpResponseHandler asyncHttpResponseHandler ) {
 
         FindTeamClient.get(KEY_USER, asyncHttpResponseHandler);
     }
@@ -141,7 +140,7 @@ public class User {
                     FindTeamClient.setAuth(response.getString("access_token"));
 
                     //retrieve the user from the API
-                    User.getUser();
+                    User.getCurrentUser();
 
                     Intent i = new Intent(context, MainActivity.class);
                     context.startActivity(i);
