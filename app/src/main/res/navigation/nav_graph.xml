@@ -29,10 +29,16 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
+
     <fragment
         android:id="@+id/item_my_proj"
         android:name="com.example.findteam_android_v10.fragments.FragMyProjects"
         android:label="FragMyProjects" />
+
+    <fragment
+        android:id="@+id/memProfile"
+        android:name="com.example.findteam_android_v10.fragments.FragMemProfile"
+        android:label="FragMemProfile" />
     <fragment
         android:id="@+id/editProfile"
         android:name="com.example.findteam_android_v10.fragments.FragEditProfile"

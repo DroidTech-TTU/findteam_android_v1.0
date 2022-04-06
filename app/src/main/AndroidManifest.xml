@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Findteam_android_v10">
         <activity
+            android:name=".MemberProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".UpdateProjectActivity"
             android:exported="false" />
         <activity

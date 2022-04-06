@@ -69,6 +69,11 @@ public class User {
 
     }
 
+    public static void getUserByUid(int uid, AsyncHttpResponseHandler asyncHttpResponseHandler){
+
+        FindTeamClient.get("user?uid=" + uid, asyncHttpResponseHandler);
+    }
+
     //update the LoginUser and go to main
     public static void getCurrentUser(AsyncHttpResponseHandler asyncHttpResponseHandler ) {
 
