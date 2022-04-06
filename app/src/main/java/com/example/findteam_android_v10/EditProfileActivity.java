@@ -334,7 +334,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
                     Log.i(TAG, "Updating User... the status code for this request is: " + statusCode);
 
-                    User.getUser(new JsonHttpResponseHandler(){
+                    User.getCurrentUser(new JsonHttpResponseHandler(){
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 

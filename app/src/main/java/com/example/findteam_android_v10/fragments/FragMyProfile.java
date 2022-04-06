@@ -138,7 +138,7 @@ public class FragMyProfile extends Fragment {
             }
         });
 
-        User.getUser();
+        User.getCurrentUser();
         loadProfile(false, LoginActivity.currentUser);
 
         return view;
@@ -153,6 +153,9 @@ public class FragMyProfile extends Fragment {
         }
 
         try {
+
+            //get the user first
+            User.getCurrentUser();
 
             //set the name in the my profile
             StringBuilder sb = new StringBuilder();
@@ -212,7 +215,7 @@ public class FragMyProfile extends Fragment {
                     if(result.getResultCode() == 200){
 
                         Intent data = result.getData();
-                        User.getUser();
+                        User.getCurrentUser();
                         Log.i(TAG, "It finished on EditProfileActivity");
 
                         loadProfile(true, LoginActivity.currentUser);
