@@ -218,11 +218,9 @@ public class UpdateProjectActivity extends AppCompatActivity {
         JSONObject member = new JSONObject();
         member.put("uid", LoginActivity.currentUser.get("uid"));
         member.put("membership_type", Project.MEMBER_SHIP__TYPE_OWNER);
-        JSONArray members = new JSONArray();
-        members.put(member);
 
         JSONArray tagSkillsJSON = new JSONArray();
-//        tagSkills.add(title);
+
         for (String skill: tagSkills) {
             Log.d(TAG, "SKILL: " + skill);
             JSONObject tag = new JSONObject();
@@ -235,10 +233,9 @@ public class UpdateProjectActivity extends AppCompatActivity {
         project.put("title", title);
         project.put("status", STATUS);
         project.put("description", description);
-        project.put("members", members);
         project.put("tags", tagSkillsJSON);
 
-        Log.d(TAG, project.toString());
+        Log.d(TAG, "Ready Project: "+ project.toString());
         String URL = UPDATE_PROJECT_API_URL + project.getString("pid");
         int tmpPid = project.getInt("pid");
         String tmpPics = project.getString("pictures");

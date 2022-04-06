@@ -72,7 +72,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.my
                     try {
                         Intent i = new Intent(context, DetailMyProjectActivity.class);
                         Log.d(TAG, "itMyProject.setOnLongClickListener: " + project.getInt("pid"));
-                        i.putExtra("pid", project.getInt("pid"));
+                        i.putExtra("project", project.toString());
                         context.startActivity(i);
                     } catch (JSONException e) {
                         Log.d(TAG, "itMyProject.setOnLongClickListener: " + e.toString());

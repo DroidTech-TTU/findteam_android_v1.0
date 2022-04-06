@@ -70,7 +70,6 @@ public class DetailMyProjectActivity extends AppCompatActivity {
     GalleryCreateProjectAdapter adapter;
     RecyclerView rvGallery;
     PopupWindow popupWindow;
-    Button btLeaveProject;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +87,6 @@ public class DetailMyProjectActivity extends AppCompatActivity {
         this.ibEditProject= findViewById(R.id.ibEditProject);
         this.ibDeleteProject= findViewById(R.id.ibDeleteProject);
         this.ibGoBack = findViewById(R.id.ibGoBack);
-        this.btLeaveProject = findViewById(R.id.btLeaveProject);
         ibGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,171 +94,96 @@ public class DetailMyProjectActivity extends AppCompatActivity {
             }
         });
         this.btJoinProject = findViewById(R.id.btJoinProject);
-        int pid = getIntent().getIntExtra("pid", -1);
-        String URL = Project.GET_PROJECT_API_URL + pid;
-        FindTeamClient.get(URL, new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                project = response;
-                try {
-                    int memType = Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), project);
-
-                    switch (memType){
-                        case Project.MEMBER_SHIP__TYPE_OWNER:{
-                            Log.d(TAG, "Owner!!!");
-                            ibEditProject.setVisibility(View.VISIBLE);
-                            ibDeleteProject.setVisibility(View.VISIBLE);
-                            btJoinProject.setVisibility(View.INVISIBLE);
-                            btLeaveProject.setVisibility(View.INVISIBLE);
-                            ibDeleteProject.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    onButtonDeletePopupWindowClick(v, pid);
-                                    Log.d(TAG, "On Delete Project Button");
-                                }
-                            });
-                            ibEditProject.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent i = new Intent(context, UpdateProjectActivity.class);
-                                    i.putExtra("project", project.toString());
-                                    startActivityForResult(i, EDIT_PROJECT_CODE);
-                                    Log.d(TAG, "On Edit Project Button");
-                                }
-                            });
-                            break;
-                        }
-                        case Project.MEMBER_SHIP__TYPE_GUEST:{
-                            ibEditProject.setVisibility(View.INVISIBLE);
-                            ibDeleteProject.setVisibility(View.INVISIBLE);
-                            btJoinProject.setVisibility(View.VISIBLE);
-                            btLeaveProject.setVisibility(View.INVISIBLE);
-                            btJoinProject.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    try {
-                                        joinProject();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    } catch (UnsupportedEncodingException e) {
-                                        e.printStackTrace();
-                                    }
-                                    Log.d(TAG, "btJoinProject: ");
-                                }
-                            });
-                            break;
-                        }
-                        case Project.MEMBER_SHIP__TYPE_PENDING:{
-                            ibEditProject.setVisibility(View.INVISIBLE);
-                            ibDeleteProject.setVisibility(View.INVISIBLE);
-                            btJoinProject.setVisibility(View.INVISIBLE);
-                            btLeaveProject.setVisibility(View.VISIBLE);
-                            btLeaveProject.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    try {
-                                        leaveProject();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    } catch (UnsupportedEncodingException e) {
-                                        e.printStackTrace();
-                                    }
-                                    Log.d(TAG, "btJoinProject: ");
-                                }
-                            });
-                            break;
-                        }
-                        case Project.MEMBER_SHIP__TYPE_MEMBER:{
-                            ibEditProject.setVisibility(View.INVISIBLE);
-                            ibDeleteProject.setVisibility(View.INVISIBLE);
-                            btJoinProject.setVisibility(View.INVISIBLE);
-                            btLeaveProject.setVisibility(View.INVISIBLE);
-                            break;
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-
-                    if(!isOwner(project.getInt("owner_uid"))){
-                        Log.d(TAG, "Member!!!");
-                        ibEditProject.setVisibility(View.INVISIBLE);
-                        ibDeleteProject.setVisibility(View.INVISIBLE);
-
-                        if(Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), project) != Project.MEMBER_SHIP__TYPE_PENDING){
-                            btJoinProject.setVisibility(View.VISIBLE);
-                            btJoinProject.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    try {
-                                        joinProject();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    } catch (UnsupportedEncodingException e) {
-                                        e.printStackTrace();
-                                    }
-                                    Log.d(TAG, "btJoinProject: ");
-                                }
-                            });
-                        }
-
-
-                    }else{
-                        Log.d(TAG, "Owner!!!");
-                        ibEditProject.setVisibility(View.VISIBLE);
-                        ibDeleteProject.setVisibility(View.VISIBLE);
-                        btJoinProject.setVisibility(View.INVISIBLE);
-                        ibDeleteProject.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                onButtonDeletePopupWindowClick(v, pid);
-                                Log.d(TAG, "On Delete Project Button");
+        try {
+            project = new JSONObject(getIntent().getStringExtra("project"));
+            int memType = Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), project);
+            Log.d(TAG, "Membership_type: "+memType);
+            switch (memType){
+                case Project.MEMBER_SHIP__TYPE_OWNER:{
+                    Log.d(TAG, "Owner!!!");
+                    ibEditProject.setVisibility(View.VISIBLE);
+                    ibDeleteProject.setVisibility(View.VISIBLE);
+                    btJoinProject.setVisibility(View.INVISIBLE);
+                    ibDeleteProject.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                onButtonDeletePopupWindowClick(v, project.getInt("pid"));
+                            } catch (JSONException exception) {
+                                exception.printStackTrace();
                             }
-                        });
-                        ibEditProject.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent i = new Intent(context, UpdateProjectActivity.class);
-                                i.putExtra("project", project.toString());
-                                startActivityForResult(i, EDIT_PROJECT_CODE);
-                                Log.d(TAG, "On Edit Project Button");
-                            }
-                        });
-
-
-                    }
-
-                    //Get Picture URLS
-                    picturesURLs = new ArrayList<>();
-                    picturesURLs = Project.getPictures(project);
-
-                    adapter = new GalleryCreateProjectAdapter(context, picturesURLs);
-                    // Attach the adapter to the recyclerview to populate items
-                    rvGallery.setAdapter(adapter);
-                    // Set layout manager to position the items
-                    rvGallery.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
-
-                    Log.d(TAG, "On Create: " + project.toString());
-                    tvProjectTitleDetailProject.setText(project.getString("title"));
-                    tvDescription.setText(project.getString("description"));
-                    updateImageStatus(project.getInt("status"));
-                    List<String> tags = Project.getTagsList(project);
-                    tgDetailProject.setTags(tags);
-                    members = project.getJSONArray("members");
-                    detailMyProjectAdapter = new DetailMyProjectAdapter(context, project.getJSONArray("members"));
-                    rvMembers.setAdapter(detailMyProjectAdapter);
-                    rvMembers.setLayoutManager(new LinearLayoutManager(context));
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                            Log.d(TAG, "On Delete Project Button");
+                        }
+                    });
+                    ibEditProject.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(context, UpdateProjectActivity.class);
+                            i.putExtra("project", project.toString());
+                            startActivityForResult(i, EDIT_PROJECT_CODE);
+                            Log.d(TAG, "On Edit Project Button");
+                        }
+                    });
+                    break;
                 }
-                Log.d(TAG, "On Create: " + project.toString());
-                Log.i(TAG, "the status code for this request is: " + statusCode);
+                case Project.MEMBER_SHIP__TYPE_PENDING:
+                case Project.MEMBER_SHIP__TYPE_MEMBER: {
+                    Log.d(TAG, "PENDING | MEMBER");
+                    ibEditProject.setVisibility(View.INVISIBLE);
+                    ibDeleteProject.setVisibility(View.INVISIBLE);
+                    btJoinProject.setVisibility(View.INVISIBLE);
+                    break;
+                }
+                case Project.MEMBER_SHIP__TYPE_GUEST:{
+                    btJoinProject.setVisibility(View.VISIBLE);
+                    btJoinProject.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                joinProject();
+                            } catch (JSONException exception) {
+                                exception.printStackTrace();
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+                    break;
+                }
             }
-        });
 
+            try {
+
+                //Get Picture URLS
+                picturesURLs = new ArrayList<>();
+                picturesURLs = Project.getPictures(project);
+
+                adapter = new GalleryCreateProjectAdapter(context, picturesURLs);
+                // Attach the adapter to the recyclerview to populate items
+                rvGallery.setAdapter(adapter);
+                // Set layout manager to position the items
+                rvGallery.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
+
+                Log.d(TAG, "On Create: " + project.toString());
+                tvProjectTitleDetailProject.setText(project.getString("title"));
+                tvDescription.setText(project.getString("description"));
+                updateImageStatus(project.getInt("status"));
+                List<String> tags = Project.getTagsList(project);
+                tgDetailProject.setTags(tags);
+                members = project.getJSONArray("members");
+                detailMyProjectAdapter = new DetailMyProjectAdapter(context, project.getJSONArray("members"), project);
+                rvMembers.setAdapter(detailMyProjectAdapter);
+                rvMembers.setLayoutManager(new LinearLayoutManager(context));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.d(TAG, "On Create: " + project.toString());
+
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
     }
 
     @Override
@@ -409,7 +332,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
 
         JSONObject member = new JSONObject();
         member.put("uid", LoginActivity.currentUser.get("uid"));
-        member.put("membership_type", Project.MEMBER_SHIP__TYPE_MEMBER);
+        member.put("membership_type", Project.MEMBER_SHIP__TYPE_PENDING);
         JSONArray members = project.getJSONArray("members");
         members.put(member);
 
@@ -437,7 +360,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
 
         JSONObject member = new JSONObject();
         member.put("uid", LoginActivity.currentUser.get("uid"));
-        member.put("membership_type", Project.MEMBER_SHIP__TYPE_PENDING);
+        member.put("membership_type", Project.MEMBER_SHIP__TYPE_GUEST);
         JSONArray members = project.getJSONArray("members");
         for(int i=0; i<members.length(); i++){
             if(LoginActivity.currentUser.getInt("uid") == members.getJSONObject(i).getInt("uid")){
@@ -456,7 +379,12 @@ public class DetailMyProjectActivity extends AppCompatActivity {
         project.remove("owner_uid");
 
         Log.d(TAG, "PostData: " + project.toString());
+        Log.d(TAG, "Picture: " + tmpPics.toString());
         StringEntity entity = new StringEntity(project.toString());
+
+        project.put("pid", tmpPid);
+        project.put("pictures", tmpPics);
+        project.put("owner_uid", ownerId);
 
         FindTeamClient.post(this,URL, entity, new AsyncHttpResponseHandler(){
 
