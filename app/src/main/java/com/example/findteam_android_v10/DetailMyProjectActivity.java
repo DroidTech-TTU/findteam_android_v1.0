@@ -97,6 +97,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
         try {
             project = new JSONObject(getIntent().getStringExtra("project"));
             int memType = Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), project);
+            if(LoginActivity.currentUser.getInt("uid") == project.getInt("owner_uid")) memType = Project.MEMBER_SHIP__TYPE_OWNER;
             Log.d(TAG, "Membership_type: "+memType);
             switch (memType){
                 case Project.MEMBER_SHIP__TYPE_OWNER:{
@@ -135,6 +136,8 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                     break;
                 }
                 case Project.MEMBER_SHIP__TYPE_GUEST:{
+                    ibEditProject.setVisibility(View.INVISIBLE);
+                    ibDeleteProject.setVisibility(View.INVISIBLE);
                     btJoinProject.setVisibility(View.VISIBLE);
                     btJoinProject.setOnClickListener(new View.OnClickListener() {
                         @Override
