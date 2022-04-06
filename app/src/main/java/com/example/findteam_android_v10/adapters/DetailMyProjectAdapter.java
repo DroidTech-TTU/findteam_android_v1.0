@@ -1,7 +1,10 @@
 package com.example.findteam_android_v10.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +12,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.LoginActivity;
+import com.example.findteam_android_v10.MainActivity;
+import com.example.findteam_android_v10.MemberProfileActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.classes.Project;
 import com.example.findteam_android_v10.classes.User;
@@ -110,6 +116,25 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                         e.printStackTrace();
                         Log.d(TAG, "onBindViewHolder: On Failure-- " + statusCode );
                     }
+
+                    //go to profile
+                    memberName.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent i = new Intent(context, MemberProfileActivity.class);
+                            try {
+                                i.putExtra("fullname", response.getString("first_name") +
+                                        " " + response.getString("middle_name") + " " +
+                                        response.getString("last_name"));
+                                i.putExtra("user", response.toString());
+
+                                context.startActivity(i);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
                 }
 
                 @Override

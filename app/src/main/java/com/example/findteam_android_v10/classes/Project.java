@@ -3,7 +3,10 @@ package com.example.findteam_android_v10.classes;
 import android.util.Log;
 import android.util.Pair;
 
+import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.LoginActivity;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 public class Project extends JSONObject {
     public static final String GET_PROJECT_API_URL = "project?pid=";
@@ -154,6 +159,20 @@ public class Project extends JSONObject {
             }
         }
         return MEMBER_SHIP__TYPE_GUEST;
+    }
+
+    public static void getAllProjects(AsyncHttpResponseHandler asyncHttpResponseHandler){
+
+
+    };
+
+    public static void getMyProjects(AsyncHttpResponseHandler asyncHttpResponseHandler){
+
+        try {
+            FindTeamClient.get("search/uid=" + LoginActivity.currentUser.getString("uid"), asyncHttpResponseHandler);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
     }
 
 }

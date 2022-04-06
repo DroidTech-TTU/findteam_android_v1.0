@@ -67,7 +67,7 @@ public class FragMyProfile extends Fragment {
     List<String> urls, locations, skills;
     urlAdapter urlAdapter;
     TagContainerLayout skillsTag, locationTag;
-
+    FloatingActionButton fab;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,7 +85,7 @@ public class FragMyProfile extends Fragment {
         fullName = view.findViewById(R.id.profFullName);
         ivProfilePic = view.findViewById(R.id.myProfPic);
 
-        FloatingActionButton fab = view.findViewById(R.id.fab);
+        fab = view.findViewById(R.id.fab);
 
         urls = new ArrayList<>();
         locations = new ArrayList<>();
@@ -153,9 +153,6 @@ public class FragMyProfile extends Fragment {
         }
 
         try {
-
-            //get the user first
-            User.getCurrentUser();
 
             //set the name in the my profile
             StringBuilder sb = new StringBuilder();
