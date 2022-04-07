@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.findteam_android_v10.DetailMyProjectActivity;
 import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.LoginActivity;
+import com.example.findteam_android_v10.MemberProfileActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.classes.Project;
 import com.example.findteam_android_v10.classes.User;
@@ -76,6 +77,24 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.myProj
                 usertags.add(tag.getString("text"));
             }
             holder.UserTags.setTags(usertags);
+
+            holder.itProfiles.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(context, MemberProfileActivity.class);
+                    try {
+                        i.putExtra("fullname", user.getString("first_name") +
+                                " " + user.getString("middle_name") + " " +
+                                user.getString("last_name"));
+                        i.putExtra("user", user.toString());
+
+                        context.startActivity(i);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
