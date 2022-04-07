@@ -147,7 +147,7 @@ public class FragMyProjects extends Fragment{
                     jsonProjects = new JSONArray(new String(responseBody));
                     Log.i(TAG, "Data: " + jsonProjects);
                     adapter = new MyProjectsAdapter(getContext(), jsonProjects);
-                    rvContacts.setAdapter(adapter);
+                    rvContacts.setAdapter(adapter);//load adapter to recycle list
                     rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
                     Toast.makeText(getContext(), "Successfully Get Projects:", Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
