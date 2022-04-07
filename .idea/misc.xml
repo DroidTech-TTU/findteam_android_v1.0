@@ -205,6 +205,9 @@
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/menu/my_projects_menu.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/menu/navigation_menu.xml" value="0.25925925925925924" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/menu/profile_menu.xml" value="0.26979166666666665" />
+        <entry key="..\:/Users/User/Documents/GitHub/findteam_android_v1.0/app/src/main/res/layout/frag_find_projects.xml" value="0.1956521739130435" />
+        <entry key="..\:/Users/User/Documents/GitHub/findteam_android_v1.0/app/src/main/res/layout/frag_find_users.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/GitHub/findteam_android_v1.0/app/src/main/res/layout/item_profiles.xml" value="0.33" />
       </map>
     </option>
   </component>
@@ -215,7 +218,7 @@
     <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
     <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
