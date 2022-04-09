@@ -196,6 +196,8 @@
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/item_my_project_detail.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/item_url.xml" value="0.4" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/menu/chat_menu.xml" value="0.22083333333333333" />
+        <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/item_my_project.xml" value="0.38903985507246375" />
+        <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/layout/item_my_project_detail.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/menu/create_project_menu.xml" value="0.287962962962963" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/menu/detail_project_menu.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/JohnM/AndroidStudioProjects/findteam_android_v1.0/app/src/main/res/menu/edit_profile_menu.xml" value="0.22083333333333333" />
@@ -218,7 +220,7 @@
     <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
     <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
