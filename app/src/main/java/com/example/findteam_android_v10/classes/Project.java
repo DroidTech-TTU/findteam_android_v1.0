@@ -175,15 +175,11 @@ public class Project extends JSONObject {
         return MEMBER_SHIP__TYPE_GUEST;
     }
 
-    public static void getAllProjects(AsyncHttpResponseHandler asyncHttpResponseHandler){
-
-
-    };
-
     public static void getMyProjects(AsyncHttpResponseHandler asyncHttpResponseHandler){
 
         try {
-            FindTeamClient.get("search/uid=" + LoginActivity.currentUser.getString("uid"), asyncHttpResponseHandler);
+            int uid = LoginActivity.currentUser.getInt("uid");
+            FindTeamClient.get("project/search?uid=" + uid , asyncHttpResponseHandler);
         }catch (JSONException e){
             e.printStackTrace();
         }

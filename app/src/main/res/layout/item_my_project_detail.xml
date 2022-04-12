@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingTop="0dp"
-    android:paddingBottom="0dp"
-    android:background="@color/find_team_orange">
-
+    android:layout_margin="5dp"
+    android:background="#40ffffff"
+    android:elevation="10dp"
+    android:padding="5dp">
 
     <TextView
         android:id="@+id/tvMemberNameDetailMyProject"
-        android:layout_width="242dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:fontFamily="@font/roboto_black"
+        android:fontFamily="@font/bai_jamjuree_medium"
         android:text="Ikemen Kuma"
-        android:textColor="@color/white"
+        android:textColor="@color/find_team_dark"
+        android:textSize="16sp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tvRoleDetailMyProject"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,12 +28,12 @@
         android:id="@+id/tvRoleDetailMyProject"
         android:layout_width="68dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:fontFamily="@font/roboto_black"
+        android:fontFamily="@font/staatliches"
         android:text="Member"
-        android:textColor="@color/white"
+        android:textColor="@color/find_team_dark"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvMemberNameDetailMyProject"
         app:layout_constraintTop_toTopOf="parent" />
 
 

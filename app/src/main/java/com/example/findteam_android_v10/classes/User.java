@@ -63,15 +63,11 @@ public class User {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
                 throwable.printStackTrace();
             }
         });
 
-    }
-
-    public static void getUserByUid(int uid, AsyncHttpResponseHandler asyncHttpResponseHandler){
-
-        FindTeamClient.get("user?uid=" + uid, asyncHttpResponseHandler);
     }
 
     //update the LoginUser and go to main
@@ -126,8 +122,6 @@ public class User {
         params.put(KEY_USERNAME, email);
         params.put(KEY_PASSWORD, password);
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences("FindTeam", Context.MODE_PRIVATE);
-
         //POST LOGIN
         FindTeamClient.post(KEY_LOGIN, params, new JsonHttpResponseHandler(){
 
@@ -139,7 +133,7 @@ public class User {
                     //login success
 
                     //temporarily store login access_token
-                    sharedPreferences.edit().putString("access_token", response.getString("access_token")).apply();
+                    LoginActivity.sharedPreferences.edit().putString("access_token", response.getString("access_token")).apply();
 
                     //set the auth for logging in
                     FindTeamClient.setAuth(response.getString("access_token"));
