@@ -17,10 +17,8 @@ import android.widget.ImageButton;
 
 import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.R;
-import com.example.findteam_android_v10.adapters.MyProjectsAdapter;
 import com.example.findteam_android_v10.adapters.ProfilesAdapter;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,8 +55,8 @@ public class FragFindUsers extends Fragment {
 
         //loads items in fragment
         this.rvMyProfilesSearch=view.findViewById(R.id.rvMyProfilesSearch); //get value and assign to variable
-        this.btSearchProfiles=view.findViewById(R.id.btSearchProfiles); //same ^
-        this.etSearchProfiles=view.findViewById(R.id.etSearchProfiles); //same
+        this.btSearchProfiles=view.findViewById(R.id.searchBtn); //same ^
+        this.etSearchProfiles=view.findViewById(R.id.etSearchBar); //same
 
         //set up for adapter
         usersList = new JSONArray();

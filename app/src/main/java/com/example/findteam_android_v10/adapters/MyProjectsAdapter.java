@@ -114,20 +114,6 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.my
                     holder.tvRole.setText(role);
                 }
             }
-            holder.itMyProject.setOnLongClickListener(new View.OnLongClickListener() {
-
-                @Override
-                public boolean onLongClick(View v) {
-                    Intent i = new Intent(context, DetailMyProjectActivity.class);
-                    try {
-                        i.putExtra("pid", project.getInt("pid"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    context.startActivity(i);
-                    return false;
-                }
-            });
 
             List<String> tags = Project.getTagsList(project);
 

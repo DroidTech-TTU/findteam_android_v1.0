@@ -13,66 +13,53 @@
         android:background="@drawable/gradient_card_bg"
         tools:context=".DetailMyProjectActivity">
 
+
         <TextView
             android:id="@+id/tvProjecTitleDetailProject"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="68dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="20dp"
             android:fontFamily="@font/zilla_slab_highlight_bold"
             android:text="Project Title"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="45sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/ibGoBack" />
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/ibEditProject"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="10dp"
+            app:backgroundTint="@color/white"
+            app:layout_constraintEnd_toStartOf="@+id/ibDeleteProject"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_edit_24"
+            app:tint="@color/find_team_orange"
+            tools:ignore="ContentDescription" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/ibDeleteProject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            app:backgroundTint="@color/find_team_dark"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rvMembers">
-
-            <ImageButton
-                android:id="@+id/ibGoBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/shape_four_conners"
-                android:padding="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_green_goback" />
-
-            <ImageButton
-                android:id="@+id/ibEditProject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:background="@drawable/shape_four_conners"
-                android:padding="10dp"
-                app:layout_constraintEnd_toStartOf="@+id/ibGoBack"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_green_edit" />
-
-            <ImageButton
-                android:id="@+id/ibDeleteProject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_four_conners"
-                android:padding="10dp"
-                app:layout_constraintEnd_toStartOf="@+id/ibEditProject"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_green_delete" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_delete_outline_24"
+            app:tint="@color/find_team_orange"
+            tools:ignore="ContentDescription" />
 
         <ImageView
+            android:id="@+id/footer"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:background="@android:color/transparent"
@@ -100,25 +87,40 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@color/white"
+            android:elevation="10dp"
             android:fontFamily="@font/questrial"
             android:padding="10dp"
             android:text="Leave"
-            android:elevation="10dp"
             android:textColor="@color/find_team_dark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rvMembers" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/ibGoBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.054"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:maxImageSize="30dp"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_ios_new_24"
+            tools:ignore="ContentDescription" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvGalleryDetailProject"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="250dp"
             android:layout_marginTop="24dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvProjecTitleDetailProject" />
 

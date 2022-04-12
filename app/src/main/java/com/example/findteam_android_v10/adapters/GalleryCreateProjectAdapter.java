@@ -89,7 +89,7 @@ public class GalleryCreateProjectAdapter extends RecyclerView.Adapter<GalleryCre
         }
 
         public void bind(String pictureURL) {
-            Glide.with(context).load(pictureURL).into(ivItemGallery);
+            Glide.with(context).load(pictureURL).centerCrop().into(ivItemGallery);
         }
 
         public void onItemImagePopupWindowClick(View view, String pictureURL) {

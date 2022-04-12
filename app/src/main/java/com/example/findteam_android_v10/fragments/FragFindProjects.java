@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -90,7 +89,6 @@ public class FragFindProjects extends Fragment {
                     adapter = new MyProjectsAdapter(getContext(), jsonProjects);
                     rvContacts.setAdapter(adapter);
                     rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    Toast.makeText(getContext(), "Successfully Get Projects:", Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -99,7 +97,38 @@ public class FragFindProjects extends Fragment {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.e(TAG, "the status code for this request is" + statusCode);
-                Toast.makeText(getContext(), "Get Projects Failure: ", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void search(String searchText) throws JSONException {
+
+        String URL = GET_MY_SEARCH + searchText;
+        Log.d(TAG,"searchEmpty:" + URL );
+        FindTeamClient.get(URL, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Log.i(TAG, "the status code for this request is: " + statusCode );
+                try {
+                    jsonProjects = new JSONArray(new String(responseBody));
+                    Log.i(TAG, "Data: " + jsonProjects);
+                    Project.printProjects(TAG, jsonProjects);
+                    if(!searchText.trim().isEmpty()){
+                        jsonProjects = Project.search(jsonProjects, searchText);
+
+                    }
+                    Log.i(TAG, "Search Results: " + jsonProjects);
+                    Project.printProjects(TAG, jsonProjects);
+                    adapter.clear();
+                    adapter.addAll(jsonProjects);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.e(TAG, "the status code for this request is" + statusCode);
             }
         });
     }
@@ -134,7 +163,6 @@ public class FragFindProjects extends Fragment {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.e(TAG, "the status code for this request is" + statusCode);
-                Toast.makeText(getContext(), "Search Projects Failure: ", Toast.LENGTH_LONG).show();
             }
         });
     }

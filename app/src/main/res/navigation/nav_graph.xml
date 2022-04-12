@@ -15,7 +15,7 @@
         android:label="FragFindProjects" />
     <fragment
         android:id="@+id/item_find_users"
-        android:name="com.example.findteam_android_v10.fragments.FragFindUsers"
+        android:name="com.example.findteam_android_v10.fragments.FragSearchTab"
         android:label="FragFindUsers" />
     <fragment
         android:id="@+id/item_my_profile"

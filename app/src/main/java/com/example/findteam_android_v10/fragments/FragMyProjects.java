@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -166,7 +165,6 @@ public class FragMyProjects extends Fragment{
                     adapter = new MyProjectsAdapter(getContext(), jsonProjects);
                     rvContacts.setAdapter(adapter);//load adapter to recycle list
                     rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    Toast.makeText(getContext(), "Successfully Get Projects:", Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -175,7 +173,6 @@ public class FragMyProjects extends Fragment{
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.e(TAG, "the status code for this request is" + statusCode);
-                Toast.makeText(getContext(), "Get Projects Failure: ", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -210,7 +207,6 @@ public class FragMyProjects extends Fragment{
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.e(TAG, "the status code for this request is" + statusCode);
-                Toast.makeText(getContext(), "Search Projects Failure: ", Toast.LENGTH_LONG).show();
             }
         });
     }
