@@ -25,6 +25,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,6 +34,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -215,5 +217,35 @@ public class User {
     }
 
     public User() {
+    }
+
+    public static JSONArray searchUsers(JSONArray users, String searchKey) throws JSONException {
+        String [] keys = searchKey.split(" ");
+        JSONArray results = new JSONArray();
+        for(int i=0; i<users.length(); i++){
+            JSONObject user = users.getJSONObject(i);
+            if(isContainKeys(user.getString("first_name"), keys)
+            || isContainKeys(user.getString("last_name"), keys)
+            || isContainKeys(user.getString("last_name"), keys)){
+                results.put(user);
+                continue;
+            }else{
+                JSONArray tags = user.getJSONArray("tags");
+                for(int j=0; j<tags.length(); j++){
+                    if(isContainKeys(tags.getJSONObject(j).getString("text"), keys)){
+                        results.put(user);
+                        break;
+                    }
+                }
+            }
+        }
+        return results;
+    }
+    private static boolean isContainKeys(String s, String []keys){
+        for (String key: keys
+             ) {
+            if(s.contains(key)) return true;
+        }
+        return false;
     }
 }

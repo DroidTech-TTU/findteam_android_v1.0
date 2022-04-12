@@ -19,6 +19,7 @@ import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.adapters.MyProjectsAdapter;
 import com.example.findteam_android_v10.adapters.ProfilesAdapter;
+import com.example.findteam_android_v10.classes.User;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -90,13 +91,14 @@ public class FragFindUsers extends Fragment {
             @Override
             public void onClick(View view) {
                 String searchKey = etSearchProfiles.getText().toString();
-                String URL = "user/search?query=" + searchKey;//get all users from API/server
+//                String URL = "user/search?query=" + searchKey;//get all users from API/server
+                String URL = "user/search";//get all users from API/server
                 FindTeamClient.get(URL, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                         try {
                             usersList = new JSONArray(new String(responseBody));
-                            adapter.addAll(usersList);
+                            adapter.addAll(User.searchUsers(usersList, searchKey));
                             Log.d(TAG, "On success: " + usersList.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
