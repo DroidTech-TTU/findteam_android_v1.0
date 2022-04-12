@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKeys;
 
 import com.example.findteam_android_v10.classes.User;
 import com.google.android.material.textfield.TextInputLayout;
@@ -21,6 +23,9 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -31,6 +36,9 @@ public class LoginActivity extends AppCompatActivity {
     public static JSONObject currentUser;
     private SharedPreferences mPrefs;
 
+    private String masterKeyAlias;
+    public static SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +47,22 @@ public class LoginActivity extends AppCompatActivity {
         Button loginInLoginBtn;
         TextView forgotPass, signUpText;
         TextInputLayout username, password;
-        SharedPreferences sharedPreferences;
-
 
         setContentView(R.layout.activity_login);
+
+        try {
+            masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+            sharedPreferences = EncryptedSharedPreferences.create(
+                    "FindTeam",
+                    masterKeyAlias,
+                    this,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            );
+
+        } catch (GeneralSecurityException |  IOException e) {
+            e.printStackTrace();
+        }
 
         //Grabbing the elements on the UI
         loginInLoginBtn = findViewById(R.id.login_btn);
@@ -52,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
 
         //checks to see if the user is persisted throughout the app, go login directly
-        sharedPreferences = getSharedPreferences("FindTeam", MODE_PRIVATE);
+        //sharedPreferences = getSharedPreferences("FindTeam", MODE_PRIVATE);
         if(!sharedPreferences.getString("access_token", "").equals("")) {
 
             ProgressDialog progressDialog = ProgressDialog.show(this, "Loading", "Logging in", true);
@@ -72,8 +92,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     throwable.printStackTrace();
+                    sharedPreferences.edit().putString("access_token","").apply();
+                    Toast.makeText(LoginActivity.this, "Connection Failed. Please try again!", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
                 }
 
             });

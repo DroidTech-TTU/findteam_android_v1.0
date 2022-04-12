@@ -1,7 +1,10 @@
 package com.example.findteam_android_v10.adapters;
 
+import static androidx.test.InstrumentationRegistry.getContext;
+
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.findteam_android_v10.DetailMyProjectActivity;
@@ -126,7 +130,12 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.my
             });
 
             List<String> tags = Project.getTagsList(project);
+
+            Typeface typeface = ResourcesCompat.getFont(context, R.font.questrial);
+            holder.myProjectsTags.setTagTypeface(typeface);
             holder.myProjectsTags.setTags(tags);
+
+
 
         } catch (JSONException e) {
             e.printStackTrace();

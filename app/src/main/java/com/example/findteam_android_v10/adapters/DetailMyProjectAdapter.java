@@ -118,17 +118,17 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                         switch (memberProject.getInt("membership_type")){
                             case Project.MEMBER_SHIP__TYPE_OWNER: {
                                 membership_type.setTextColor(Color.parseColor("#000000"));
-                                memberName.setTextColor(Color.parseColor("#000000"));
+                                //memberName.setTextColor(Color.parseColor("#000000"));
                                 break;
                             }
                             case Project.MEMBER_SHIP__TYPE_MEMBER: {
-                                membership_type.setTextColor(Color.parseColor("#5AFF00"));
-                                memberName.setTextColor(Color.parseColor("#5AFF00"));
+                                membership_type.setTextColor(Color.parseColor("#007a16"));
+                                //memberName.setTextColor(Color.parseColor("#5AFF00"));
                                 break;
                             }
                             case Project.MEMBER_SHIP__TYPE_PENDING: {
-                                membership_type.setTextColor(Color.parseColor("#4a4948"));
-                                memberName.setTextColor(Color.parseColor("#4a4948"));
+                                membership_type.setTextColor(Color.parseColor("#7a0000"));
+                                //memberName.setTextColor(Color.parseColor("#4a4948"));
                                 break;
                             }
                             default:{
@@ -137,10 +137,10 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                             }
                         }
 
-                        if (LoginActivity.currentUser.getInt("uid") == memberProject.getInt("uid")) {
+/*                        if (LoginActivity.currentUser.getInt("uid") == memberProject.getInt("uid")) {
                             membership_type.setTextColor(Color.parseColor("#FF0000"));
                             memberName.setTextColor(Color.parseColor("#FF0000"));
-                        }
+                        }*/
                         Log.d(TAG, "onBindViewHolder: Success");
 
                     } catch (JSONException e) {
