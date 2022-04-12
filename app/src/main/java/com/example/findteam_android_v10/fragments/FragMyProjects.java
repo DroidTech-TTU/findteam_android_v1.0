@@ -29,6 +29,7 @@ import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.adapters.MyProjectsAdapter;
 import com.example.findteam_android_v10.classes.Project;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -43,7 +44,7 @@ public class FragMyProjects extends Fragment{
     public static final int CREATE_PROJECT_CODE = 1122;
     public static final int DELETE_PROJECT_CODE = 1133;
     RecyclerView rvContacts;
-    View btCreateProject;
+    FloatingActionButton btCreateProject;
     ImageButton btSearchMyProjects;
     EditText etSearchMyProjects;
     JSONArray jsonProjects;
@@ -106,6 +107,22 @@ public class FragMyProjects extends Fragment{
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        rvContacts.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0 || dy < 0 && btCreateProject.isShown())
+                    btCreateProject.hide();
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                    btCreateProject.show();
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
 
         btCreateProject.setOnClickListener(new View.OnClickListener(){
             @Override

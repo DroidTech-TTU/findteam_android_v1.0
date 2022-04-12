@@ -34,8 +34,8 @@ public class Project extends JSONObject {
     public static final String STATUS_FINISHED_ICON = "ic_project_status_in_finished_green";
 
     public static final int MEMBER_SHIP__TYPE_OWNER = 2;
-    public static final int MEMBER_SHIP__TYPE_PENDING = 1;
-    public static final int MEMBER_SHIP__TYPE_MEMBER = 0;
+    public static final int MEMBER_SHIP__TYPE_PENDING = 0;
+    public static final int MEMBER_SHIP__TYPE_MEMBER = 1;
     public static final int MEMBER_SHIP__TYPE_GUEST= 3;
 
     public static final String TAG = "ProjectClass";
@@ -161,15 +161,11 @@ public class Project extends JSONObject {
         return MEMBER_SHIP__TYPE_GUEST;
     }
 
-    public static void getAllProjects(AsyncHttpResponseHandler asyncHttpResponseHandler){
-
-
-    };
-
     public static void getMyProjects(AsyncHttpResponseHandler asyncHttpResponseHandler){
 
         try {
-            FindTeamClient.get("search/uid=" + LoginActivity.currentUser.getString("uid"), asyncHttpResponseHandler);
+            int uid = LoginActivity.currentUser.getInt("uid");
+            FindTeamClient.get("project/search?uid=" + uid , asyncHttpResponseHandler);
         }catch (JSONException e){
             e.printStackTrace();
         }

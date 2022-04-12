@@ -50,8 +50,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
@@ -170,7 +172,7 @@ public class EditProfileActivity extends AppCompatActivity {
             JSONArray urlsJson = LoginActivity.currentUser.getJSONArray("urls");
             for(int i = 0; i < urlsJson.length(); i++){
                 JSONObject urlObj = (JSONObject) urlsJson.get(i);
-                urls.add(urlObj.getString("domain") + urlObj.getString("path"));
+                urls.add("https://" + urlObj.getString("domain") + urlObj.getString("path"));
             }
             urlAdapter.notifyDataSetChanged();
 
@@ -292,10 +294,10 @@ public class EditProfileActivity extends AppCompatActivity {
                 for (int i = 0; i < urls.size(); i++) {
                     if(!urls.get(i).equals("")) {
                         JSONObject url = new JSONObject();
-                        URI uriUrl = new URI("https://" + urls.get(i));
+                        URL urlLink = new URL(urls.get(i));
 
-                        url.put("domain", uriUrl.getHost());
-                        url.put("path", uriUrl.getPath());
+                        url.put("domain", urlLink.getHost());
+                        url.put("path", urlLink.getPath());
 
                         urlsArray.put(url);
                     }
@@ -347,7 +349,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                            super.onFailure(statusCode, headers, throwable, errorResponse);
+                            Log.i(TAG, throwable + " " + errorResponse);
+                            dialog.dismiss();
                         }
                     });
 
@@ -360,7 +363,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
             });
 
-        } catch (JSONException | URISyntaxException | UnsupportedEncodingException e) {
+        } catch (JSONException | UnsupportedEncodingException | MalformedURLException e) {
             e.printStackTrace();
         }
     }
