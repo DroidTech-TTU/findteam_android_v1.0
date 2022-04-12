@@ -164,7 +164,7 @@ public class FragMyProjects extends Fragment{
                     jsonProjects = new JSONArray(new String(responseBody));
                     Log.i(TAG, "Data: " + jsonProjects);
                     adapter = new MyProjectsAdapter(getContext(), jsonProjects);
-                    rvContacts.setAdapter(adapter);
+                    rvContacts.setAdapter(adapter);//load adapter to recycle list
                     rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
                     Toast.makeText(getContext(), "Successfully Get Projects:", Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
@@ -192,13 +192,14 @@ public class FragMyProjects extends Fragment{
                 Log.i(TAG, "the status code for this request is: " + statusCode );
                 try {
                     jsonProjects = new JSONArray(new String(responseBody));
-                    Log.i(TAG, "Data: " + jsonProjects);
+                    Project.printProjects(TAG, jsonProjects);
                     String searchKey = etSearchMyProjects.getText().toString();
                     if(!searchKey.trim().isEmpty()){
                         jsonProjects = Project.search(jsonProjects, searchKey);
-
                     }
                     Log.i(TAG, "Search Results: " + jsonProjects);
+                    Project.printProjects(TAG, jsonProjects);
+
                     adapter.clear();
                     adapter.addAll(jsonProjects);
                 } catch (JSONException e) {

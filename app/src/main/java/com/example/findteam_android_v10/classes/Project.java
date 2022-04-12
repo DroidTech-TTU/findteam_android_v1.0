@@ -37,6 +37,7 @@ public class Project extends JSONObject {
     public static final int MEMBER_SHIP__TYPE_PENDING = 0;
     public static final int MEMBER_SHIP__TYPE_MEMBER = 1;
     public static final int MEMBER_SHIP__TYPE_GUEST= 3;
+    public static final int MEMBER_SHIP__TYPE_REJECT = 4;
 
     public static final String TAG = "ProjectClass";
     public static final String getURLDeleteProject(int pid){
@@ -71,9 +72,14 @@ public class Project extends JSONObject {
     public static JSONArray search(JSONArray jsonArrayProjects, String searchKey) throws JSONException {
         searchKey = searchKey.trim().toLowerCase();
         JSONArray results = new JSONArray();
+        Log.d(TAG, "Start SearchMethod:------------------ ");
+        Log.d(TAG, "SearchMethod: Length = " + jsonArrayProjects.length());
         for(int i=0; i<jsonArrayProjects.length(); i++){
             JSONObject project = jsonArrayProjects.getJSONObject(i);
             String title = project.getString("title").trim().toLowerCase();
+            Log.d(TAG, "SearchMethod: title = " + title);
+            Log.d(TAG, "SearchMethod: searchKey = " + searchKey);
+
             if(title.contains(searchKey) ) {
                 results.put(project);
                 continue;
@@ -81,6 +87,9 @@ public class Project extends JSONObject {
 
             JSONArray tags = project.getJSONArray("tags");
             for(int j = 0; j<tags.length(); j++){
+                Log.d(TAG, "SearchMethod: Tag[Text] = " + tags.getJSONObject(j).getString("text").trim().toLowerCase());
+                Log.d(TAG, "SearchMethod: Tag[category] = " + tags.getJSONObject(j).getString("category").trim().toLowerCase());
+
                 if(tags.getJSONObject(j).getString("text").trim().toLowerCase().contains(searchKey) ) {
                     results.put(project);
                     break;
@@ -92,6 +101,8 @@ public class Project extends JSONObject {
             }
 
         }
+        Log.d(TAG, "Search Project: " + results);
+        Log.d(TAG, "END SearchMethod:------------------ ");
         return results;
     }
     public static List<String> getPictures(JSONObject project) throws JSONException {
@@ -114,6 +125,9 @@ public class Project extends JSONObject {
             }
             case MEMBER_SHIP__TYPE_MEMBER:{
                 return "Member";
+            }
+            case MEMBER_SHIP__TYPE_REJECT:{
+                return "Reject";
             }
             default:{
                 return "Guest";
@@ -169,6 +183,14 @@ public class Project extends JSONObject {
         }catch (JSONException e){
             e.printStackTrace();
         }
+    }
+
+    public static void printProjects(String callTag, JSONArray projects) throws JSONException {
+        Log.d(TAG,callTag + "-----------------------------------");
+        for(int i=0; i< projects.length(); i++){
+            Log.d(TAG,callTag + "Project: " + projects.getJSONObject(i));
+        }
+        Log.d(TAG,callTag + "====================================");
     }
 
 }
