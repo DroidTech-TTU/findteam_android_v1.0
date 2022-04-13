@@ -25,6 +25,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -63,15 +64,11 @@ public class User {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
                 throwable.printStackTrace();
             }
         });
 
-    }
-
-    public static void getUserByUid(int uid, AsyncHttpResponseHandler asyncHttpResponseHandler){
-
-        FindTeamClient.get("user?uid=" + uid, asyncHttpResponseHandler);
     }
 
     //update the LoginUser and go to main
@@ -126,8 +123,6 @@ public class User {
         params.put(KEY_USERNAME, email);
         params.put(KEY_PASSWORD, password);
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences("FindTeam", Context.MODE_PRIVATE);
-
         //POST LOGIN
         FindTeamClient.post(KEY_LOGIN, params, new JsonHttpResponseHandler(){
 
@@ -139,7 +134,7 @@ public class User {
                     //login success
 
                     //temporarily store login access_token
-                    sharedPreferences.edit().putString("access_token", response.getString("access_token")).apply();
+                    LoginActivity.sharedPreferences.edit().putString("access_token", response.getString("access_token")).apply();
 
                     //set the auth for logging in
                     FindTeamClient.setAuth(response.getString("access_token"));
@@ -218,6 +213,41 @@ public class User {
                 throwable.printStackTrace();
             }
         });
+    }
+
+    public static JSONArray searchUsers(JSONArray users, String searchKey) throws JSONException {
+        String [] keys = searchKey.split(" ");
+        for(int i=0; i<keys.length; i++){
+            Log.d(TAG, keys[i]);
+        }
+
+        JSONArray results = new JSONArray();
+        for(int i=0; i<users.length(); i++){
+            JSONObject user = users.getJSONObject(i);
+            if(isContainKeys(user.getString("first_name"), keys)
+                    || isContainKeys(user.getString("last_name"), keys)
+                    || isContainKeys(user.getString("last_name"), keys)){
+                results.put(user);
+//                continue;
+            }else{
+                JSONArray tags = user.getJSONArray("tags");
+                for(int j=0; j<tags.length(); j++){
+                    if(isContainKeys(tags.getJSONObject(j).getString("text"), keys)){
+                        results.put(user);
+                        break;
+                    }
+                }
+            }
+        }
+        Log.d(TAG, results.toString());
+        return results;
+    }
+    private static boolean isContainKeys(String s, String []keys){
+        for (String key: keys) {
+
+            if(s.trim().toLowerCase().contains(key.trim().toLowerCase())) return true;
+        }
+        return false;
     }
 
     public User() {

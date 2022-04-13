@@ -70,39 +70,26 @@ public class Project extends JSONObject {
     }
 
     public static JSONArray search(JSONArray jsonArrayProjects, String searchKey) throws JSONException {
-        searchKey = searchKey.trim().toLowerCase();
+        String []keys = searchKey.split(" ");
         JSONArray results = new JSONArray();
-        Log.d(TAG, "Start SearchMethod:------------------ ");
-        Log.d(TAG, "SearchMethod: Length = " + jsonArrayProjects.length());
+
         for(int i=0; i<jsonArrayProjects.length(); i++){
             JSONObject project = jsonArrayProjects.getJSONObject(i);
-            String title = project.getString("title").trim().toLowerCase();
-            Log.d(TAG, "SearchMethod: title = " + title);
-            Log.d(TAG, "SearchMethod: searchKey = " + searchKey);
 
-            if(title.contains(searchKey) ) {
+            if(isContainKeys(project.getString("title"), keys) ) {
                 results.put(project);
                 continue;
             }
 
             JSONArray tags = project.getJSONArray("tags");
             for(int j = 0; j<tags.length(); j++){
-                Log.d(TAG, "SearchMethod: Tag[Text] = " + tags.getJSONObject(j).getString("text").trim().toLowerCase());
-                Log.d(TAG, "SearchMethod: Tag[category] = " + tags.getJSONObject(j).getString("category").trim().toLowerCase());
-
-                if(tags.getJSONObject(j).getString("text").trim().toLowerCase().contains(searchKey) ) {
-                    results.put(project);
-                    break;
-                }
-                if(tags.getJSONObject(j).getString("category").trim().toLowerCase().contains(searchKey) ) {
+                if(isContainKeys(tags.getJSONObject(j).getString("text"), keys)) {
                     results.put(project);
                     break;
                 }
             }
 
         }
-        Log.d(TAG, "Search Project: " + results);
-        Log.d(TAG, "END SearchMethod:------------------ ");
         return results;
     }
     public static List<String> getPictures(JSONObject project) throws JSONException {
@@ -175,15 +162,11 @@ public class Project extends JSONObject {
         return MEMBER_SHIP__TYPE_GUEST;
     }
 
-    public static void getAllProjects(AsyncHttpResponseHandler asyncHttpResponseHandler){
-
-
-    };
-
     public static void getMyProjects(AsyncHttpResponseHandler asyncHttpResponseHandler){
 
         try {
-            FindTeamClient.get("search/uid=" + LoginActivity.currentUser.getString("uid"), asyncHttpResponseHandler);
+            int uid = LoginActivity.currentUser.getInt("uid");
+            FindTeamClient.get("project/search?uid=" + uid , asyncHttpResponseHandler);
         }catch (JSONException e){
             e.printStackTrace();
         }
@@ -195,6 +178,13 @@ public class Project extends JSONObject {
             Log.d(TAG,callTag + "Project: " + projects.getJSONObject(i));
         }
         Log.d(TAG,callTag + "====================================");
+    }
+    private static boolean isContainKeys(String s, String []keys){
+        for (String key: keys) {
+
+            if(s.trim().toLowerCase().contains(key.trim().toLowerCase())) return true;
+        }
+        return false;
     }
 
 }

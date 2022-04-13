@@ -17,10 +17,9 @@ import android.widget.ImageButton;
 
 import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.R;
-import com.example.findteam_android_v10.adapters.MyProjectsAdapter;
 import com.example.findteam_android_v10.adapters.ProfilesAdapter;
+import com.example.findteam_android_v10.classes.User;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,8 +32,6 @@ public class FragFindUsers extends Fragment {
     public static String TAG = "FragFindUsers";
     public static final String GET_MY_SEARCH = "user/search?query=";
     RecyclerView rvMyProfilesSearch;
-    ImageButton btSearchProfiles;
-    EditText etSearchProfiles;
     JSONArray jsonProfiles;
     ProfilesAdapter adapter;
     JSONArray usersList;
@@ -57,8 +54,6 @@ public class FragFindUsers extends Fragment {
 
         //loads items in fragment
         this.rvMyProfilesSearch=view.findViewById(R.id.rvMyProfilesSearch); //get value and assign to variable
-        this.btSearchProfiles=view.findViewById(R.id.btSearchProfiles); //same ^
-        this.etSearchProfiles=view.findViewById(R.id.etSearchProfiles); //same
 
         //set up for adapter
         usersList = new JSONArray();
@@ -75,6 +70,8 @@ public class FragFindUsers extends Fragment {
                     usersList = new JSONArray(new String(responseBody));
                     adapter.addAll(usersList);
                     Log.d(TAG, "On success: " + usersList.toString());
+
+                    search("");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -85,29 +82,26 @@ public class FragFindUsers extends Fragment {
                 Log.d(TAG, "On success: " + statusCode + "--" + new String(responseBody));
             }
         });
+    }
 
-        btSearchProfiles.setOnClickListener(new View.OnClickListener() {
+    public void search(String searchText) {
+
+        String URL = "user/search?";//get all users from API/server
+        FindTeamClient.get(URL, new AsyncHttpResponseHandler() {
             @Override
-            public void onClick(View view) {
-                String searchKey = etSearchProfiles.getText().toString();
-                String URL = "user/search?query=" + searchKey;//get all users from API/server
-                FindTeamClient.get(URL, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        try {
-                            usersList = new JSONArray(new String(responseBody));
-                            adapter.addAll(usersList);
-                            Log.d(TAG, "On success: " + usersList.toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    usersList = new JSONArray(new String(responseBody));
+                    adapter.addAll(User.searchUsers(usersList, searchText));
+                    Log.d(TAG, "On success: " + usersList.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        Log.d(TAG, "On success: " + statusCode + "--" + new String(responseBody));
-                    }
-                });
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.d(TAG, "On success: " + statusCode + "--" + new String(responseBody));
             }
         });
     }

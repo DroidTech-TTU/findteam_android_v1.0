@@ -11,37 +11,15 @@
         android:label="FragChat" />
     <fragment
         android:id="@+id/item_search"
-        android:name="com.example.findteam_android_v10.fragments.FragFindProjects"
-        android:label="FragFindProjects" />
-    <fragment
-        android:id="@+id/item_find_users"
-        android:name="com.example.findteam_android_v10.fragments.FragFindUsers"
-        android:label="FragFindUsers" />
+        android:name="com.example.findteam_android_v10.fragments.FragSearchTab"
+        android:label="FragSearch" />
     <fragment
         android:id="@+id/item_my_profile"
         android:name="com.example.findteam_android_v10.fragments.FragMyProfile"
-        android:label="FragProfiles" >
-        <action
-            android:id="@+id/action_meProfile_to_editProfile"
-            app:destination="@id/editProfile"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
-
+        android:label="FragProfiles" />
     <fragment
         android:id="@+id/item_my_proj"
         android:name="com.example.findteam_android_v10.fragments.FragMyProjects"
         android:label="FragMyProjects" />
-
-    <fragment
-        android:id="@+id/memProfile"
-        android:name="com.example.findteam_android_v10.fragments.FragMemProfile"
-        android:label="FragMemProfile" />
-    <fragment
-        android:id="@+id/editProfile"
-        android:name="com.example.findteam_android_v10.fragments.FragEditProfile"
-        android:label="FragEditProfile" />
 
 </navigation>

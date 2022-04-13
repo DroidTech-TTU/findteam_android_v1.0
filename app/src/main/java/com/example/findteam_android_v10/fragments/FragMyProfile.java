@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -17,8 +18,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -42,6 +45,7 @@ import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.adapters.urlAdapter;
+import com.example.findteam_android_v10.classes.Project;
 import com.example.findteam_android_v10.classes.User;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -84,6 +88,9 @@ public class FragMyProfile extends Fragment {
         //Elements of the my profile
         fullName = view.findViewById(R.id.profFullName);
         ivProfilePic = view.findViewById(R.id.myProfPic);
+
+        TextView finishedProj = view.findViewById(R.id.finished_project_count),
+                activeProj = view.findViewById(R.id.active_project_count);
 
         fab = view.findViewById(R.id.fab);
 
@@ -138,8 +145,51 @@ public class FragMyProfile extends Fragment {
             }
         });
 
-        User.getCurrentUser();
-        loadProfile(false, LoginActivity.currentUser);
+        User.getCurrentUser(new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                LoginActivity.currentUser = response;
+
+                Project.getMyProjects(new JsonHttpResponseHandler(){
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                        int finished = 0, active = 0;
+                        for(int i = 0; i < response.length(); i++){
+                            try {
+                                if(((JSONObject)response.get(i)).getInt("status") == 0)
+                                    active++;
+                                else if(((JSONObject)response.get(i)).getInt("status") == 2)
+                                    finished++;
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        //get the finished project and active project count
+                        finishedProj.setText(String.valueOf(finished));
+                        activeProj.setText(String.valueOf(active));
+                    }
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        Log.i(TAG, throwable + " " + errorResponse);
+                    }
+
+                });
+
+
+                loadProfile(false, LoginActivity.currentUser);
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("FindTeam", Context.MODE_PRIVATE);
+                sharedPreferences.edit().putString("access_token","").apply();
+                Toast.makeText(getContext(), "Cannot fetch data. Please re-login again.", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
 
         return view;
     }
@@ -227,11 +277,8 @@ public class FragMyProfile extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        Log.i(TAG, "It went here!");
-        //checks to see if the user is persisted throughout the app, go login directly
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("FindTeam", MODE_PRIVATE);
         //temporarily store login access_token
-        sharedPreferences.edit().putString("access_token", "").apply();
+        LoginActivity.sharedPreferences.edit().putString("access_token", "").apply();
         Intent i = new Intent(getContext(), LoginActivity.class);
         startActivity(i);
         getActivity().finish();

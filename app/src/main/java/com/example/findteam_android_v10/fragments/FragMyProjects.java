@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -29,6 +28,7 @@ import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.adapters.MyProjectsAdapter;
 import com.example.findteam_android_v10.classes.Project;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -43,7 +43,7 @@ public class FragMyProjects extends Fragment{
     public static final int CREATE_PROJECT_CODE = 1122;
     public static final int DELETE_PROJECT_CODE = 1133;
     RecyclerView rvContacts;
-    View btCreateProject;
+    FloatingActionButton btCreateProject;
     ImageButton btSearchMyProjects;
     EditText etSearchMyProjects;
     JSONArray jsonProjects;
@@ -107,6 +107,22 @@ public class FragMyProjects extends Fragment{
             e.printStackTrace();
         }
 
+        rvContacts.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0 || dy < 0 && btCreateProject.isShown())
+                    btCreateProject.hide();
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                    btCreateProject.show();
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
+
         btCreateProject.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -149,7 +165,6 @@ public class FragMyProjects extends Fragment{
                     adapter = new MyProjectsAdapter(getContext(), jsonProjects);
                     rvContacts.setAdapter(adapter);//load adapter to recycle list
                     rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    Toast.makeText(getContext(), "Successfully Get Projects:", Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -158,7 +173,6 @@ public class FragMyProjects extends Fragment{
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.e(TAG, "the status code for this request is" + statusCode);
-                Toast.makeText(getContext(), "Get Projects Failure: ", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -193,7 +207,6 @@ public class FragMyProjects extends Fragment{
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.e(TAG, "the status code for this request is" + statusCode);
-                Toast.makeText(getContext(), "Search Projects Failure: ", Toast.LENGTH_LONG).show();
             }
         });
     }

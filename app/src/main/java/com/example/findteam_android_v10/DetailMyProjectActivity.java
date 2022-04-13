@@ -64,7 +64,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
     TagContainerLayout tgDetailProject;
     DetailMyProjectAdapter detailMyProjectAdapter;
     ImageButton ibGoBack;
-    Button btJoinProject;
+    Button btJoinProject, btLeaveProject;
     List<String> picturesURLs;
     List<Bitmap> pictureFiles;
     GalleryCreateProjectAdapter adapter;
@@ -94,17 +94,19 @@ public class DetailMyProjectActivity extends AppCompatActivity {
             }
         });
         this.btJoinProject = findViewById(R.id.btJoinProject);
+        this.btLeaveProject = findViewById(R.id.btLeaveProject);
         try {
             project = new JSONObject(getIntent().getStringExtra("project"));
             int memType = Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), project);
             if(LoginActivity.currentUser.getInt("uid") == project.getInt("owner_uid")) memType = Project.MEMBER_SHIP__TYPE_OWNER;
-            Log.d(TAG, "Membership_type: "+memType);
+            Log.d(TAG, "Membership_type: " + memType);
             switch (memType){
                 case Project.MEMBER_SHIP__TYPE_OWNER:{
                     Log.d(TAG, "Owner!!!");
                     ibEditProject.setVisibility(View.VISIBLE);
                     ibDeleteProject.setVisibility(View.VISIBLE);
                     btJoinProject.setVisibility(View.INVISIBLE);
+                    btLeaveProject.setVisibility(View.INVISIBLE);
                     ibDeleteProject.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -133,6 +135,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                     ibEditProject.setVisibility(View.INVISIBLE);
                     ibDeleteProject.setVisibility(View.INVISIBLE);
                     btJoinProject.setVisibility(View.INVISIBLE);
+                    btLeaveProject.setVisibility(View.INVISIBLE);
                     break;
                 }
                 case Project.MEMBER_SHIP__TYPE_GUEST:{

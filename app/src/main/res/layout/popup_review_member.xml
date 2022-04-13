@@ -7,36 +7,27 @@
     android:padding="10dp"
     android:background="@drawable/shape_popup">
 
-    <TextView
-        android:id="@+id/tvUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/questrial"
-        android:textColor="@color/white"
-        android:padding="10dp"
-        android:text="Ikemen Kuma"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/btAccept"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/shape_popup_button"
         android:fontFamily="@font/roboto_black"
         android:text="Accept"
-        android:textColor="@color/find_team_green_icon"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/btReject"
-        app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <Button
         android:id="@+id/btReject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/shape_popup_button"
         android:fontFamily="@font/roboto_black"
-        android:text="Reject/Remove"
-        android:textColor="@color/find_team_green_icon"
+        android:text="Reject"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
 
@@ -44,10 +35,23 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_black"
-        android:textColor="@color/white"
+        android:fontFamily="@font/bai_jamjuree_medium"
         android:padding="10dp"
-        android:text="Candidate Name: "
+        android:text="Accept User:"
+        android:textColor="@color/find_team_hover_orange"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bai_jamjuree_medium"
+        android:padding="10dp"
+        android:textColor="@color/find_team_hover_orange"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="John Manacup" />
 </androidx.constraintlayout.widget.ConstraintLayout>
