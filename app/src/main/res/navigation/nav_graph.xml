@@ -11,17 +11,12 @@
         android:label="FragChat" />
     <fragment
         android:id="@+id/item_search"
-        android:name="com.example.findteam_android_v10.fragments.FragFindProjects"
-        android:label="FragFindProjects" />
-    <fragment
-        android:id="@+id/item_find_users"
         android:name="com.example.findteam_android_v10.fragments.FragSearchTab"
-        android:label="FragFindUsers" />
+        android:label="FragSearch" />
     <fragment
         android:id="@+id/item_my_profile"
         android:name="com.example.findteam_android_v10.fragments.FragMyProfile"
-        android:label="FragProfiles" >
-    </fragment>
+        android:label="FragProfiles" />
     <fragment
         android:id="@+id/item_my_proj"
         android:name="com.example.findteam_android_v10.fragments.FragMyProjects"

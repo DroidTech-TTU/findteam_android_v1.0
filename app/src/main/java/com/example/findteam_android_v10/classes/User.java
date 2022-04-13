@@ -25,6 +25,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -212,6 +213,41 @@ public class User {
                 throwable.printStackTrace();
             }
         });
+    }
+
+    public static JSONArray searchUsers(JSONArray users, String searchKey) throws JSONException {
+        String [] keys = searchKey.split(" ");
+        for(int i=0; i<keys.length; i++){
+            Log.d(TAG, keys[i]);
+        }
+
+        JSONArray results = new JSONArray();
+        for(int i=0; i<users.length(); i++){
+            JSONObject user = users.getJSONObject(i);
+            if(isContainKeys(user.getString("first_name"), keys)
+                    || isContainKeys(user.getString("last_name"), keys)
+                    || isContainKeys(user.getString("last_name"), keys)){
+                results.put(user);
+//                continue;
+            }else{
+                JSONArray tags = user.getJSONArray("tags");
+                for(int j=0; j<tags.length(); j++){
+                    if(isContainKeys(tags.getJSONObject(j).getString("text"), keys)){
+                        results.put(user);
+                        break;
+                    }
+                }
+            }
+        }
+        Log.d(TAG, results.toString());
+        return results;
+    }
+    private static boolean isContainKeys(String s, String []keys){
+        for (String key: keys) {
+
+            if(s.trim().toLowerCase().contains(key.trim().toLowerCase())) return true;
+        }
+        return false;
     }
 
     public User() {

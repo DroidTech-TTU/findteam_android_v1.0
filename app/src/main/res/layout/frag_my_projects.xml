@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="10dp"
-    android:background="@drawable/gradient_bg">
+    android:background="@drawable/gradient_card_bg">
 
     <ImageView
         android:id="@+id/findTeamLogo"
@@ -42,10 +42,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:fontFamily="monospace"
+        android:fontFamily="@font/bai_jamjuree_medium"
         android:text="MY PROJECTS"
-        android:textColor="@color/white"
-        android:textSize="19dp"
+        android:textColor="@color/find_team_dark"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -101,8 +101,8 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/shape_four_conners"
-        app:backgroundTint="@color/find_team_orange"
+        app:tint="@color/find_team_orange"
+        app:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_baseline_add_24" />

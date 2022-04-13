@@ -1,6 +1,7 @@
 package com.example.findteam_android_v10.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ public class FragSearchTab extends Fragment {
     ViewPager2 viewPager2;
     ImageButton searchBtn;
     EditText searchText;
-
+    public static final String TAG = "FragSearchTab";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -80,20 +81,17 @@ public class FragSearchTab extends Fragment {
             public void onClick(View view) {
 
                 if(viewPager2.getCurrentItem() == 0){
-                    FragFindProjects searchFrag = (FragFindProjects) getActivity().getSupportFragmentManager().findFragmentByTag("f1");
+                    FragFindProjects searchFrag = (FragFindProjects) getActivity().getSupportFragmentManager().findFragmentByTag("f" + viewPager2.getCurrentItem());
                     try {
                         searchFrag.search(searchText.getText().toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
+
                 else{
-/*                    FragFindUsers searchFrag = (FragFindUsers) getActivity().getSupportFragmentManager().findFragmentByTag("f1");
-                    try {
-                        searchFrag.search(searchText.getText().toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }*/
+                    FragFindUsers fragUser = (FragFindUsers) getActivity().getSupportFragmentManager().findFragmentByTag("f1");
+                    fragUser.search(searchText.getText().toString());
                 }
 
             }

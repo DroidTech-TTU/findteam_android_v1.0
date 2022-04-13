@@ -28,7 +28,7 @@ import cz.msebera.android.httpclient.Header;
 public class FragFindProjects extends Fragment {
 
     public static String TAG = "FragFindProjects";
-    public static final String GET_MY_SEARCH = "project/search?query=";
+    public static final String GET_MY_SEARCH = "project/search";
     public static final int CREATE_PROJECT_CODE = 1133;
     RecyclerView rvContacts;
     ImageButton btSearchMyProjects;
@@ -48,8 +48,6 @@ public class FragFindProjects extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_find_projects, container, false);
         this.rvContacts = (RecyclerView) view.findViewById(R.id.rvMyProjectsSearch);
-        this.btSearchMyProjects = view.findViewById(R.id.btSearchMyProjects);
-        this.etSearchMyProjects = view.findViewById(R.id.etSearchMyProjects);
 
         try {
             getAllProjects();
@@ -57,17 +55,6 @@ public class FragFindProjects extends Fragment {
             e.printStackTrace();
         }
 
-
-        this.btSearchMyProjects.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    search();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
         return view;
     }
 
@@ -89,6 +76,9 @@ public class FragFindProjects extends Fragment {
                     adapter = new MyProjectsAdapter(getContext(), jsonProjects);
                     rvContacts.setAdapter(adapter);
                     rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                    //show all project
+                    search("");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -103,7 +93,7 @@ public class FragFindProjects extends Fragment {
 
     public void search(String searchText) throws JSONException {
 
-        String URL = GET_MY_SEARCH + searchText;
+        String URL = GET_MY_SEARCH;
         Log.d(TAG,"searchEmpty:" + URL );
         FindTeamClient.get(URL, new AsyncHttpResponseHandler() {
             @Override
@@ -115,40 +105,6 @@ public class FragFindProjects extends Fragment {
                     Project.printProjects(TAG, jsonProjects);
                     if(!searchText.trim().isEmpty()){
                         jsonProjects = Project.search(jsonProjects, searchText);
-
-                    }
-                    Log.i(TAG, "Search Results: " + jsonProjects);
-                    Project.printProjects(TAG, jsonProjects);
-                    adapter.clear();
-                    adapter.addAll(jsonProjects);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.e(TAG, "the status code for this request is" + statusCode);
-            }
-        });
-    }
-
-    public void search() throws JSONException {
-
-        String URL = GET_MY_SEARCH + etSearchMyProjects.getText();
-        Log.d(TAG,"searchEmpty:" + URL );
-        FindTeamClient.get(URL, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                Log.i(TAG, "the status code for this request is: " + statusCode );
-                try {
-                    jsonProjects = new JSONArray(new String(responseBody));
-                    Log.i(TAG, "Data: " + jsonProjects);
-                    Project.printProjects(TAG, jsonProjects);
-                    String searchKey = etSearchMyProjects.getText().toString();
-                    if(!searchKey.trim().isEmpty()){
-                        jsonProjects = Project.search(jsonProjects, searchKey);
-
 
                     }
                     Log.i(TAG, "Search Results: " + jsonProjects);
