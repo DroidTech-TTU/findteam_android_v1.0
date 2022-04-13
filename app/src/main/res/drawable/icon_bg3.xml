@@ -3,6 +3,8 @@
     android:shape="rectangle">
 
     <corners android:topRightRadius="170dp" />
-    <solid android:color="@color/find_team_dark"/>
+    <gradient android:startColor="#777777"
+        android:endColor="@color/find_team_dark"
+        android:angle="270"/>
 
 </shape>

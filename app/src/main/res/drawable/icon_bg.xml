@@ -3,6 +3,8 @@
 
     <corners android:bottomLeftRadius="40dp"
         android:bottomRightRadius="40dp"/>
-    <solid android:color="@color/find_team_orange"/>
+    <gradient android:startColor="@color/find_team_orange"
+        android:endColor="@color/find_team_hover_orange"
+        android:angle="90"/>
 
 </shape>
