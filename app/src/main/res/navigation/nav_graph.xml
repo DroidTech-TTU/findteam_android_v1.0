@@ -6,9 +6,21 @@
     app:startDestination="@id/item_search">
 
     <fragment
-        android:id="@+id/item_chat"
-        android:name="com.example.findteam_android_v10.fragments.FragChat"
-        android:label="FragChat" />
+        android:id="@+id/item_chat_list"
+        android:name="com.example.findteam_android_v10.fragments.FragChatList"
+        android:label="FragChatList" >
+        <action
+            android:id="@+id/action_item_chat_list_to_item_chat_history"
+            app:destination="@id/item_chat_history" />
+    </fragment>
+    <fragment
+    android:id="@+id/item_chat_history"
+    android:name="com.example.findteam_android_v10.fragments.FragChatHistory"
+    android:label="FragChatHistory" >
+        <argument
+            android:name="uid"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/item_search"
         android:name="com.example.findteam_android_v10.fragments.FragSearchTab"

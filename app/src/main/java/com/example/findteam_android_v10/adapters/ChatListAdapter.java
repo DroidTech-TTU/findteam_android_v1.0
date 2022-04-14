@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -15,6 +16,7 @@ import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.classes.Project;
 import com.example.findteam_android_v10.classes.User;
+import com.example.findteam_android_v10.fragments.FragChatListDirections;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -22,6 +24,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import cz.msebera.android.httpclient.Header;
 
@@ -64,23 +68,25 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
         public TextView chatListTextView;
         public ImageView chatListImageView;
-        private View parent;
+        private ConstraintLayout layout;
 
         public ViewHolder(View view) {
             super(view);
-            parent = view;
             chatListImageView = view.findViewById(R.id.chatListImageView);
             chatListTextView = view.findViewById(R.id.chatListTextView);
+            layout = view.findViewById(R.id.chatListItemLayout);
         }
 
         public void bind(int uid) throws JSONException {
             FindTeamClient.get("user?uid=" + uid, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    parent.setOnClickListener(new View.OnClickListener() {
+                    layout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // TODO launch intent to chat
+
+                            FragChatListDirections.ActionItemChatListToItemChatHistory action = FragChatListDirections.actionItemChatListToItemChatHistory(uid);
+                            Navigation.findNavController(v).navigate(action);
                         }
                     });
                     try {
