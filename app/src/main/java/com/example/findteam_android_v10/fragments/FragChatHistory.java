@@ -3,18 +3,9 @@ package com.example.findteam_android_v10.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.StringEntity;
-
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +14,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.findteam_android_v10.FindTeamClient;
-import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.adapters.ChatHistoryAdapter;
-import com.example.findteam_android_v10.adapters.ChatListAdapter;
-import com.example.findteam_android_v10.classes.Project;
-import com.google.android.material.snackbar.Snackbar;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -39,15 +26,52 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
+
 public class FragChatHistory extends Fragment {
 
-    private Toolbar tbChatHistory;
+    private final Handler handler = new Handler();
     private RecyclerView chatHistoryRecyclerView;
     private EditText sendMessageEditText;
     private Button sendMessageButton;
     private String title;
     private int puid;
     private boolean isUser;
+    private Runnable periodicUpdate = new Runnable() {
+        @Override
+        public void run() {
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("FindTeam", Context.MODE_PRIVATE);
+            RequestParams params = new RequestParams();
+            params.put("access_token", sharedPreferences.getString("access_token", ""));
+            if (isUser) {
+
+                params.put("uid", puid);
+
+            } else {
+
+                params.put("pid", puid);
+
+            }
+            FindTeamClient.get("chat", params, new JsonHttpResponseHandler() {
+                @Override
+                public void onFinish() {
+                    super.onFinish();
+                    handler.postDelayed(periodicUpdate, 1000 * 10); // Update chat every 10 seconds
+                }
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                    chatHistoryRecyclerView.setAdapter(new ChatHistoryAdapter(getContext(), response));
+                    chatHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                }
+            });
+        }
+    };
 
     public FragChatHistory() {
         // Required empty public constructor
@@ -66,33 +90,20 @@ public class FragChatHistory extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        handler.post(periodicUpdate);
+    }
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("FindTeam", Context.MODE_PRIVATE);
-        RequestParams params = new RequestParams();
-        params.put("access_token", sharedPreferences.getString("access_token", ""));
-        if (isUser) {
-
-            params.put("uid", puid);
-
-        } else {
-
-            params.put("pid", puid);
-
-        }
-        FindTeamClient.get("chat", params, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                chatHistoryRecyclerView.setAdapter(new ChatHistoryAdapter(getContext(), response));
-                chatHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            }
-        });
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(periodicUpdate);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_chat_history, container, false);
-        tbChatHistory = view.findViewById(R.id.tbChatHistory);
+        Toolbar tbChatHistory = view.findViewById(R.id.tbChatHistory);
         tbChatHistory.setTitle(title);
         tbChatHistory.setNavigationOnClickListener(v -> {
             sendMessageEditText.clearFocus();
