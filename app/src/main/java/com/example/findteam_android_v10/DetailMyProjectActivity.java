@@ -142,6 +142,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                     ibEditProject.setVisibility(View.INVISIBLE);
                     ibDeleteProject.setVisibility(View.INVISIBLE);
                     btJoinProject.setVisibility(View.VISIBLE);
+                    btLeaveProject.setVisibility(View.INVISIBLE);
                     btJoinProject.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
