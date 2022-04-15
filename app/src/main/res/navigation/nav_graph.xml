@@ -11,15 +11,29 @@
         android:label="FragChatList" >
         <action
             android:id="@+id/action_item_chat_list_to_item_chat_history"
-            app:destination="@id/item_chat_history" />
+            app:destination="@id/item_chat_history"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right">
+            <argument
+                android:name="uid"
+                android:defaultValue="-1" />
+        </action>
     </fragment>
     <fragment
     android:id="@+id/item_chat_history"
     android:name="com.example.findteam_android_v10.fragments.FragChatHistory"
     android:label="FragChatHistory" >
         <argument
-            android:name="uid"
+            android:name="is_user"
+            app:argType="boolean" />
+        <argument
+            android:name="puid"
             app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/item_search"

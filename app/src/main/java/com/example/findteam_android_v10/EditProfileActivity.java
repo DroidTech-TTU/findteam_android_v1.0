@@ -153,7 +153,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         try {
 
-            if(!LoginActivity.currentUser.get("picture").equals(null)){
+            if(LoginActivity.currentUser.get("picture") != null){
                 // load the current profile picture if any
                 Glide
                         .with(this)

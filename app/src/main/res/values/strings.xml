@@ -60,5 +60,6 @@
     <string name="email_sent">Email Sent!</string>
     <string name="email_has_been_sent_to">Email has been sent to:</string>
     <string name="please_check_your_inbox_to_reset_your_password">Please check your inbox to reset your password.</string>
+    <string name="send_message">Send a message...</string>
 
 </resources>

@@ -68,7 +68,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
         public TextView chatListTextView;
         public ImageView chatListImageView;
-        private ConstraintLayout layout;
+        public LinearLayout layout;
 
         public ViewHolder(View view) {
             super(view);
@@ -81,31 +81,29 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
             FindTeamClient.get("user?uid=" + uid, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    layout.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            FragChatListDirections.ActionItemChatListToItemChatHistory action = FragChatListDirections.actionItemChatListToItemChatHistory(uid);
-                            Navigation.findNavController(v).navigate(action);
-                        }
-                    });
                     try {
-                        Log.d("ChatListAdapter", response.toString());
-                        chatListTextView.setText(response.getString("first_name") + " ");
+                        StringBuilder fullName = new StringBuilder(response.getString("first_name"));
+                        fullName.append(' ');
                         if (!response.getString("middle_name").isEmpty()) {
 
-                            chatListTextView.append(response.getString("middle_name") + " ");
+                            fullName.append(response.getString("middle_name"));
+                            fullName.append(' ');
 
                         }
-                        chatListTextView.append(response.getString("last_name"));
+                        fullName.append(response.getString("last_name"));
+                        chatListTextView.setText(fullName.toString());
                         Object picture = response.get("picture");
-                        if (picture == null) {
+                        if (picture != null) {
 
                             Glide.with(context)
                                     .load("https://findteam.2labz.com/picture/" + picture)
                                     .into(chatListImageView);
 
                         }
+                        layout.setOnClickListener(v -> {
+                            FragChatListDirections.ActionItemChatListToItemChatHistory action = FragChatListDirections.actionItemChatListToItemChatHistory(true, uid, fullName.toString());
+                            Navigation.findNavController(v).navigate(action);
+                        });
 
                     } catch (JSONException e) {
                         e.printStackTrace();

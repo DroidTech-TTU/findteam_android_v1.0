@@ -41,14 +41,12 @@ public class FragChatList extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onResume() {
+        super.onResume();
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("FindTeam", Context.MODE_PRIVATE);
-
         RequestParams params = new RequestParams();
         params.put("access_token", sharedPreferences.getString("access_token", ""));
-
         FindTeamClient.get("chats", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
