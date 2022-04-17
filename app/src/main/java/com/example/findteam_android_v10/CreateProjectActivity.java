@@ -202,12 +202,7 @@ public class CreateProjectActivity extends AppCompatActivity {
         String title = etProjectTitle.getText().toString();
         String description = etDescriptionCreateProject.getText().toString();
 
-        JSONObject member = new JSONObject();
-        member.put("uid", LoginActivity.currentUser.get("uid"));
-        member.put("membership_type", Project.MEMBER_SHIP__TYPE_OWNER);
-
         JSONArray members = new JSONArray();
-        members.put(member);
 
         JSONArray tagSkillsJSON = new JSONArray();
         tagSkills.add(title);
