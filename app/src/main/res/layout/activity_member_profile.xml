@@ -127,7 +127,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/profLocation_text"
+                        android:id="@+id/tagName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/staatliches"
@@ -139,7 +139,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <co.lujun.androidtagview.TagContainerLayout
-                        android:id="@+id/location_tag"
+                        android:id="@+id/tagContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
@@ -153,7 +153,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/profLocation_text"
+                        app:layout_constraintTop_toBottomOf="@+id/tagName"
                         app:tag_clickable="true"
                         app:tag_theme="random"
                         app:tag_text_color="@color/find_team_dark"
