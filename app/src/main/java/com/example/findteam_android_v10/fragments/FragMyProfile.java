@@ -1,15 +1,11 @@
 package com.example.findteam_android_v10.fragments;
 
-import static android.content.Context.MODE_PRIVATE;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,8 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,16 +29,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.findteam_android_v10.EditProfileActivity;
-import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
+import com.example.findteam_android_v10.adapters.ProfileTagAdapter;
 import com.example.findteam_android_v10.adapters.urlAdapter;
 import com.example.findteam_android_v10.classes.Project;
 import com.example.findteam_android_v10.classes.User;
@@ -68,9 +62,10 @@ public class FragMyProfile extends Fragment {
 
     TextView fullName;
     ImageView ivProfilePic;
-    List<String> urls, locations, skills;
+    List<String> urls, categories;
+    List<List<String>> tags;
     urlAdapter urlAdapter;
-    TagContainerLayout skillsTag, locationTag;
+    ProfileTagAdapter profileTagAdapter;
     FloatingActionButton fab;
 
     @Override
@@ -94,23 +89,26 @@ public class FragMyProfile extends Fragment {
 
         fab = view.findViewById(R.id.fab);
 
+        //initialize the lists needed to accomodate urls and tags
         urls = new ArrayList<>();
-        locations = new ArrayList<>();
-        skills = new ArrayList<>();
-
-        skillsTag = view.findViewById(R.id.skills_tag);
-        locationTag = view.findViewById(R.id.location_tag);
+        categories = new ArrayList<>();
+        tags = new ArrayList<>();
 
         CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.toolbar_layout);
         AppBarLayout appBarLayout = (AppBarLayout) view.findViewById(R.id.app_bar);
 
-        //setup recyclerview and adapter
+        //setup recyclerview and adapter for urls
         RecyclerView rvUrl = view.findViewById(R.id.rvUrls);
         urlAdapter = new urlAdapter(getContext(), urls);
-
         rvUrl.setAdapter(urlAdapter);
         rvUrl.setLayoutManager(new LinearLayoutManager(getContext()));
         rvUrl.addItemDecoration(new DividerItemDecoration(rvUrl.getContext(), LinearLayoutManager.VERTICAL));
+
+        //setup recyclerview and adapter for tags
+        RecyclerView rvTags = view.findViewById(R.id.rvProfileTags);
+        profileTagAdapter = new ProfileTagAdapter(getContext(), categories, tags);
+        rvTags.setAdapter(profileTagAdapter);
+        rvTags.setLayoutManager(new LinearLayoutManager(getContext()));
 
         Toolbar toolbar = view.findViewById(R.id.detail_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -150,6 +148,7 @@ public class FragMyProfile extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 LoginActivity.currentUser = response;
 
+                //getting the number of projects for active and finished
                 Project.getMyProjects(new JsonHttpResponseHandler(){
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -181,15 +180,13 @@ public class FragMyProfile extends Fragment {
 
             }
 
+            //access token is expired
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                SharedPreferences sharedPreferences = getContext().getSharedPreferences("FindTeam", Context.MODE_PRIVATE);
-                sharedPreferences.edit().putString("access_token","").apply();
+                LoginActivity.sharedPreferences.edit().putString("access_token","").apply();
                 Toast.makeText(getContext(), "Cannot fetch data. Please re-login again.", Toast.LENGTH_LONG).show();
             }
         });
-
-
 
         return view;
     }
@@ -198,8 +195,6 @@ public class FragMyProfile extends Fragment {
 
         if(update){
             urls.clear();
-            locations.clear();
-            skills.clear();
         }
 
         try {
@@ -223,22 +218,28 @@ public class FragMyProfile extends Fragment {
 
             urlAdapter.notifyDataSetChanged();
 
+            //load the tags of the user
             for(int i = 0; i < tagsJson.length(); i++){
-                JSONObject tag = (JSONObject) tagsJson.get(i);
-                if(tag.getString("category").equals("Location")){
-                    locations.add(tag.getString("text"));
-                } else if(tag.getString("category").equals("Skills")){
-                    skills.add(tag.getString("text"));
+                JSONObject tagObj = (JSONObject) tagsJson.get(i);
+                if(!categories.contains(tagObj.getString("category"))){
+                    categories.add(tagObj.getString("category"));
                 }
+
             }
 
-            Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.questrial);
-            locationTag.setTagTypeface(typeface);
-            skillsTag.setTagTypeface(typeface);
+            for(int i = 0; i < categories.size(); i++){
+                List<String> localTags = new ArrayList<>();
+                for(int j = 0; j < tagsJson.length(); j++){
+                    JSONObject tagObj = (JSONObject) tagsJson.get(j);
+                    if(categories.get(i).equals(tagObj.getString("category"))){
+                        localTags.add(tagObj.getString("text"));
+                    }
+                }
+                tags.add(localTags);
+            }
 
-            //update the tag container
-            skillsTag.setTags(skills);
-            locationTag.setTags(locations);
+            Log.i(TAG, categories.toString());
+            profileTagAdapter.notifyDataSetChanged();
 
             //update the profile picture
             Glide.with(getContext())

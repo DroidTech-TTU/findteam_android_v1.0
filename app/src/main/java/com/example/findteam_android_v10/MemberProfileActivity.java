@@ -8,17 +8,14 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.findteam_android_v10.adapters.urlAdapter;
-import com.example.findteam_android_v10.classes.User;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -67,7 +64,7 @@ public class MemberProfileActivity extends AppCompatActivity {
         skills = new ArrayList<>();
 
         skillsTag = findViewById(R.id.skills_tag);
-        locationTag = findViewById(R.id.location_tag);
+        locationTag = findViewById(R.id.tagContainer);
 
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);

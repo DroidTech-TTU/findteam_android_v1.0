@@ -2,6 +2,7 @@ package com.example.findteam_android_v10.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -116,8 +118,6 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.myProj
         public TagContainerLayout UserTags;
         ConstraintLayout itProfiles;
 
-        TagContainerLayout myProjectsTags;
-
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
         public myProjectViewHolder(View itemView) {
@@ -130,6 +130,8 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.myProj
             UserTags = itemView.findViewById(R.id.tgUserTags);
             itProfiles = itemView.findViewById(R.id.itProfiles);
 
+            Typeface typeface = ResourcesCompat.getFont(context, R.font.questrial);
+            UserTags.setTagTypeface(typeface);
 
         }
 
