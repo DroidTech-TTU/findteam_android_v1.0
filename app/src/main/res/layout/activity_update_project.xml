@@ -13,7 +13,6 @@
         tools:context=".CreateProjectActivity"
         android:background="#EDEDED">
 
-
         <TextView
             android:id="@+id/updateProjectText"
             android:layout_width="wrap_content"
@@ -48,6 +47,26 @@
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btAddPicture" />
+
+
+        <TextView
+            android:id="@+id/tvStatusUpdateProject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/staatliches"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/find_team_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btAddPicture"
+            tools:text="In Progress" />
+
+        <ImageView
+            android:id="@+id/ivStatusUpdateProject"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            app:layout_constraintEnd_toStartOf="@+id/tvStatusUpdateProject"
+            app:layout_constraintTop_toBottomOf="@+id/btAddPicture"
+            app:srcCompat="@drawable/ic_project_status_in_progress_green" />
 
         <EditText
             android:id="@+id/etProjectTitle"

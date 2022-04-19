@@ -48,7 +48,7 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
     private JSONArray members;
     private  Context context;
     private JSONObject project;
-    public DetailMyProjectAdapter(Context context, JSONArray members, JSONObject project) {
+    public DetailMyProjectAdapter(Context context, JSONArray members, JSONObject project) throws JSONException {
         Log.d(TAG, "Constructor: " + members.toString());
         this.context = context;
         this.members = members;
@@ -136,11 +136,6 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                                 memberName.setTextColor(Color.parseColor("#000000"));
                             }
                         }
-
-/*                        if (LoginActivity.currentUser.getInt("uid") == memberProject.getInt("uid")) {
-                            membership_type.setTextColor(Color.parseColor("#FF0000"));
-                            memberName.setTextColor(Color.parseColor("#FF0000"));
-                        }*/
                         Log.d(TAG, "onBindViewHolder: Success");
 
                     } catch (JSONException e) {
@@ -245,6 +240,13 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
     public void clear(){
         members = new JSONArray();
         notifyDataSetChanged();
+    }
+    public void addHead(JSONArray nMembers, JSONObject member) throws JSONException {
+        for(int i = members.length()-1; i>=0; i--){
+            members.put(members.getJSONObject(i));
+        }
+        members.put(0, member);
+        notifyItemInserted(0);
     }
     public void addTail(JSONArray members){
         this.members = members;

@@ -167,7 +167,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
                 try {
                     Log.d(TAG, "Save Project Button is on click");
                     if( validateInputs()) {
-                        saveProject();
+                        upDateProject();
                     }else{
                         onButtonSavePopupWindowClick(view, message);
                     }
@@ -211,14 +211,9 @@ public class UpdateProjectActivity extends AppCompatActivity {
 
 
 
-    private void saveProject() throws JSONException, UnsupportedEncodingException {
+    private void upDateProject() throws JSONException, UnsupportedEncodingException {
         String title = etProjectTitle.getText().toString();
         String description = etDescription.getText().toString();
-
-        JSONObject member = new JSONObject();
-        member.put("uid", LoginActivity.currentUser.get("uid"));
-        member.put("membership_type", Project.MEMBER_SHIP__TYPE_OWNER);
-
         JSONArray tagSkillsJSON = new JSONArray();
 
         for (String skill: tagSkills) {
@@ -252,9 +247,9 @@ public class UpdateProjectActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                Log.i(TAG, "saveProject(): the status code for this request is: " + statusCode);
+                Log.i(TAG, "Update(): the status code for this request is: " + statusCode);
                 try {
-                    Log.i(TAG, "saveProject(): input : " + entity.getContent().toString());
+                    Log.i(TAG, "Update(): input : " + entity.getContent().toString());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -269,12 +264,12 @@ public class UpdateProjectActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
                 try {
-                    Log.i(TAG, "saveProject(): input : " + entity.getContent().toString());
+                    Log.i(TAG, "Update(): input : " + entity.getContent().toString());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Log.e(TAG, "saveProject(): : " + new String(responseBody));
-                Log.e(TAG, "saveProject(): the status code for this request is" + statusCode);
+                Log.e(TAG, "Update(): : " + new String(responseBody));
+                Log.e(TAG, "Update(): the status code for this request is" + statusCode);
                 Toast.makeText(context, "Failure to create project", Toast.LENGTH_LONG).show();
             }
 
@@ -312,12 +307,12 @@ public class UpdateProjectActivity extends AppCompatActivity {
         FindTeamClient.post(URL, params , new AsyncHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                Log.i(TAG, "savePicture(): the status code for this request is: " + statusCode);
+                Log.i(TAG, "update(): the status code for this request is: " + statusCode);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.e(TAG, "savePicture(): the status code for this request is" + statusCode + " " + error);
+                Log.e(TAG, "update(): the status code for this request is" + statusCode + " " + error);
                 Toast.makeText(context, "Failure to create project", Toast.LENGTH_LONG).show();
             }
 
