@@ -100,7 +100,7 @@ public class SearchChatUsersAdapter extends RecyclerView.Adapter<SearchChatUsers
                 try {
 
                     if(uid != LoginActivity.currentUser.getInt("uid")) {
-                        FragSearchChatDirections.ActionItemSearchChatToItemChatHistory action = FragSearchChatDirections.actionItemSearchChatToItemChatHistory(true, uid, user);
+                        FragSearchChatDirections.ActionItemSearchChatToItemChatHistory action = FragSearchChatDirections.actionItemSearchChatToItemChatHistory(true, uid, user, -1);
                         Navigation.findNavController(view).navigate(action);
                     }
                 } catch (JSONException e) {
