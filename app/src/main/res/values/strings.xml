@@ -62,4 +62,9 @@
     <string name="please_check_your_inbox_to_reset_your_password">Please check your inbox to reset your password.</string>
     <string name="send_message">Send a message...</string>
 
+    <string-array name="progress">
+        <item>Awaiting</item>
+        <item>In Progress</item>
+        <item>Completed</item>
+    </string-array>
 </resources>

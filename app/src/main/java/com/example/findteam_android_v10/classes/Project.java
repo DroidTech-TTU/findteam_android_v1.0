@@ -26,8 +26,8 @@ public class Project extends JSONObject {
     public static final String STATUS_IN_PROGRESS_STRING = "In Progress";
     public static final String STATUS_IN_PROGRESS_ICON = "ic_project_status_in_progress_green";
 
-    public static final int STATUS_IN_WAITING_INT = 0;
-    public static final String STATUS_PENDING_STRING = "Awaiting";
+    public static final int STATUS_IN_AWAITING_INT = 0;
+    public static final String STATUS_IN_AWAITING_STRING = "Awaiting";
     public static final String STATUS_PENDING_ICON = "ic_project_status_in_pending_green";
 
     public static final int STATUS_IN_FINISHED_INT = 2;
@@ -137,7 +137,7 @@ public class Project extends JSONObject {
             }
             case 1:{
                 List<String> status = new ArrayList<>();
-                status.add(STATUS_PENDING_STRING);
+                status.add(STATUS_IN_AWAITING_STRING);
                 status.add(STATUS_PENDING_ICON);
                 HashMap<Integer, List<String>> statusMap = new HashMap<>();
                 statusMap.put(i, status);

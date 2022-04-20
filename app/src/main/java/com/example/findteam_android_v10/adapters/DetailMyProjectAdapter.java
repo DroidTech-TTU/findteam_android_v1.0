@@ -246,7 +246,7 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
             members.put(members.getJSONObject(i));
         }
         members.put(0, member);
-        notifyItemInserted(0);
+        notifyDataSetChanged();
     }
     public void addTail(JSONArray members){
         this.members = members;

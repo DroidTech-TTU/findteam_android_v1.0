@@ -10,8 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".CreateProjectActivity"
-        android:background="#EDEDED">
+        android:background="#EDEDED"
+        tools:context=".CreateProjectActivity">
 
         <TextView
             android:id="@+id/updateProjectText"
@@ -49,22 +49,24 @@
             app:layout_constraintTop_toBottomOf="@+id/btAddPicture" />
 
 
-        <TextView
-            android:id="@+id/tvStatusUpdateProject"
+        <Spinner
+            android:id="@+id/sProjectProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/staatliches"
+            android:spinnerMode="dropdown"
             android:layout_marginRight="20dp"
-            android:textColor="@color/find_team_dark"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btAddPicture"
-            tools:text="In Progress" />
+            app:layout_constraintTop_toBottomOf="@+id/btAddPicture">
+
+        </Spinner>
 
         <ImageView
             android:id="@+id/ivStatusUpdateProject"
             android:layout_width="wrap_content"
             android:layout_height="18dp"
-            app:layout_constraintEnd_toStartOf="@+id/tvStatusUpdateProject"
+            android:paddingBottom="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/etProjectTitle"
+            app:layout_constraintEnd_toStartOf="@+id/sProjectProgress"
             app:layout_constraintTop_toBottomOf="@+id/btAddPicture"
             app:srcCompat="@drawable/ic_project_status_in_progress_green" />
 
@@ -73,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/shape_four_conners_white"
             android:fontFamily="@font/questrial"
@@ -138,12 +140,12 @@
             android:id="@+id/tgCreateProject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_four_conners_white"
-            android:padding="10dp"
-            app:container_border_color="@android:color/transparent"
             android:layout_marginStart="20dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="20dp"
+            android:background="@drawable/shape_four_conners_white"
+            android:padding="10dp"
+            app:container_border_color="@android:color/transparent"
             app:container_border_width="0dp"
             app:container_enable_drag="false"
             app:horizontal_interval="10dp"
@@ -181,8 +183,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="48dp"
             android:background="@drawable/button_bg"
-            android:foregroundGravity="center"
             android:elevation="10dp"
+            android:foregroundGravity="center"
             android:padding="5dp"
             app:layout_constraintBottom_toBottomOf="@+id/etTagsUpdateProject"
             app:layout_constraintEnd_toEndOf="parent"
@@ -231,10 +233,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             app:backgroundTint="@color/find_team_dark"
-            app:tint="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_arrow_back_ios_new_24" />
+            app:srcCompat="@drawable/ic_baseline_arrow_back_ios_new_24"
+            app:tint="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -20,11 +20,15 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.ClientCertRequest;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,9 +80,12 @@ public class UpdateProjectActivity extends AppCompatActivity {
     EditText etDescription;
     EditText etProjectTitle;
     ImageButton ibCancel;
-
+    TextView tvStatusUpdateProject;
+    ImageView ivStatusUpdateProject;
+    Spinner sProgress;
+    ArrayAdapter<CharSequence> sadapter;
     TagContainerLayout myProjectsTags;
-    public static int STATUS = 0;
+    int projectStatus = 0;
     JSONObject project;
 
     @Override
@@ -96,6 +103,10 @@ public class UpdateProjectActivity extends AppCompatActivity {
         ibSave = findViewById(R.id.ibSaveCreateProject);
         myProjectsTags = findViewById(R.id.tgCreateProject);
         ibCancel = findViewById(R.id.ibCancel);
+        sProgress=findViewById(R.id.sProjectProgress);
+
+
+        ivStatusUpdateProject = findViewById(R.id.ivStatusUpdateProject);
 
         btAddPicture = findViewById(R.id.btAddPicture);
 
@@ -129,6 +140,26 @@ public class UpdateProjectActivity extends AppCompatActivity {
 
 //        adapter.addAll(picturesURLs);
 //        // Attach the adapter to the recyclerview to populate items
+        projectStatus =  project.getInt("status");
+        sadapter=ArrayAdapter.createFromResource(this, R.array.progress, R.layout.item_progress_spinner);
+        sadapter.setDropDownViewResource(R.layout.item_progress_spinner);
+        sProgress.setAdapter(sadapter);
+
+        sProgress.setSelection(projectStatus);
+        sProgress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, "OnItem: ");
+                updateImageStatus(position);
+                projectStatus = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        updateImageStatus(projectStatus);
 
         //load title
         etProjectTitle.setText(project.getString("title"));
@@ -137,6 +168,8 @@ public class UpdateProjectActivity extends AppCompatActivity {
         //load tags
         tagSkills = Project.getTagsList(project);
         myProjectsTags.setTags(tagSkills);
+
+        updateImageStatus(project.getInt("status"));
 
         btAddPicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,7 +259,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
         }
 
         project.put("title", title);
-        project.put("status", STATUS);
+        project.put("status", projectStatus);
         project.put("description", description);
         project.put("tags", tagSkillsJSON);
 
@@ -454,5 +487,22 @@ public class UpdateProjectActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+    public void updateImageStatus(int i){
+        Log.d(TAG, "Status ID = " + i);
+        switch (i){
+            case Project.STATUS_IN_PROGRESS_INT:{
+                ivStatusUpdateProject.setImageResource(R.drawable.ic_project_status_in_progress_green);
+
+                break;
+            }
+            case Project.STATUS_IN_AWAITING_INT:{
+                ivStatusUpdateProject.setImageResource(R.drawable.ic_project_status_in_pending_green);
+                break;
+            }
+            case Project.STATUS_IN_FINISHED_INT:{
+                ivStatusUpdateProject.setImageResource(R.drawable.ic_project_status_in_finished_green); break;
+            }
+        }
     }
 }
