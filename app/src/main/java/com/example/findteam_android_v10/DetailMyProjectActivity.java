@@ -258,6 +258,8 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                                     JSONObject owner = new JSONObject();
                                     owner.put("uid", responseBody.getString("uid"));
                                     owner.put("membership_type", Project.MEMBER_SHIP__TYPE_OWNER);
+                                    Log.d(TAG, "OnActivityResult: ");
+//                                    detailMyProjectAdapter.clear();
                                     detailMyProjectAdapter.addHead(members, owner);
                                 } catch (JSONException exception) {
                                     exception.printStackTrace();
@@ -295,8 +297,8 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                 ivStatus.setImageResource(R.drawable.ic_project_status_in_progress_green);
                 break;
             }
-            case Project.STATUS_IN_WAITING_INT:{
-                tvProjectStatus.setText(Project.STATUS_PENDING_STRING);
+            case Project.STATUS_IN_AWAITING_INT:{
+                tvProjectStatus.setText(Project.STATUS_IN_AWAITING_STRING);
                 ivStatus.setImageResource(R.drawable.ic_project_status_in_pending_green);
                 break;
             }

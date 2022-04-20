@@ -1,6 +1,5 @@
 package com.example.findteam_android_v10;
 
-//import android.support.v7.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
