@@ -63,7 +63,7 @@
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/activity_detail_my_project.xml" value="0.25" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/activity_main.xml" value="0.3625" />
-        <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/activity_update_project.xml" value="0.18072916666666666" />
+        <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/activity_update_project.xml" value="0.327718223583461" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/frag_find_projects.xml" value="0.33" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/frag_find_users.xml" value="0.3625" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/frag_my_profile.xml" value="0.25" />
@@ -72,9 +72,11 @@
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/fragment_frag_tab_search_users.xml" value="0.23958333333333334" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/item_my_project.xml" value="0.14722222222222223" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/item_my_project_detail.xml" value="0.25729166666666664" />
+        <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/item_progress_spinner.xml" value="0.36666666666666664" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/pop_up_review_user.xml" value="0.25" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/popup_cancel_delete_project.xml" value="0.2546875" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/popup_invalid_inputs_create_project.xml" value="0.3625" />
+        <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/popup_progress.xml" value="0.1" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/popup_review_member.xml" value="0.25" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/popup_view_photo.xml" value="0.3625" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/menu/create_project_menu.xml" value="0.3625" />
@@ -86,6 +88,7 @@
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/menu/my_projects_menu.xml" value="0.3625" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/menu/navigation_menu.xml" value="0.3625" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/menu/profile_menu.xml" value="0.3625" />
+        <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/menu/project_progress_menu.xml" value="0.1" />
         <entry key="..\:/Android/kuma/findtem_android_v1.0/app/src/main/res/drawable/shape_four_conners_white_organe_border.xml" value="0.3828125" />
         <entry key="..\:/Android/kuma/findtem_android_v1.0/app/src/main/res/layout/activity_create_project.xml" value="0.25" />
         <entry key="..\:/Android/kuma/findtem_android_v1.0/app/src/main/res/layout/activity_detail_my_project.xml" value="0.33" />
@@ -258,7 +261,7 @@
     <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
     <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

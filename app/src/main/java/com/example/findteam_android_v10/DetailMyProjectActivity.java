@@ -29,6 +29,7 @@ import com.example.findteam_android_v10.adapters.DetailMyProjectAdapter;
 import com.example.findteam_android_v10.adapters.GalleryCreateProjectAdapter;
 import com.example.findteam_android_v10.classes.Picture;
 import com.example.findteam_android_v10.classes.Project;
+import com.example.findteam_android_v10.classes.User;
 import com.example.findteam_android_v10.fragments.FragMyProjects;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -122,9 +123,21 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(context, UpdateProjectActivity.class);
-                            i.putExtra("project", project.toString());
-                            startActivityForResult(i, EDIT_PROJECT_CODE);
-                            Log.d(TAG, "On Edit Project Button");
+                            try {
+                                JSONArray iMembers = project.getJSONArray("members");
+                                for(int j = 0; j< iMembers.length(); j++){
+                                    if(iMembers.getJSONObject(j).getInt("uid") == project.getInt("owner_uid"));
+                                    iMembers.remove(j);
+                                    break;
+                                }
+                                Log.d(TAG, "iMembers: " + iMembers);
+                                i.putExtra("project", project.toString());
+                                startActivityForResult(i, EDIT_PROJECT_CODE);
+                                Log.d(TAG, "On Edit Project Button");
+                            } catch (JSONException exception) {
+                                exception.printStackTrace();
+                            }
+
                         }
                     });
                     break;
@@ -178,10 +191,33 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                 updateImageStatus(project.getInt("status"));
                 List<String> tags = Project.getTagsList(project);
                 tgDetailProject.setTags(tags);
+
                 members = project.getJSONArray("members");
-                detailMyProjectAdapter = new DetailMyProjectAdapter(context, project.getJSONArray("members"), project);
-                rvMembers.setAdapter(detailMyProjectAdapter);
-                rvMembers.setLayoutManager(new LinearLayoutManager(context));
+                detailMyProjectAdapter = new DetailMyProjectAdapter(context, members, project);
+                this.rvMembers.setAdapter(detailMyProjectAdapter);
+                this.rvMembers.setLayoutManager(new LinearLayoutManager(context));
+
+                FindTeamClient.get(User.GET_USER_URL + project.getString("owner_uid"), new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject responseBody) {
+                        try {
+                            Log.d(TAG, "SHOW MEMBER:" + responseBody);
+                            JSONObject owner = new JSONObject();
+                            owner.put("uid", responseBody.getString("uid"));
+                            owner.put("membership_type", Project.MEMBER_SHIP__TYPE_OWNER);
+                            detailMyProjectAdapter.addHead(members, owner);
+                        } catch (JSONException exception) {
+                            exception.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable error, JSONObject responseBody) {
+                        Log.d(TAG, "FAILURE: " + statusCode + " -- " + responseBody);
+                    }
+                });
+
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -214,9 +250,27 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                         adapter.addAll(Project.getPictures(resultProject));
 
                         members = resultProject.getJSONArray("members");
-                        detailMyProjectAdapter.clear();
-                        detailMyProjectAdapter.addAll(members);
-                        rvMembers.setAdapter(detailMyProjectAdapter);
+                        FindTeamClient.get(User.GET_USER_URL + resultProject.getString("owner_uid"), new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject responseBody) {
+                                try {
+                                    Log.d(TAG, "SHOW MEMBER:" + responseBody);
+                                    JSONObject owner = new JSONObject();
+                                    owner.put("uid", responseBody.getString("uid"));
+                                    owner.put("membership_type", Project.MEMBER_SHIP__TYPE_OWNER);
+                                    Log.d(TAG, "OnActivityResult: ");
+//                                    detailMyProjectAdapter.clear();
+                                    detailMyProjectAdapter.addHead(members, owner);
+                                } catch (JSONException exception) {
+                                    exception.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable error, JSONObject responseBody) {
+                                Log.d(TAG, "FAILURE: " + statusCode + " -- " + responseBody);
+                            }
+                        });
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -238,17 +292,17 @@ public class DetailMyProjectActivity extends AppCompatActivity {
     public void updateImageStatus(int i){
         Log.d(TAG, "Status ID = " + i);
         switch (i){
-            case 0:{
+            case Project.STATUS_IN_PROGRESS_INT:{
                 tvProjectStatus.setText(Project.STATUS_IN_PROGRESS_STRING);
                 ivStatus.setImageResource(R.drawable.ic_project_status_in_progress_green);
                 break;
             }
-            case 1:{
-                tvProjectStatus.setText(Project.STATUS_PENDING_STRING);
+            case Project.STATUS_IN_AWAITING_INT:{
+                tvProjectStatus.setText(Project.STATUS_IN_AWAITING_STRING);
                 ivStatus.setImageResource(R.drawable.ic_project_status_in_pending_green);
                 break;
             }
-            case 2:{
+            case Project.STATUS_IN_FINISHED_INT:{
                 tvProjectStatus.setText(Project.STATUS_FINISHED_STRING);
                 ivStatus.setImageResource(R.drawable.ic_project_status_in_finished_green); break;
             }
@@ -283,7 +337,6 @@ public class DetailMyProjectActivity extends AppCompatActivity {
         });
     }
     public boolean isOwner(int owner_id) throws JSONException {
-
         return LoginActivity.currentUser.getInt("uid") == owner_id;
     }
     public void onButtonDeletePopupWindowClick(View view, int pid) {
@@ -358,54 +411,6 @@ public class DetailMyProjectActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.e(TAG, "JoinProject(): project: " + new String(responseBody));
                 Log.e(TAG, "JoinProject(): the status code for this request is" + statusCode);
-            }
-
-        });
-    }
-
-    private void leaveProject() throws JSONException, UnsupportedEncodingException {
-
-        JSONObject member = new JSONObject();
-        member.put("uid", LoginActivity.currentUser.get("uid"));
-        member.put("membership_type", Project.MEMBER_SHIP__TYPE_GUEST);
-        JSONArray members = project.getJSONArray("members");
-        for(int i=0; i<members.length(); i++){
-            if(LoginActivity.currentUser.getInt("uid") == members.getJSONObject(i).getInt("uid")){
-                members.remove(i);
-            }
-        }
-
-        Log.d(TAG, project.toString());
-        String URL = Project.getURLUpdateProject(project.getInt("pid"));
-        int tmpPid = project.getInt("pid");
-        JSONArray tmpPics = project.getJSONArray("pictures");
-        int ownerId = project.getInt("owner_uid");
-
-        project.remove("pid");
-        project.remove("pictures");
-        project.remove("owner_uid");
-
-        Log.d(TAG, "PostData: " + project.toString());
-        Log.d(TAG, "Picture: " + tmpPics.toString());
-        StringEntity entity = new StringEntity(project.toString());
-
-        project.put("pid", tmpPid);
-        project.put("pictures", tmpPics);
-        project.put("owner_uid", ownerId);
-
-        FindTeamClient.post(this,URL, entity, new AsyncHttpResponseHandler(){
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                Log.i(TAG, "saveProject(): the status code for this request is: " + statusCode);
-                Toast.makeText(context, "Successfully Join Project", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.e(TAG, "saveProject(): project: " + project.toString());
-                Log.e(TAG, "saveProject(): the status code for this request is" + statusCode);
-                Toast.makeText(context, "Failure to Join project", Toast.LENGTH_LONG).show();
             }
 
         });

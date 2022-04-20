@@ -1,6 +1,5 @@
 package com.example.findteam_android_v10;
 
-//import android.support.v7.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -220,7 +219,7 @@ public class CreateProjectActivity extends AppCompatActivity {
         project.put("status", STATUS);
         project.put("description", description);
         project.put("members", members);
-        project.put("owner_uid", LoginActivity.currentUser.getInt("uid"));
+       // project.put("owner_uid", LoginActivity.currentUser.getInt("uid"));
         project.put("tags", tagSkillsJSON);
 
         Log.d(TAG, project.toString());

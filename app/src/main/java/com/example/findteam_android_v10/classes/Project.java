@@ -21,21 +21,23 @@ import cz.msebera.android.httpclient.Header;
 
 public class Project extends JSONObject {
     public static final String GET_PROJECT_API_URL = "project?pid=";
-    public static final int STATUS_IN_PROGRESS_INT = 0;
+
+    public static final int STATUS_IN_PROGRESS_INT = 1;
     public static final String STATUS_IN_PROGRESS_STRING = "In Progress";
     public static final String STATUS_IN_PROGRESS_ICON = "ic_project_status_in_progress_green";
 
-    public static final int STATUS_IN_PENDING_INT = 1;
-    public static final String STATUS_PENDING_STRING = "Pending";
+    public static final int STATUS_IN_AWAITING_INT = 0;
+    public static final String STATUS_IN_AWAITING_STRING = "Awaiting";
     public static final String STATUS_PENDING_ICON = "ic_project_status_in_pending_green";
 
     public static final int STATUS_IN_FINISHED_INT = 2;
-    public static final String STATUS_FINISHED_STRING = "Finished";
+    public static final String STATUS_FINISHED_STRING = "Completed";
     public static final String STATUS_FINISHED_ICON = "ic_project_status_in_finished_green";
 
-    public static final int MEMBER_SHIP__TYPE_OWNER = 2;
+
     public static final int MEMBER_SHIP__TYPE_PENDING = 0;
     public static final int MEMBER_SHIP__TYPE_MEMBER = 1;
+    public static final int MEMBER_SHIP__TYPE_OWNER = 2;
     public static final int MEMBER_SHIP__TYPE_GUEST= 3;
     public static final int MEMBER_SHIP__TYPE_REJECT = 4;
 
@@ -135,7 +137,7 @@ public class Project extends JSONObject {
             }
             case 1:{
                 List<String> status = new ArrayList<>();
-                status.add(STATUS_PENDING_STRING);
+                status.add(STATUS_IN_AWAITING_STRING);
                 status.add(STATUS_PENDING_ICON);
                 HashMap<Integer, List<String>> statusMap = new HashMap<>();
                 statusMap.put(i, status);
