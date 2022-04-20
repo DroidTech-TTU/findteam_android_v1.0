@@ -4,18 +4,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.findteam_android_v10.adapters.urlAdapter;
+import com.example.findteam_android_v10.fragments.FragChatHistory;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,12 +50,13 @@ public class MemberProfileActivity extends AppCompatActivity {
     TagContainerLayout skillsTag, locationTag;
     FloatingActionButton fab;
     JSONObject user;
-
+    FloatingActionButton btChatMemberProfile;
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member_profile);
-
+        context = this;
         String fullMemName = getIntent().getStringExtra("fullname");
         try {
             user = new JSONObject(getIntent().getStringExtra("user"));
@@ -79,6 +90,24 @@ public class MemberProfileActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
+
+        btChatMemberProfile = findViewById(R.id.btChatMemberProfile);
+        btChatMemberProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              Intent i = new Intent(context, MainActivity.class);
+                try {
+                    i.putExtra("puid", user.getInt("uid"));
+                    i.putExtra("is_user", true);
+                    i.putExtra("fullName", fullMemName);
+                    i.putExtra("request", MainActivity.REQUEST_CHAT_HISTORY);
+                    startActivity(i);
+                } catch (JSONException exception) {
+                    exception.printStackTrace();
+                }
+
+            }
+        });
 
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
