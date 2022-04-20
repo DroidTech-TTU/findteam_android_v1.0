@@ -12,20 +12,40 @@
         <action
             android:id="@+id/action_item_chat_list_to_item_chat_history"
             app:destination="@id/item_chat_history"
-            app:enterAnim="@android:anim/slide_in_left"
+            app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@android:anim/slide_out_right">
             <argument
                 android:name="uid"
                 android:defaultValue="-1" />
         </action>
+        <action
+            android:id="@+id/action_item_chat_list_to_item_search_chat"
+            app:destination="@id/item_search_chat"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
+
+    <fragment
+        android:id="@+id/item_search_chat"
+        android:name="com.example.findteam_android_v10.fragments.FragSearchChat"
+        android:label="FragSearchChat">
+        <action
+            android:id="@+id/action_item_search_chat_to_item_chat_history"
+            app:destination="@id/item_chat_history"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
     <fragment
     android:id="@+id/item_chat_history"
     android:name="com.example.findteam_android_v10.fragments.FragChatHistory"
     android:label="FragChatHistory" >
-
         <argument
             android:name="is_user"
             app:argType="boolean" />

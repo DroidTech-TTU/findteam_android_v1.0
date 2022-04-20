@@ -1,64 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/fragChatHistory">
+    android:background="#EDEDED"
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbChatHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="@drawable/gradient_card_bg"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
+        android:theme="@style/ToolbarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_baseline_arrow_back_ios_new_24"
         app:title="@string/frag_chat"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/find_team_dark" />
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatHistoryRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toTopOf="@+id/sendMessageEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbChatHistory" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chatHistoryRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:scrollbars="vertical">
+    <EditText
+        android:id="@+id/sendMessageEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:background="#DFDEDE"
+        android:ems="10"
+        android:hint="@string/send_message"
+        android:inputType="textMultiLine"
+        android:minHeight="48dp"
+        android:paddingStart="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/sendMessageButton"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        </androidx.recyclerview.widget.RecyclerView>
+    <Button
+        android:id="@+id/sendMessageButton"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="8dp"
+        android:elevation="5dp"
+        android:enabled="false"
+        android:foreground="@drawable/ic_send"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sendMessageEditText" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/sendMessageEditText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="@string/send_message"
-                android:inputType="textLongMessage|textPersonName"
-                android:minHeight="48dp"
-                android:textColorHint="#546E7A" />
-
-            <Button
-                android:id="@+id/sendMessageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:foreground="@drawable/ic_send"
-                android:foregroundGravity="center"
-                android:minHeight="48dp" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,8 @@ package com.example.findteam_android_v10.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -10,8 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.findteam_android_v10.FindTeamClient;
@@ -28,7 +32,9 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,9 +54,8 @@ public class FragChatHistory extends Fragment {
     private Runnable periodicUpdate = new Runnable() {
         @Override
         public void run() {
-            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("FindTeam", Context.MODE_PRIVATE);
+
             RequestParams params = new RequestParams();
-            params.put("access_token", sharedPreferences.getString("access_token", ""));
             if (isUser) {
 
                 params.put("uid", puid);
@@ -118,6 +123,7 @@ public class FragChatHistory extends Fragment {
                              Bundle savedInstanceState) {
         Log.d(TAG, "Get onCreateView");
         View view = inflater.inflate(R.layout.frag_chat_history, container, false);
+
         Toolbar tbChatHistory = view.findViewById(R.id.tbChatHistory);
         tbChatHistory.setTitle(title);
         tbChatHistory.setNavigationOnClickListener(v -> {
@@ -169,7 +175,13 @@ public class FragChatHistory extends Fragment {
         sendMessageEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                sendMessageButton.setEnabled(s.length() != 0);
+                if(s.length() != 0) {
+                    sendMessageButton.setEnabled(true);
+                }
+                else {
+                    sendMessageButton.setEnabled(false);
+                }
+
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
