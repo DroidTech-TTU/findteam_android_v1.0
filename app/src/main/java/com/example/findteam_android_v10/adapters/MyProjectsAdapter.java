@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -92,6 +93,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.my
                     try {
                         JSONObject user = response;
                         holder.tvOwner.setText(user.getString("first_name") + " " + user.getString("last_name"));
+
                         Log.d(TAG, "onBindViewHolder: Success");
 
                     } catch (JSONException e) {

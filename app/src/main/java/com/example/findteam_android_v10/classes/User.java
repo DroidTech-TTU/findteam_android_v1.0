@@ -49,7 +49,9 @@ public class User {
     public static final String KEY_USER_PICTURE = "user/picture";
     public static final String KEY_FORGOT_PASSWORD = "user/reset?email=";
     public static final String GET_USER_URL = "user?uid=";
+    public static final String KEY_SEARCH = "user/search";
     public static String TAG = "UserClass";
+
 
 
     //update the Login user for new information
@@ -77,6 +79,11 @@ public class User {
         FindTeamClient.get(KEY_USER, asyncHttpResponseHandler);
     }
 
+    public static void getAllUser(AsyncHttpResponseHandler asyncHttpResponseHandler){
+
+        FindTeamClient.get(KEY_SEARCH, asyncHttpResponseHandler);
+
+    }
     public static void changeProfilePic(Context context, Uri profPic, AsyncHttpResponseHandler asyncHttpResponseHandler){
 
         try{
