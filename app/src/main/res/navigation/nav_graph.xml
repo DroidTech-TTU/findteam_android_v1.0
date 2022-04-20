@@ -25,6 +25,7 @@
     android:id="@+id/item_chat_history"
     android:name="com.example.findteam_android_v10.fragments.FragChatHistory"
     android:label="FragChatHistory" >
+
         <argument
             android:name="is_user"
             app:argType="boolean" />
@@ -34,6 +35,10 @@
         <argument
             android:name="title"
             app:argType="string" />
+
+        <argument
+            android:name="request"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/item_search"

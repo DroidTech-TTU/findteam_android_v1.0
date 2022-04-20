@@ -3,6 +3,7 @@ package com.example.findteam_android_v10.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import cz.msebera.android.httpclient.Header;
 
 import com.example.findteam_android_v10.FindTeamClient;
+import com.example.findteam_android_v10.MainActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.adapters.ChatListAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,7 +29,7 @@ public class FragChatList extends Fragment {
 
     private RecyclerView chatListRecyclerView;
     private FloatingActionButton fab;
-
+    public  static final String TAG = "FragChatList";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -101,7 +101,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
                         }
                         layout.setOnClickListener(v -> {
-                            FragChatListDirections.ActionItemChatListToItemChatHistory action = FragChatListDirections.actionItemChatListToItemChatHistory(true, uid, fullName.toString());
+                            FragChatListDirections.ActionItemChatListToItemChatHistory action = FragChatListDirections.actionItemChatListToItemChatHistory(true, uid, fullName.toString(), -1);
                             Navigation.findNavController(v).navigate(action);
                         });
 
