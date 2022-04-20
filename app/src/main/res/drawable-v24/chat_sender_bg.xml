@@ -48,7 +48,7 @@
 
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/cardview_dark_background" />
+            <solid android:color="@color/find_team_dark" />
             <corners android:bottomRightRadius="0dp" android:radius="100dp" />
         </shape>
     </item>

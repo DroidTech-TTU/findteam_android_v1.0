@@ -8,15 +8,18 @@
         android:id="@+id/messageLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/chat_receiver_bg"
-        android:visibility="visible">
+        android:layout_margin="2dp"
+        android:background="@drawable/chat_receiver_bg">
 
         <TextView
             android:id="@+id/messageTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text=""
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/bai_jamjuree_medium"
             android:textColor="@color/white"
             android:textSize="14sp"
             tools:text="This is cool" />
