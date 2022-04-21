@@ -7,9 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.example.findteam_android_v10.R;
 
@@ -17,8 +14,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class UrlAdapter extends RecyclerView.Adapter<UrlAdapter.ViewHolder> {
-    private List<String> urls;
+    private final List<String> urls;
     private final String TAG = "urlAdapter";
     Context context;
 
@@ -32,8 +32,7 @@ public class UrlAdapter extends RecyclerView.Adapter<UrlAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_url, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override

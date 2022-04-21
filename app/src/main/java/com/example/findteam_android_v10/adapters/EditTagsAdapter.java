@@ -1,7 +1,6 @@
 package com.example.findteam_android_v10.adapters;
 
 import android.content.Context;
-import android.net.Uri;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -11,28 +10,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.example.findteam_android_v10.R;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.example.findteam_android_v10.R;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-
 import co.lujun.androidtagview.TagContainerLayout;
 import co.lujun.androidtagview.TagView;
 
 public class EditTagsAdapter extends RecyclerView.Adapter<EditTagsAdapter.ViewHolder> {
 
-    private List<String> categories;
-    private List<String> finalCategories;
-
-    private List<List<String>> tags;
+    private final List<String> categories;
+    private final List<String> finalCategories;
+    private final List<List<String>> tags;
 
     private final String TAG = "EditTagsAdapter";
     Context context;
@@ -49,8 +42,7 @@ public class EditTagsAdapter extends RecyclerView.Adapter<EditTagsAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_edit_tag, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -67,9 +59,10 @@ public class EditTagsAdapter extends RecyclerView.Adapter<EditTagsAdapter.ViewHo
         return categories.size();
     }
 
-    public List<String> getCategories(){
+    public List<String> getCategories() {
         notifyDataSetChanged();
-        return finalCategories;}
+        return finalCategories;
+    }
 
     public List<List<String>> getTags(){return tags;}
     public class ViewHolder extends RecyclerView.ViewHolder {

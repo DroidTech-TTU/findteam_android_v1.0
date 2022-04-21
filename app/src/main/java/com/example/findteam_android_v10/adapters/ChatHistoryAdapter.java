@@ -1,24 +1,16 @@
 package com.example.findteam_android_v10.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
-import com.example.findteam_android_v10.classes.User;
-import com.example.findteam_android_v10.fragments.FragChatListDirections;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,15 +18,12 @@ import org.json.JSONObject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
-import cz.msebera.android.httpclient.Header;
 
 public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.ViewHolder> {
 
-    private JSONArray messages;
-    private Context context;
+    private final JSONArray messages;
+    private final Context context;
 
     public ChatHistoryAdapter(Context context, JSONArray messages) {
         this.context = context;

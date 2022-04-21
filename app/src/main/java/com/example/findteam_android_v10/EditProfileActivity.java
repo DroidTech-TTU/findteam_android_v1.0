@@ -1,16 +1,5 @@
 package com.example.findteam_android_v10;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -25,7 +14,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.findteam_android_v10.adapters.EditTagsAdapter;
-import com.example.findteam_android_v10.adapters.editTextUrlsAdapter;
+import com.example.findteam_android_v10.adapters.EditTextUrlsAdapter;
 import com.example.findteam_android_v10.classes.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -42,22 +31,28 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.lujun.androidtagview.TagContainerLayout;
-import co.lujun.androidtagview.TagView;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import cz.msebera.android.httpclient.Header;
 
 public class EditProfileActivity extends AppCompatActivity {
 
     private static final String TAG = "EditProfileActivity";
 
-    List<String> urls, categories;
-    List<List<String>> tags;
-    EditText firstName, middleName, lastName;
-    ImageView editProfPic;
-    ProgressDialog dialog;
-    EditTagsAdapter editTagsAdapter;
-
-    Uri profPicUri;
+    private List<String> urls, categories;
+    private List<List<String>> tags;
+    private EditText firstName, middleName, lastName;
+    private ImageView editProfPic;
+    private ProgressDialog dialog;
+    private EditTagsAdapter editTagsAdapter;
+    private Uri profPicUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +83,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         //setup recyclerview and adapter for urls
         RecyclerView rvUrl = findViewById(R.id.rvEditTextUrls);
-        editTextUrlsAdapter urlAdapter = new editTextUrlsAdapter(this, urls);
+        EditTextUrlsAdapter urlAdapter = new EditTextUrlsAdapter(this, urls);
         rvUrl.setAdapter(urlAdapter);
         rvUrl.setLayoutManager(new LinearLayoutManager(this));
 

@@ -1,24 +1,17 @@
 package com.example.findteam_android_v10.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.findteam_android_v10.DetailMyProjectActivity;
 import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.R;
-import com.example.findteam_android_v10.classes.Project;
-import com.example.findteam_android_v10.classes.User;
 import com.example.findteam_android_v10.fragments.FragChatListDirections;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,8 +25,8 @@ import cz.msebera.android.httpclient.Header;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHolder> {
 
-    private JSONArray chats;
-    private Context context;
+    private final JSONArray chats;
+    private final Context context;
 
     public ChatListAdapter(Context context, JSONArray chats) {
         this.context = context;

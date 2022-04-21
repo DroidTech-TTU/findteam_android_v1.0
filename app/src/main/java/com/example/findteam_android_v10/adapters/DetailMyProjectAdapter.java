@@ -1,10 +1,8 @@
 package com.example.findteam_android_v10.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,14 +15,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.findteam_android_v10.DetailMyProjectActivity;
 import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.LoginActivity;
-import com.example.findteam_android_v10.MainActivity;
 import com.example.findteam_android_v10.MemberProfileActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.classes.Project;
@@ -39,15 +31,18 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProjectAdapter.ViewHolder> {
 
-    private final String TAG = "detailMyProjectAdapter";
+    private final String TAG = "DetailMyProjectAdapter";
     private JSONArray members;
-    private  Context context;
+    private final Context context;
     private JSONObject project;
+
     public DetailMyProjectAdapter(Context context, JSONArray members, JSONObject project) throws JSONException {
         Log.d(TAG, "Constructor: " + members.toString());
         this.context = context;
@@ -65,8 +60,7 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
         LayoutInflater inflater = LayoutInflater.from(context);
         Log.d(TAG, "onCreateViewHolder: " + members.toString());
         View view = inflater.inflate(R.layout.item_my_project_detail, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -174,8 +168,9 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
         }
         public void onButtonShowPopupWindowClick(View view, JSONObject member) throws JSONException {
             // inflate the layout of the popup window
+            view.getContext();
             LayoutInflater inflater = (LayoutInflater)
-                    view.getContext().getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
+                    view.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View popupView = inflater.inflate(R.layout.popup_review_member, null);
 
             // create the popup window

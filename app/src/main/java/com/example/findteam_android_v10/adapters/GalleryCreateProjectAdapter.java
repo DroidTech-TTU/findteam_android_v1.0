@@ -11,19 +11,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-import com.example.findteam_android_v10.Utils.OnSwipeTouchListener;
 import com.example.findteam_android_v10.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class GalleryCreateProjectAdapter extends RecyclerView.Adapter<GalleryCreateProjectAdapter.galleryViewHolder>{
-    Context context;
-    List<String> pictureURLs;
+    private final Context context;
+    private List<String> pictureURLs;
     public static String TAG = "galleryCreateProjectAdapter";
 
     public GalleryCreateProjectAdapter(Context context, List<String> picturesUrls) {
@@ -96,7 +95,7 @@ public class GalleryCreateProjectAdapter extends RecyclerView.Adapter<GalleryCre
             Log.d(TAG, "OnItemImagePopup: " + pictureURL);
             // inflate the layout of the popup window
             LayoutInflater inflater = (LayoutInflater)
-                    context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+                    context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View popupView = inflater.inflate(R.layout.popup_view_photo, null);
             ImageView ivPopupImage = popupView.findViewById(R.id.ivPopupImage);
             Glide.with(context).load(pictureURL).into(ivPopupImage);

@@ -42,16 +42,16 @@ public class Project extends JSONObject {
     public static final int MEMBER_SHIP__TYPE_REJECT = 4;
 
     public static final String TAG = "ProjectClass";
-    public static final String getURLDeleteProject(int pid){
+    public static String getURLDeleteProject(int pid){
         Log.d(TAG, "DeleteProjectURL=" + "project?pid=" + pid);
         return "project?pid=" + pid;
     }
-    public static final String getURLGetProject(int pid){return "project?pid=" + pid;}
-    public static final String getURLJoinProject(int pid){return "project/join?pid=" + pid;}
-    public static final String getURLDeletePicture(int pid, String imageName){
+    public static String getURLGetProject(int pid){return "project?pid=" + pid;}
+    public static String getURLJoinProject(int pid){return "project/join?pid=" + pid;}
+    public static String getURLDeletePicture(int pid, String imageName){
         return "project/picture?pid=" + pid + "&picture_file="+ imageName;
     }
-    public static final String getURLUpdateProject(int pid){
+    public static String getURLUpdateProject(int pid){
         return "project?pid=" + pid;
     }
 
@@ -72,7 +72,7 @@ public class Project extends JSONObject {
     }
 
     public static JSONArray search(JSONArray jsonArrayProjects, String searchKey) throws JSONException {
-        String []keys = searchKey.split(" ");
+        String[] keys = searchKey.split(" ");
         JSONArray results = new JSONArray();
 
         for(int i=0; i<jsonArrayProjects.length(); i++){

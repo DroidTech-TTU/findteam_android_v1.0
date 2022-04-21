@@ -1,13 +1,11 @@
 package com.example.findteam_android_v10.adapters;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,13 +14,13 @@ import com.example.findteam_android_v10.R;
 
 import java.util.List;
 
-public class editTextUrlsAdapter extends RecyclerView.Adapter<editTextUrlsAdapter.ViewHolder> {
+public class EditTextUrlsAdapter extends RecyclerView.Adapter<EditTextUrlsAdapter.ViewHolder> {
 
-    private List<String> urls;
-    private final String TAG = "editTextUrlsAdapter";
+    private final List<String> urls;
+    private final String TAG = "EditTextUrlsAdapter";
     Context context;
 
-    public editTextUrlsAdapter(Context context,List<String> urls) {
+    public EditTextUrlsAdapter(Context context, List<String> urls) {
         this.urls = urls;
         this.context = context;
     }
@@ -32,8 +30,7 @@ public class editTextUrlsAdapter extends RecyclerView.Adapter<editTextUrlsAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_edit_text_url, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override

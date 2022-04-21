@@ -1,42 +1,35 @@
 package com.example.findteam_android_v10.adapters;
 
 import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.example.findteam_android_v10.LoginActivity;
+import com.example.findteam_android_v10.R;
+import com.example.findteam_android_v10.fragments.FragSearchChatDirections;
+
+import org.json.JSONException;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.example.findteam_android_v10.LoginActivity;
-import com.example.findteam_android_v10.R;
-import com.example.findteam_android_v10.fragments.FragChatListDirections;
-import com.example.findteam_android_v10.fragments.FragSearchChatDirections;
-
-import org.json.JSONException;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-
 public class SearchChatUsersAdapter extends RecyclerView.Adapter<SearchChatUsersAdapter.ViewHolder> {
 
-    private List<String> users;
-    private List<String> profilePics;
-    private List<Integer> uids;
+    private final List<String> users;
+    private final List<String> profilePics;
+    private final List<Integer> uids;
 
     private final String TAG = "urlAdapter";
-    Context context;
+    private final Context context;
 
     public SearchChatUsersAdapter(Context context,List<String> users, List<String> profilePics, List<Integer> uids) {
         this.context = context;
@@ -50,8 +43,7 @@ public class SearchChatUsersAdapter extends RecyclerView.Adapter<SearchChatUsers
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_search_chat, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override

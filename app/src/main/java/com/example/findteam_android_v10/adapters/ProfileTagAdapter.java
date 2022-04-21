@@ -2,40 +2,27 @@ package com.example.findteam_android_v10.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.media.Image;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.findteam_android_v10.R;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import co.lujun.androidtagview.TagContainerLayout;
 
 public class ProfileTagAdapter extends RecyclerView.Adapter<ProfileTagAdapter.ViewHolder> {
 
-    private List<String> categories;
-    private List<List<String>> tags;
+    private final List<String> categories;
+    private final List<List<String>> tags;
 
     private final String TAG = "ProfileTagAdapter";
-    Context context;
+    private final Context context;
 
     public ProfileTagAdapter(Context context, List<String> categories, List<List<String>> tags) {
         this.context = context;
