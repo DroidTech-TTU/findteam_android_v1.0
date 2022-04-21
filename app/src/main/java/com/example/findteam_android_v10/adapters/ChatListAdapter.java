@@ -54,7 +54,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ChatListAdapter.ViewHolder holder, int position) {
         try {
-            holder.bind(chats.getInt(position));
+            JSONObject object = chats.getJSONObject(position);
+            holder.bind(object.getInt("to_uid"), object.getString("text"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -81,25 +82,9 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
         }
 
-        public void bind(int uid) throws JSONException {
+        public void bind(int toUid, String text) throws JSONException {
 
-            RequestParams params = new RequestParams();
-            params.put("uid", uid);
-            FindTeamClient.get("chat", params, new JsonHttpResponseHandler(){
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                    try {
-                        if(response != null) {
-                            JSONObject chat = (JSONObject) response.get(response.length() - 1);
-                            chatListLastMsg.setText(chat.getString("text"));
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            });
-            FindTeamClient.get("user?uid=" + uid, new JsonHttpResponseHandler() {
+            FindTeamClient.get("user?uid=" + toUid, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     try {
@@ -113,6 +98,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
                         }
                         fullName.append(response.getString("last_name"));
                         chatListTextView.setText(fullName.toString());
+                        chatListLastMsg.setText(text);
                         Object picture = response.get("picture");
                         if (picture != null) {
 
@@ -122,7 +108,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
                         }
                         layout.setOnClickListener(v -> {
-                            FragChatListDirections.ActionItemChatListToItemChatHistory action = FragChatListDirections.actionItemChatListToItemChatHistory(true, uid, fullName.toString(), -1);
+                            FragChatListDirections.ActionItemChatListToItemChatHistory action = FragChatListDirections.actionItemChatListToItemChatHistory(true, toUid, fullName.toString(), -1);
                             Navigation.findNavController(v).navigate(action);
                         });
 
