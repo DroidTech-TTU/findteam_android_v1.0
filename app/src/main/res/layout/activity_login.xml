@@ -119,13 +119,13 @@
         android:id="@+id/findTeamIcon"
         android:layout_width="122dp"
         android:layout_height="111dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="92dp"
         android:layout_marginEnd="148dp"
+        android:layout_marginTop="92dp"
         android:elevation="20dp"
-        app:srcCompat="@drawable/ic_icon" />
+        app:srcCompat="@drawable/ic_icon_white" />
 
 
 </RelativeLayout>
