@@ -242,15 +242,21 @@
         <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/drawable/gradient_card_bg.xml" value="0.488" />
         <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/drawable/gradient_footer_bg.xml" value="0.488" />
         <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.328" />
+        <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/drawable/ic_gren_enter.xml" value="0.196" />
         <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/drawable/ic_icon.xml" value="0.328" />
+        <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/drawable/ic_icon_white.xml" value="0.196" />
         <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/drawable/ic_launcher_background.xml" value="0.488" />
         <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/drawable/ic_lock.xml" value="0.328" />
+        <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/drawable/ic_team_bro.xml" value="0.328" />
+        <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/drawable/item_project_shape.xml" value="0.328" />
         <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/drawable/my_profile_desc_bg.xml" value="0.3165" />
         <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/layout/activity_detail_my_project.xml" value="0.5083612040133779" />
         <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/layout/activity_login.xml" value="0.22" />
         <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/layout/activity_member_profile.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/layout/frag_my_projects.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/layout/frag_search_tabs.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.196" />
+        <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.196" />
       </map>
     </option>
   </component>
