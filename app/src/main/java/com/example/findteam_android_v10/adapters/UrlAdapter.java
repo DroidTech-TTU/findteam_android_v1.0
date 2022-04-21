@@ -1,8 +1,6 @@
 package com.example.findteam_android_v10.adapters;
 
 import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +17,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-public class urlAdapter extends RecyclerView.Adapter<urlAdapter.ViewHolder> {
+public class UrlAdapter extends RecyclerView.Adapter<UrlAdapter.ViewHolder> {
     private List<String> urls;
     private final String TAG = "urlAdapter";
     Context context;
 
-    public urlAdapter(Context context,List<String> urls) {
+    public UrlAdapter(Context context, List<String> urls) {
         this.urls = urls;
         this.context = context;
     }

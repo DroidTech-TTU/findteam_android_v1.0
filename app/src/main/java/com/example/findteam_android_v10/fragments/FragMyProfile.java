@@ -1,11 +1,7 @@
 package com.example.findteam_android_v10.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,7 +32,7 @@ import com.example.findteam_android_v10.EditProfileActivity;
 import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.adapters.ProfileTagAdapter;
-import com.example.findteam_android_v10.adapters.urlAdapter;
+import com.example.findteam_android_v10.adapters.UrlAdapter;
 import com.example.findteam_android_v10.classes.Project;
 import com.example.findteam_android_v10.classes.User;
 import com.google.android.material.appbar.AppBarLayout;
@@ -53,7 +47,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.lujun.androidtagview.TagContainerLayout;
 import cz.msebera.android.httpclient.Header;
 
 public class FragMyProfile extends Fragment {
@@ -64,7 +57,7 @@ public class FragMyProfile extends Fragment {
     ImageView ivProfilePic;
     List<String> urls, categories;
     List<List<String>> tags;
-    urlAdapter urlAdapter;
+    UrlAdapter urlAdapter;
     ProfileTagAdapter profileTagAdapter;
     FloatingActionButton fab;
 
@@ -99,7 +92,7 @@ public class FragMyProfile extends Fragment {
 
         //setup recyclerview and adapter for urls
         RecyclerView rvUrl = view.findViewById(R.id.rvUrls);
-        urlAdapter = new urlAdapter(getContext(), urls);
+        urlAdapter = new UrlAdapter(getContext(), urls);
         rvUrl.setAdapter(urlAdapter);
         rvUrl.setLayoutManager(new LinearLayoutManager(getContext()));
         rvUrl.addItemDecoration(new DividerItemDecoration(rvUrl.getContext(), LinearLayoutManager.VERTICAL));

@@ -3,38 +3,26 @@ package com.example.findteam_android_v10;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.findteam_android_v10.adapters.ProfileTagAdapter;
-import com.example.findteam_android_v10.adapters.urlAdapter;
+import com.example.findteam_android_v10.adapters.UrlAdapter;
 import com.example.findteam_android_v10.classes.Project;
-import com.example.findteam_android_v10.classes.User;
-import com.example.findteam_android_v10.fragments.FragChatHistory;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +31,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.lujun.androidtagview.TagContainerLayout;
 import cz.msebera.android.httpclient.Header;
 
 public class MemberProfileActivity extends AppCompatActivity {
@@ -55,7 +42,7 @@ public class MemberProfileActivity extends AppCompatActivity {
     List<String> urls, categories;
     List<List<String>> tags;
 
-    urlAdapter urlAdapter;
+    UrlAdapter urlAdapter;
     ProfileTagAdapter profileTagAdapter;
 
     FloatingActionButton goBackFab;
@@ -94,7 +81,7 @@ public class MemberProfileActivity extends AppCompatActivity {
 
         //setup url adapter
         RecyclerView rvUrl = findViewById(R.id.rvUrls);
-        urlAdapter = new urlAdapter(this, urls);
+        urlAdapter = new UrlAdapter(this, urls);
         rvUrl.setAdapter(urlAdapter);
         rvUrl.setLayoutManager(new LinearLayoutManager(this));
         rvUrl.addItemDecoration(new DividerItemDecoration(rvUrl.getContext(), LinearLayoutManager.VERTICAL));
