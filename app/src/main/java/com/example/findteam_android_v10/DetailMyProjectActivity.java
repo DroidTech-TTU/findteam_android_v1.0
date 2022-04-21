@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -27,7 +26,6 @@ import android.widget.Toast;
 
 import com.example.findteam_android_v10.adapters.DetailMyProjectAdapter;
 import com.example.findteam_android_v10.adapters.GalleryCreateProjectAdapter;
-import com.example.findteam_android_v10.classes.Picture;
 import com.example.findteam_android_v10.classes.Project;
 import com.example.findteam_android_v10.classes.User;
 import com.example.findteam_android_v10.fragments.FragMyProjects;
@@ -40,14 +38,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.security.Policy;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import co.lujun.androidtagview.TagContainerLayout;
 import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class DetailMyProjectActivity extends AppCompatActivity {
     public static final int EDIT_PROJECT_CODE = 1123;
@@ -87,7 +82,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
         this.tgDetailProject = findViewById(R.id.tgDetailProject);
         this.ibEditProject= findViewById(R.id.ibEditProject);
         this.ibDeleteProject= findViewById(R.id.ibDeleteProject);
-        this.ibGoBack = findViewById(R.id.ibGoBack);
+        this.ibGoBack = findViewById(R.id.goBackFab);
         ibGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

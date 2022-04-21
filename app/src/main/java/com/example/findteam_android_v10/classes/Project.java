@@ -164,14 +164,10 @@ public class Project extends JSONObject {
         return MEMBER_SHIP__TYPE_GUEST;
     }
 
-    public static void getMyProjects(AsyncHttpResponseHandler asyncHttpResponseHandler){
+    public static void getMyProjects(int uid, AsyncHttpResponseHandler asyncHttpResponseHandler){
 
-        try {
-            int uid = LoginActivity.currentUser.getInt("uid");
-            FindTeamClient.get("project/search?uid=" + uid , asyncHttpResponseHandler);
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
+        FindTeamClient.get("project/search?uid=" + uid , asyncHttpResponseHandler);
+
     }
 
     public static void printProjects(String callTag, JSONArray projects) throws JSONException {

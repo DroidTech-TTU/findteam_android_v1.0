@@ -149,31 +149,35 @@ public class FragMyProfile extends Fragment {
                 LoginActivity.currentUser = response;
 
                 //getting the number of projects for active and finished
-                Project.getMyProjects(new JsonHttpResponseHandler(){
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                        int finished = 0, active = 0;
-                        for(int i = 0; i < response.length(); i++){
-                            try {
-                                if(((JSONObject)response.get(i)).getInt("status") == 0)
-                                    active++;
-                                else if(((JSONObject)response.get(i)).getInt("status") == 2)
-                                    finished++;
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                try {
+                    Project.getMyProjects(LoginActivity.currentUser.getInt("uid"), new JsonHttpResponseHandler(){
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                            int finished = 0, active = 0;
+                            for(int i = 0; i < response.length(); i++){
+                                try {
+                                    if(((JSONObject)response.get(i)).getInt("status") == 0)
+                                        active++;
+                                    else if(((JSONObject)response.get(i)).getInt("status") == 2)
+                                        finished++;
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
+
+                            //get the finished project and active project count
+                            finishedProj.setText(String.valueOf(finished));
+                            activeProj.setText(String.valueOf(active));
+                        }
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            Log.i(TAG, throwable + " " + errorResponse);
                         }
 
-                        //get the finished project and active project count
-                        finishedProj.setText(String.valueOf(finished));
-                        activeProj.setText(String.valueOf(active));
-                    }
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        Log.i(TAG, throwable + " " + errorResponse);
-                    }
-
-                });
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
 
                 loadProfile(false, LoginActivity.currentUser);
@@ -186,6 +190,7 @@ public class FragMyProfile extends Fragment {
                 LoginActivity.sharedPreferences.edit().putString("access_token","").apply();
                 Toast.makeText(getContext(), "Cannot fetch data. Please re-login again.", Toast.LENGTH_LONG).show();
             }
+
         });
 
         return view;
@@ -195,6 +200,8 @@ public class FragMyProfile extends Fragment {
 
         if(update){
             urls.clear();
+            categories.clear();
+            tags.clear();
         }
 
         try {
@@ -238,7 +245,6 @@ public class FragMyProfile extends Fragment {
                 tags.add(localTags);
             }
 
-            Log.i(TAG, categories.toString());
             profileTagAdapter.notifyDataSetChanged();
 
             //update the profile picture

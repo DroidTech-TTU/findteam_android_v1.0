@@ -7,74 +7,55 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.findteam_android_v10.adapters.EditTagsAdapter;
 import com.example.findteam_android_v10.adapters.editTextUrlsAdapter;
-import com.example.findteam_android_v10.adapters.urlAdapter;
 import com.example.findteam_android_v10.classes.User;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.ResponseHandlerInterface;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Future;
 
 import co.lujun.androidtagview.TagContainerLayout;
 import co.lujun.androidtagview.TagView;
 import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.HttpResponse;
-import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class EditProfileActivity extends AppCompatActivity {
 
     private static final String TAG = "EditProfileActivity";
 
-    List<String> urls, locations, skills;
+    List<String> urls, categories;
+    List<List<String>> tags;
     EditText firstName, middleName, lastName;
     ImageView editProfPic;
-    TagContainerLayout locationTagContainer, skillsTagContainer;
-    String imageFileName;
-
     ProgressDialog dialog;
+    EditTagsAdapter editTagsAdapter;
 
     Uri profPicUri;
 
@@ -85,36 +66,38 @@ public class EditProfileActivity extends AppCompatActivity {
 
         //Elements of EditProfile
         urls = new ArrayList<>();
-        locations = new ArrayList<>();
-        skills = new ArrayList<>();
+        categories = new ArrayList<>();
+        tags = new ArrayList<>();
 
-        locationTagContainer = findViewById(R.id.editLocationTags);
-        skillsTagContainer = findViewById(R.id.editSkillTags);
 
         editProfPic = findViewById(R.id.editProfPic);
 
         Button browseImage = findViewById(R.id.profPicSubmitBtn),
-                addUrl = findViewById(R.id.urlSubmitBtn),
-                addLocation = findViewById(R.id.addLocationBtn),
-                addSkill = findViewById(R.id.addSkillBtn);
+                addUrl = findViewById(R.id.urlSubmitBtn);
 
         firstName = findViewById(R.id.editFirstName);
         middleName = findViewById(R.id.editMiddleName);
         lastName = findViewById(R.id.editLastName);
 
-        EditText url = findViewById(R.id.editAddURL),
-                location = findViewById(R.id.editAddLocation),
-                skill = findViewById(R.id.editAddSkill);
+        EditText url = findViewById(R.id.editAddURL);
+        FloatingActionButton addEditTag = findViewById(R.id.addEditTag);
 
         //set the toolbar
         Toolbar toolbar = findViewById(R.id.tbEditProfile);
         setSupportActionBar(toolbar);
 
-        //setup recyclerview and adapter
+        //setup recyclerview and adapter for urls
         RecyclerView rvUrl = findViewById(R.id.rvEditTextUrls);
         editTextUrlsAdapter urlAdapter = new editTextUrlsAdapter(this, urls);
         rvUrl.setAdapter(urlAdapter);
         rvUrl.setLayoutManager(new LinearLayoutManager(this));
+
+        //setup recyclerview and adapter for tags
+        RecyclerView rvEditTags = findViewById(R.id.rvEditTags);
+        editTagsAdapter = new EditTagsAdapter(this, categories, tags);
+        rvEditTags.setAdapter(editTagsAdapter);
+        rvEditTags.setLayoutManager(new LinearLayoutManager(this));
+        rvEditTags.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         //Button Handler
         browseImage.setOnClickListener(new View.OnClickListener() {
@@ -133,23 +116,13 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-        addLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                locationTagContainer.addTag(location.getText().toString());
-                location.setText("");
-            }
+        toolbar.setNavigationOnClickListener(view -> finish());
+
+        addEditTag.setOnClickListener(view -> {
+            categories.add("");
+            tags.add(new ArrayList<String>());
+            editTagsAdapter.notifyDataSetChanged();
         });
-
-        addSkill.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                skillsTagContainer.addTag(skill.getText().toString());
-                skill.setText("");
-            }
-        });
-
-
 
         try {
 
@@ -174,63 +147,32 @@ public class EditProfileActivity extends AppCompatActivity {
                 JSONObject urlObj = (JSONObject) urlsJson.get(i);
                 urls.add("https://" + urlObj.getString("domain") + urlObj.getString("path"));
             }
+
             urlAdapter.notifyDataSetChanged();
 
-            //retrieve the location and skill tags
-            JSONArray tagJson = LoginActivity.currentUser.getJSONArray("tags");
-            for(int i = 0; i < tagJson.length(); i++){
-                JSONObject tagObj = (JSONObject)  tagJson.get(i);
-                if(tagObj.getString("category").equals("Location")){
-                    locations.add(tagObj.getString("text"));
-                } else if(tagObj.getString("category").equals("Skills")){
-                    skills.add(tagObj.getString("text"));
+            JSONArray tagsJson = LoginActivity.currentUser.getJSONArray("tags");
+
+            //load the tags of the user
+            for(int i = 0; i < tagsJson.length(); i++){
+                JSONObject tagObj = (JSONObject) tagsJson.get(i);
+                if(!categories.contains(tagObj.getString("category"))){
+                    categories.add(tagObj.getString("category"));
                 }
+
             }
-            //inflate the location tag container
-            locationTagContainer.setTagTypeface(ResourcesCompat.getFont(this, R.font.questrial));
-            locationTagContainer.setTags(locations);
 
-            locationTagContainer.setOnTagClickListener(
-                    new TagView.OnTagClickListener() {
-
-                        @Override
-                        public void onTagClick(int position, String text) {}
-
-                        @Override
-                        public void onTagLongClick(int position, String text) {}
-
-                        @Override
-                        public void onSelectedTagDrag(int position, String text) {}
-
-                        @Override
-                        public void onTagCrossClick(int position) {
-                            locationTagContainer.removeTag(position);
-                        }
+            for(int i = 0; i < categories.size(); i++){
+                List<String> localTags = new ArrayList<>();
+                for(int j = 0; j < tagsJson.length(); j++){
+                    JSONObject tagObj = (JSONObject) tagsJson.get(j);
+                    if(categories.get(i).equals(tagObj.getString("category"))){
+                        localTags.add(tagObj.getString("text"));
                     }
-            );
+                }
+                tags.add(localTags);
+            }
 
-            skillsTagContainer.setOnTagClickListener(
-                    new TagView.OnTagClickListener() {
-                        @Override
-                        public void onTagClick(int position, String text) {}
-
-                        @Override
-                        public void onTagLongClick(int position, String text) {}
-
-                        @Override
-                        public void onSelectedTagDrag(int position, String text) {}
-
-                        @Override
-                        public void onTagCrossClick(int position) {
-                            skillsTagContainer.removeTag(position);
-                        }
-                    }
-            );
-
-            //inflate the skills tag container
-            skillsTagContainer.setTagTypeface(ResourcesCompat.getFont(this,R.font.questrial));
-            skillsTagContainer.setTags(skills);
-
+            editTagsAdapter.notifyDataSetChanged();
 
 
         } catch (JSONException e) {
@@ -277,6 +219,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void updateUserInfo(){
 
+        Log.i(TAG, "it went to updateUserInfo");
+
         dialog = ProgressDialog.show(this, "Loading", "Updating Profile", true);
         try{
 
@@ -308,22 +252,21 @@ public class EditProfileActivity extends AppCompatActivity {
             //add the tags
             JSONArray tagsArray = new JSONArray();
 
-            if (!locationTagContainer.getTags().isEmpty()) {
+            categories = editTagsAdapter.getCategories();
+            tags = editTagsAdapter.getTags();
 
-                for (int i = 0; i < locationTagContainer.getTags().size(); i++) {
-                    JSONObject location = new JSONObject();
-                    location.put("text", locationTagContainer.getTags().get(i));
-                    location.put("category", "Location");
-                    tagsArray.put(location);
-                }
-            }
-            if (!skillsTagContainer.getTags().isEmpty()) {
+            Log.i(TAG, "size of categories is: " + categories.size());
+            Log.i(TAG, categories.toString());
+            Log.i(TAG, "size of tag is: " + tags.size());
+            Log.i(TAG, tags.toString());
 
-                for (int i = 0; i < skillsTagContainer.getTags().size(); i++) {
-                    JSONObject skill = new JSONObject();
-                    skill.put("text", skillsTagContainer.getTags().get(i));
-                    skill.put("category", "Skills");
-                    tagsArray.put(skill);
+            for(int i = 0; i < categories.size(); i++){
+                for(int j = 0; j < tags.get(i).size(); j++){
+                    JSONObject tagInstance = new JSONObject();
+                    tagInstance.put("category", categories.get(i));
+                    tagInstance.put("text", tags.get(i).get(j));
+
+                    tagsArray.put(tagInstance);
                 }
             }
 
@@ -367,7 +310,6 @@ public class EditProfileActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
