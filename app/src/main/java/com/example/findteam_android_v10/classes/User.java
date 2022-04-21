@@ -84,6 +84,12 @@ public class User {
         FindTeamClient.get(KEY_SEARCH, asyncHttpResponseHandler);
 
     }
+
+    public static void getUserByUid(RequestParams params, AsyncHttpResponseHandler asyncHttpResponseHandler){
+
+        FindTeamClient.get(KEY_USER, params, asyncHttpResponseHandler);
+
+    }
     public static void changeProfilePic(Context context, Uri profPic, AsyncHttpResponseHandler asyncHttpResponseHandler){
 
         try{

@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sample_prof_pic"
+                android:background="@color/find_team_dark"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                 app:layout_collapseMode="parallax"/>
 
@@ -49,7 +49,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/frag_profile_id"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_card_bg">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvProfileTags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/url_card"/>
 
             <TextView
                 android:id="@+id/profFullName"
@@ -57,12 +64,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:fontFamily="@font/roboto_bold"
-                android:text="AN LAM"
                 android:textColor="#3A3636"
                 android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="AN LAM" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/url_card"
@@ -72,6 +79,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="20dp"
                 app:cardCornerRadius="20dp"
+                app:cardElevation="5dp"
                 app:cardPreventCornerOverlap="true"
                 app:cardUseCompatPadding="true"
                 app:contentPadding="10dp"
@@ -107,119 +115,12 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/location_card"
+            <ImageView
+                android:id="@+id/footer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="20dp"
-                app:cardCornerRadius="20dp"
-                app:cardPreventCornerOverlap="true"
-                app:cardUseCompatPadding="true"
-                app:contentPadding="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/url_card">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/tagName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/staatliches"
-                        android:lineSpacingExtra="20sp"
-                        android:text="Locations:"
-                        android:textColor="@color/find_team_dark"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <co.lujun.androidtagview.TagContainerLayout
-                        android:id="@+id/tagContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="5dp"
-                        android:padding="10dp"
-                        app:container_background_color="@android:color/transparent"
-                        app:container_border_color="@android:color/transparent"
-                        app:container_enable_drag="false"
-                        app:horizontal_interval="10dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tagName"
-                        app:tag_clickable="true"
-                        app:tag_theme="random"
-                        app:tag_text_color="@color/find_team_dark"
-                        app:vertical_interval="10dp" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/skills_card"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp"
-                app:cardCornerRadius="20dp"
-                app:cardPreventCornerOverlap="true"
-                app:cardUseCompatPadding="true"
-                app:contentPadding="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/location_card">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-
-                    <TextView
-                        android:id="@+id/profSkills_text_my"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/staatliches"
-                        android:lineSpacingExtra="20sp"
-                        android:text="Skills:"
-                        android:textColor="@color/find_team_dark"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <co.lujun.androidtagview.TagContainerLayout
-                        android:id="@+id/skills_tag"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="5dp"
-                        android:padding="10dp"
-                        app:container_background_color="@android:color/transparent"
-                        app:container_border_color="@android:color/transparent"
-                        app:container_border_width="0dp"
-                        app:container_enable_drag="false"
-                        app:horizontal_interval="10dp"
-                        app:tag_border_color="@color/find_team_dark"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/profSkills_text_my"
-                        app:tag_clickable="true"
-                        app:tag_theme="random"
-                        app:vertical_interval="10dp" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
+                android:layout_height="400dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toBottomOf="@+id/rvProfileTags" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/finished_project_card"
@@ -300,9 +201,23 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+  
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btChatMemberProfile"
-
+        android:id="@+id/goBackFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="4dp"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="top|start"
+        app:maxImageSize="30dp"
+        app:srcCompat="@drawable/ic_baseline_arrow_back_ios_new_24"
+        app:tint="@color/white"
+        tools:ignore="ContentDescription" />
+  
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btChatMemberProfile"  
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

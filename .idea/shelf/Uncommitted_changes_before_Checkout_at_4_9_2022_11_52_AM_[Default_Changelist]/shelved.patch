@@ -1,0 +1,66 @@
+Index: app/src/main/java/com/example/findteam_android_v10/fragments/FragFindProjects.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.findteam_android_v10.fragments;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.util.Log;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.EditText;\r\nimport android.widget.ImageButton;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.activity.result.ActivityResult;\r\nimport androidx.activity.result.ActivityResultCallback;\r\nimport androidx.activity.result.ActivityResultLauncher;\r\nimport androidx.activity.result.contract.ActivityResultContracts;\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\nimport androidx.viewpager2.widget.ViewPager2;\r\n\r\nimport com.example.findteam_android_v10.CreateProjectActivity;\r\nimport com.example.findteam_android_v10.FindTeamClient;\r\nimport com.example.findteam_android_v10.LoginActivity;\r\nimport com.example.findteam_android_v10.R;\r\nimport com.example.findteam_android_v10.adapters.MyProjectsAdapter;\r\nimport com.example.findteam_android_v10.adapters.SearchTabAdapter;\r\nimport com.example.findteam_android_v10.classes.Project;\r\nimport com.google.android.material.tabs.TabLayout;\r\nimport com.loopj.android.http.AsyncHttpResponseHandler;\r\n\r\nimport org.json.JSONArray;\r\nimport org.json.JSONException;\r\nimport org.json.JSONObject;\r\n\r\nimport cz.msebera.android.httpclient.Header;\r\n\r\npublic class FragFindProjects extends Fragment {\r\n\r\n    public static String TAG = \"FragFindProjects\";\r\n    public static final String GET_MY_SEARCH = \"project/search\";\r\n    public static final int CREATE_PROJECT_CODE = 1133;\r\n    RecyclerView rvContacts;\r\n    ImageButton btSearchMyProjects;\r\n    EditText etSearchMyProjects;\r\n    JSONArray jsonProjects;\r\n    MyProjectsAdapter adapter;\r\n\r\n    @Override\r\n    public void onCreate(@Nullable Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        Log.d(TAG, \"On create\");\r\n\r\n    }\r\n\r\n    @Nullable\r\n    @Override\r\n    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {\r\n        View view = inflater.inflate(R.layout.frag_find_projects, container, false);\r\n        this.rvContacts = (RecyclerView) view.findViewById(R.id.rvMyProjectsSearch);\r\n        this.btSearchMyProjects = view.findViewById(R.id.btSearchMyProjects);\r\n        this.etSearchMyProjects = view.findViewById(R.id.etSearchMyProjects);\r\n\r\n        try {\r\n            getAllProjects();\r\n        } catch (JSONException e) {\r\n            e.printStackTrace();\r\n        }\r\n\r\n\r\n        this.btSearchMyProjects.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                try {\r\n                    search();\r\n                } catch (JSONException e) {\r\n                    e.printStackTrace();\r\n                }\r\n            }\r\n        });\r\n        return view;\r\n    }\r\n\r\n    @Override\r\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\r\n        super.onViewCreated(view, savedInstanceState);\r\n    }\r\n\r\n    public void getAllProjects() throws JSONException {\r\n        String URL = GET_MY_SEARCH;\r\n        Log.d(TAG,\"getAllProjects:\" + URL );\r\n        FindTeamClient.get(URL, new AsyncHttpResponseHandler() {\r\n            @Override\r\n            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {\r\n                Log.i(TAG, \"the status code for this request is: \" + statusCode );\r\n                try {\r\n                    jsonProjects = new JSONArray(new String(responseBody));\r\n                    Log.i(TAG, \"Data: \" + jsonProjects);\r\n                    adapter = new MyProjectsAdapter(getContext(), jsonProjects);\r\n                    rvContacts.setAdapter(adapter);\r\n                    rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));\r\n                    Toast.makeText(getContext(), \"Successfully Get Projects:\", Toast.LENGTH_SHORT).show();\r\n                } catch (JSONException e) {\r\n                    e.printStackTrace();\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {\r\n                Log.e(TAG, \"the status code for this request is\" + statusCode);\r\n                Toast.makeText(getContext(), \"Get Projects Failure: \", Toast.LENGTH_LONG).show();\r\n            }\r\n        });\r\n    }\r\n\r\n    public void search() throws JSONException {\r\n\r\n        String URL = GET_MY_SEARCH;\r\n        Log.d(TAG,\"searchEmpty:\" + URL );\r\n        FindTeamClient.get(URL, new AsyncHttpResponseHandler() {\r\n            @Override\r\n            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {\r\n                Log.i(TAG, \"the status code for this request is: \" + statusCode );\r\n                try {\r\n                    jsonProjects = new JSONArray(new String(responseBody));\r\n                    Log.i(TAG, \"Data: \" + jsonProjects);\r\n                    String searchKey = etSearchMyProjects.getText().toString();\r\n                    if(!searchKey.trim().isEmpty()){\r\n                        jsonProjects = Project.search(jsonProjects, searchKey);\r\n\r\n\r\n                    }\r\n                    Log.i(TAG, \"Search Results: \" + jsonProjects);\r\n                    adapter.clear();\r\n                    adapter.addAll(jsonProjects);\r\n                } catch (JSONException e) {\r\n                    e.printStackTrace();\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {\r\n                Log.e(TAG, \"the status code for this request is\" + statusCode);\r\n                Toast.makeText(getContext(), \"Search Projects Failure: \", Toast.LENGTH_LONG).show();\r\n            }\r\n        });\r\n    }\r\n\r\n    @Override\r\n    public void onResume() {\r\n        super.onResume();\r\n    }\r\n//    @Override\r\n//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\r\n//        super.onViewCreated(view, savedInstanceState);\r\n////        tabLayout= view.findViewById(R.id.tabLayout);\r\n////        viewPager= view.findViewById(R.id.viewPager);\r\n////\r\n////        tabLayout.addTab(tabLayout.newTab().setText(\"Home\"));\r\n////        tabLayout.addTab(tabLayout.newTab().setText(\"Sport\"));\r\n////        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);\r\n////        searchTabAdapter = new SearchTabAdapter(view.getContext(), getFragmentManager(), 2, getLifecycle());\r\n////        viewPager.setAdapter(searchTabAdapter);\r\n////\r\n////\r\n////        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {\r\n////            @Override\r\n////            public void onTabSelected(TabLayout.Tab tab) {\r\n////                viewPager.setCurrentItem(tab.getPosition());\r\n////            }\r\n////\r\n////            @Override\r\n////            public void onTabUnselected(TabLayout.Tab tab) {\r\n////\r\n////            }\r\n////\r\n////            @Override\r\n////            public void onTabReselected(TabLayout.Tab tab) {\r\n////\r\n////            }\r\n////        });\r\n//    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/findteam_android_v10/fragments/FragFindProjects.java b/app/src/main/java/com/example/findteam_android_v10/fragments/FragFindProjects.java
+--- a/app/src/main/java/com/example/findteam_android_v10/fragments/FragFindProjects.java	
++++ b/app/src/main/java/com/example/findteam_android_v10/fragments/FragFindProjects.java	
+@@ -26,7 +26,7 @@
+ import com.example.findteam_android_v10.LoginActivity;
+ import com.example.findteam_android_v10.R;
+ import com.example.findteam_android_v10.adapters.MyProjectsAdapter;
+-import com.example.findteam_android_v10.adapters.SearchTabAdapter;
++//import com.example.findteam_android_v10.adapters.SearchTabAdapter;
+ import com.example.findteam_android_v10.classes.Project;
+ import com.google.android.material.tabs.TabLayout;
+ import com.loopj.android.http.AsyncHttpResponseHandler;
+Index: .idea/deploymentTargetDropDown.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/deploymentTargetDropDown.xml b/.idea/deploymentTargetDropDown.xml
+deleted file mode 100644
+--- a/.idea/deploymentTargetDropDown.xml	
++++ /dev/null	
+@@ -1,17 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="deploymentTargetDropDown">
+-    <runningDeviceTargetSelectedWithDropDown>
+-      <Target>
+-        <type value="RUNNING_DEVICE_TARGET" />
+-        <deviceKey>
+-          <Key>
+-            <type value="SERIAL_NUMBER" />
+-            <value value="adb-0A041JECB00779-mg5ueJ._adb-tls-connect._tcp" />
+-          </Key>
+-        </deviceKey>
+-      </Target>
+-    </runningDeviceTargetSelectedWithDropDown>
+-    <timeTargetWasSelectedWithDropDown value="2022-04-04T04:31:42.100111700Z" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"GRADLE\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+--- a/.idea/gradle.xml	
++++ b/.idea/gradle.xml	
+@@ -7,7 +7,7 @@
+         <option name="testRunner" value="GRADLE" />
+         <option name="distributionType" value="DEFAULT_WRAPPED" />
+         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+-        <option name="gradleJvm" value="1.8" />
++        <option name="gradleJvm" value="Android Studio default JDK" />
+         <option name="modules">
+           <set>
+             <option value="$PROJECT_DIR$" />

@@ -22,13 +22,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.findteam_android_v10.adapters.ProfileTagAdapter;
 import com.example.findteam_android_v10.adapters.urlAdapter;
+import com.example.findteam_android_v10.classes.Project;
+import com.example.findteam_android_v10.classes.User;
 import com.example.findteam_android_v10.fragments.FragChatHistory;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.lujun.androidtagview.TagContainerLayout;
+import cz.msebera.android.httpclient.Header;
 
 public class MemberProfileActivity extends AppCompatActivity {
 
@@ -45,10 +52,13 @@ public class MemberProfileActivity extends AppCompatActivity {
 
     TextView fullName;
     ImageView ivProfilePic;
-    List<String> urls, locations, skills;
-    com.example.findteam_android_v10.adapters.urlAdapter urlAdapter;
-    TagContainerLayout skillsTag, locationTag;
-    FloatingActionButton fab;
+    List<String> urls, categories;
+    List<List<String>> tags;
+
+    urlAdapter urlAdapter;
+    ProfileTagAdapter profileTagAdapter;
+
+    FloatingActionButton goBackFab;
     JSONObject user;
     FloatingActionButton btChatMemberProfile;
     Context context;
@@ -58,8 +68,13 @@ public class MemberProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_member_profile);
         context = this;
         String fullMemName = getIntent().getStringExtra("fullname");
+
+        TextView finishedProj = findViewById(R.id.finished_project_count),
+                activeProj = findViewById(R.id.active_project_count);
+
         try {
             user = new JSONObject(getIntent().getStringExtra("user"));
+            Log.i(TAG, user.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -68,25 +83,27 @@ public class MemberProfileActivity extends AppCompatActivity {
         fullName = findViewById(R.id.profFullName);
         ivProfilePic = findViewById(R.id.myProfPic);
 
-        fab = findViewById(R.id.fab);
+        goBackFab = findViewById(R.id.goBackFab);
 
         urls = new ArrayList<>();
-        locations = new ArrayList<>();
-        skills = new ArrayList<>();
-
-        skillsTag = findViewById(R.id.skills_tag);
-        locationTag = findViewById(R.id.tagContainer);
+        categories = new ArrayList<>();
+        tags = new ArrayList<>();
 
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
 
-        //setup recyclerview and adapter
+        //setup url adapter
         RecyclerView rvUrl = findViewById(R.id.rvUrls);
         urlAdapter = new urlAdapter(this, urls);
-
         rvUrl.setAdapter(urlAdapter);
         rvUrl.setLayoutManager(new LinearLayoutManager(this));
         rvUrl.addItemDecoration(new DividerItemDecoration(rvUrl.getContext(), LinearLayoutManager.VERTICAL));
+
+        //setup recyclerview and adapter for tags
+        RecyclerView rvTags = findViewById(R.id.rvProfileTags);
+        profileTagAdapter = new ProfileTagAdapter(this, categories, tags);
+        rvTags.setAdapter(profileTagAdapter);
+        rvTags.setLayoutManager(new LinearLayoutManager(this));
 
         Toolbar toolbar = findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
@@ -129,10 +146,45 @@ public class MemberProfileActivity extends AppCompatActivity {
             }
         });
 
+        goBackFab.setOnClickListener(view -> {
+            finish();
+        });
+
+
+        //getting the number of projects for active and finished
+        try {
+            Project.getMyProjects(user.getInt("uid"), new JsonHttpResponseHandler(){
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                    int finished = 0, active = 0;
+                    for(int i = 0; i < response.length(); i++){
+                        try {
+                            if(((JSONObject)response.get(i)).getInt("status") == 0)
+                                active++;
+                            else if(((JSONObject)response.get(i)).getInt("status") == 2)
+                                finished++;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    //get the finished project and active project count
+                    finishedProj.setText(String.valueOf(finished));
+                    activeProj.setText(String.valueOf(active));
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Log.i(TAG, throwable + " " + errorResponse);
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         loadProfile(user);
-
-
 
     }
 
@@ -159,22 +211,29 @@ public class MemberProfileActivity extends AppCompatActivity {
 
             urlAdapter.notifyDataSetChanged();
 
+            //load the tags of the user
             for(int i = 0; i < tagsJson.length(); i++){
-                JSONObject tag = (JSONObject) tagsJson.get(i);
-                if(tag.getString("category").equals("Location")){
-                    locations.add(tag.getString("text"));
-                } else if(tag.getString("category").equals("Skills")){
-                    skills.add(tag.getString("text"));
+                JSONObject tagObj = (JSONObject) tagsJson.get(i);
+                if(!categories.contains(tagObj.getString("category"))){
+                    categories.add(tagObj.getString("category"));
                 }
+
             }
 
-            Typeface typeface = ResourcesCompat.getFont(this, R.font.questrial);
-            locationTag.setTagTypeface(typeface);
-            skillsTag.setTagTypeface(typeface);
+            for(int i = 0; i < categories.size(); i++){
+                List<String> localTags = new ArrayList<>();
+                for(int j = 0; j < tagsJson.length(); j++){
+                    JSONObject tagObj = (JSONObject) tagsJson.get(j);
+                    if(categories.get(i).equals(tagObj.getString("category"))){
+                        localTags.add(tagObj.getString("text"));
+                    }
+                }
+                tags.add(localTags);
+            }
 
-            //update the tag container
-            skillsTag.setTags(skills);
-            locationTag.setTags(locations);
+            profileTagAdapter.notifyDataSetChanged();
+
+
 
             //update the profile picture
             Glide.with(this)
