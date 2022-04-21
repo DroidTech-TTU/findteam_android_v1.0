@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.findteam_android_v10.FindTeamClient;
+import com.example.findteam_android_v10.MainActivity;
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.adapters.ChatHistoryAdapter;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -41,7 +43,7 @@ import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class FragChatHistory extends Fragment {
-
+    public static final String TAG = "FragChatHistory";
     private final Handler handler = new Handler();
     private RecyclerView chatHistoryRecyclerView;
     private EditText sendMessageEditText;
@@ -85,11 +87,23 @@ public class FragChatHistory extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "Get onCreate");
 
-        FragChatHistoryArgs args = FragChatHistoryArgs.fromBundle(getArguments());
-        title = args.getTitle();
-        puid = args.getPuid();
-        isUser = args.getIsUser();
+        Integer puid_ =  getArguments().getInt("puid");
+        Boolean is_user_ =  getArguments().getBoolean("is_user");
+        String title_ =  getArguments().getString("title");
+        Integer request_ =  getArguments().getInt("request");
+
+        if(request_ == MainActivity.REQUEST_CHAT_HISTORY){
+            title = title_;
+            puid = puid_;
+            isUser = is_user_;
+        }else {
+            FragChatHistoryArgs args = FragChatHistoryArgs.fromBundle(getArguments());
+            title = args.getTitle();
+            puid = args.getPuid();
+            isUser = args.getIsUser();
+        }
     }
 
     @Override
@@ -107,6 +121,7 @@ public class FragChatHistory extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "Get onCreateView");
         View view = inflater.inflate(R.layout.frag_chat_history, container, false);
 
         Toolbar tbChatHistory = view.findViewById(R.id.tbChatHistory);
