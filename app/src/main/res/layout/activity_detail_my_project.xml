@@ -14,6 +14,19 @@
         tools:context=".DetailMyProjectActivity">
 
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btChatProject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="16dp"
+            app:backgroundTint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_chat_24"
+            app:tint="@color/find_team_orange" />
+
         <TextView
             android:id="@+id/tvProjecTitleDetailProject"
             android:layout_width="0dp"
@@ -49,10 +62,10 @@
             android:id="@+id/ibDeleteProject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="20dp"
             app:backgroundTint="@color/find_team_dark"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btChatProject"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_delete_outline_24"
             app:tint="@color/find_team_orange"

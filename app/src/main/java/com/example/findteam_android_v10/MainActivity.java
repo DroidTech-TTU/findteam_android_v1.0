@@ -38,18 +38,14 @@ public class MainActivity extends AppCompatActivity {
         if(i.getIntExtra("request", -1) == REQUEST_CHAT_HISTORY){
 
             int puid = i.getIntExtra("puid", -1);
-            Boolean is_user = i.getBooleanExtra("is_user", false);
-            String fullName = i.getStringExtra("fullName");
+            boolean is_user = i.getBooleanExtra("is_user", false);
+            String title = i.getStringExtra("title");
             int request = i.getIntExtra("request", -1);
-            Log.d(TAG, "puid = " + puid);
-            Log.d(TAG, "is_user = " + is_user);
-            Log.d(TAG, "title = " + fullName);
-            Log.d(TAG, "request = " + request);
 
             Bundle bun = new Bundle();
             bun.putInt("puid", puid);
             bun.putBoolean("is_user", is_user);
-            bun.putString("title",fullName);
+            bun.putString("title", title);
             bun.putInt("request", request);
 
             navController.navigate(R.id.item_chat_history, bun);

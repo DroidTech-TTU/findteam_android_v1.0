@@ -51,7 +51,7 @@ public class FragChatHistory extends Fragment {
     private String title;
     private int puid;
     private boolean isUser;
-    private Runnable periodicUpdate = new Runnable() {
+    private final Runnable periodicUpdate = new Runnable() {
         @Override
         public void run() {
 
@@ -89,16 +89,12 @@ public class FragChatHistory extends Fragment {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "Get onCreate");
 
-        Integer puid_ =  getArguments().getInt("puid");
-        Boolean is_user_ =  getArguments().getBoolean("is_user");
-        String title_ =  getArguments().getString("title");
-        Integer request_ =  getArguments().getInt("request");
-
-        if(request_ == MainActivity.REQUEST_CHAT_HISTORY){
-            title = title_;
-            puid = puid_;
-            isUser = is_user_;
-        }else {
+        int request_ =  getArguments().getInt("request");
+        if (request_ == MainActivity.REQUEST_CHAT_HISTORY) {
+            title = getArguments().getString("title");
+            puid = getArguments().getInt("puid");
+            isUser = getArguments().getBoolean("is_user");
+        } else {
             FragChatHistoryArgs args = FragChatHistoryArgs.fromBundle(getArguments());
             title = args.getTitle();
             puid = args.getPuid();

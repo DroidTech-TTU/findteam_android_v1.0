@@ -29,6 +29,7 @@ import com.example.findteam_android_v10.adapters.GalleryCreateProjectAdapter;
 import com.example.findteam_android_v10.classes.Project;
 import com.example.findteam_android_v10.classes.User;
 import com.example.findteam_android_v10.fragments.FragMyProjects;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -61,6 +62,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
     DetailMyProjectAdapter detailMyProjectAdapter;
     ImageButton ibGoBack;
     Button btJoinProject, btLeaveProject;
+    FloatingActionButton btChatProject;
     List<String> picturesURLs;
     List<Bitmap> pictureFiles;
     GalleryCreateProjectAdapter adapter;
@@ -91,11 +93,24 @@ public class DetailMyProjectActivity extends AppCompatActivity {
         });
         this.btJoinProject = findViewById(R.id.btJoinProject);
         this.btLeaveProject = findViewById(R.id.btLeaveProject);
+        this.btChatProject = findViewById(R.id.btChatProject);
         try {
             project = new JSONObject(getIntent().getStringExtra("project"));
             int memType = Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), project);
             if(LoginActivity.currentUser.getInt("uid") == project.getInt("owner_uid")) memType = Project.MEMBER_SHIP__TYPE_OWNER;
             Log.d(TAG, "Membership_type: " + memType);
+            btChatProject.setOnClickListener(l -> {
+                Intent i = new Intent(context, MainActivity.class);
+                try {
+                    i.putExtra("puid", project.getInt("pid"));
+                    i.putExtra("is_user", false);
+                    i.putExtra("title", project.getString("title"));
+                    i.putExtra("request", MainActivity.REQUEST_CHAT_HISTORY);
+                    startActivity(i);
+                } catch (JSONException exception) {
+                    exception.printStackTrace();
+                }
+            });
             switch (memType){
                 case Project.MEMBER_SHIP__TYPE_OWNER:{
                     Log.d(TAG, "Owner!!!");

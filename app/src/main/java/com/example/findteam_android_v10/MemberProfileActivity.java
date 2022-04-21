@@ -103,7 +103,7 @@ public class MemberProfileActivity extends AppCompatActivity {
                 try {
                     i.putExtra("puid", user.getInt("uid"));
                     i.putExtra("is_user", true);
-                    i.putExtra("fullName", fullMemName);
+                    i.putExtra("title", fullMemName);
                     i.putExtra("request", MainActivity.REQUEST_CHAT_HISTORY);
                     startActivity(i);
                 } catch (JSONException exception) {
