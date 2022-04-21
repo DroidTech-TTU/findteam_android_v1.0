@@ -1,12 +1,5 @@
 package com.example.findteam_android_v10;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,24 +24,27 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import cz.msebera.android.httpclient.Header;
 
 public class MemberProfileActivity extends AppCompatActivity {
 
     public static final String TAG = "MemberProfileActivity";
 
-    TextView fullName;
-    ImageView ivProfilePic;
-    List<String> urls, categories;
-    List<List<String>> tags;
+    private TextView fullName;
+    private ImageView ivProfilePic;
+    private List<String> urls, categories;
+    private List<List<String>> tags;
+    private UrlAdapter urlAdapter;
+    private ProfileTagAdapter profileTagAdapter;
+    private JSONObject user;
+    private Context context;
 
-    UrlAdapter urlAdapter;
-    ProfileTagAdapter profileTagAdapter;
-
-    FloatingActionButton goBackFab;
-    JSONObject user;
-    FloatingActionButton btChatMemberProfile;
-    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +65,6 @@ public class MemberProfileActivity extends AppCompatActivity {
         //Elements of the my profile
         fullName = findViewById(R.id.profFullName);
         ivProfilePic = findViewById(R.id.myProfPic);
-
-        goBackFab = findViewById(R.id.goBackFab);
 
         urls = new ArrayList<>();
         categories = new ArrayList<>();
@@ -95,11 +89,11 @@ public class MemberProfileActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-        btChatMemberProfile = findViewById(R.id.btChatMemberProfile);
+        FloatingActionButton btChatMemberProfile = findViewById(R.id.btChatMemberProfile);
         btChatMemberProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              Intent i = new Intent(context, MainActivity.class);
+                Intent i = new Intent(context, MainActivity.class);
                 try {
                     i.putExtra("puid", user.getInt("uid"));
                     i.putExtra("is_user", true);
@@ -125,7 +119,7 @@ public class MemberProfileActivity extends AppCompatActivity {
                 if (scrollRange + verticalOffset == 0) {
                     collapsingToolbarLayout.setTitle(fullMemName);
                     isShow = true;
-                } else if(isShow) {
+                } else if (isShow) {
                     collapsingToolbarLayout.setTitle(" ");//careful there should a space between double quote otherwise it wont work
                     collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(MemberProfileActivity.this, R.color.white));
                     isShow = false;
@@ -133,6 +127,7 @@ public class MemberProfileActivity extends AppCompatActivity {
             }
         });
 
+        FloatingActionButton goBackFab = findViewById(R.id.goBackFab);
         goBackFab.setOnClickListener(view -> {
             finish();
         });
@@ -140,16 +135,16 @@ public class MemberProfileActivity extends AppCompatActivity {
 
         //getting the number of projects for active and finished
         try {
-            Project.getMyProjects(user.getInt("uid"), new JsonHttpResponseHandler(){
+            Project.getMyProjects(user.getInt("uid"), new JsonHttpResponseHandler() {
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                     int finished = 0, active = 0;
-                    for(int i = 0; i < response.length(); i++){
+                    for (int i = 0; i < response.length(); i++) {
                         try {
-                            if(((JSONObject)response.get(i)).getInt("status") == 0)
+                            if (((JSONObject) response.get(i)).getInt("status") == 0)
                                 active++;
-                            else if(((JSONObject)response.get(i)).getInt("status") == 2)
+                            else if (((JSONObject) response.get(i)).getInt("status") == 2)
                                 finished++;
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -190,7 +185,7 @@ public class MemberProfileActivity extends AppCompatActivity {
                     tagsJson = user.getJSONArray("tags");
 
             //get every url in the user
-            for(int i = 0; i < urlsJson.length(); i++){
+            for (int i = 0; i < urlsJson.length(); i++) {
                 JSONObject urlObj = (JSONObject) urlsJson.get(i);
                 urls.add(urlObj.getString("domain") + urlObj.getString("path"));
                 Log.i(TAG, urls.get(i));
@@ -199,19 +194,19 @@ public class MemberProfileActivity extends AppCompatActivity {
             urlAdapter.notifyDataSetChanged();
 
             //load the tags of the user
-            for(int i = 0; i < tagsJson.length(); i++){
+            for (int i = 0; i < tagsJson.length(); i++) {
                 JSONObject tagObj = (JSONObject) tagsJson.get(i);
-                if(!categories.contains(tagObj.getString("category"))){
+                if (!categories.contains(tagObj.getString("category"))) {
                     categories.add(tagObj.getString("category"));
                 }
 
             }
 
-            for(int i = 0; i < categories.size(); i++){
+            for (int i = 0; i < categories.size(); i++) {
                 List<String> localTags = new ArrayList<>();
-                for(int j = 0; j < tagsJson.length(); j++){
+                for (int j = 0; j < tagsJson.length(); j++) {
                     JSONObject tagObj = (JSONObject) tagsJson.get(j);
-                    if(categories.get(i).equals(tagObj.getString("category"))){
+                    if (categories.get(i).equals(tagObj.getString("category"))) {
                         localTags.add(tagObj.getString("text"));
                     }
                 }
@@ -219,7 +214,6 @@ public class MemberProfileActivity extends AppCompatActivity {
             }
 
             profileTagAdapter.notifyDataSetChanged();
-
 
 
             //update the profile picture

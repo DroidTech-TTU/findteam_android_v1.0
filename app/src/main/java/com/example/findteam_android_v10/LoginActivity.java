@@ -1,42 +1,33 @@
 package com.example.findteam_android_v10;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.security.crypto.EncryptedSharedPreferences;
-import androidx.security.crypto.MasterKeys;
 
 import com.example.findteam_android_v10.classes.User;
 import com.google.android.material.textfield.TextInputLayout;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKeys;
 import cz.msebera.android.httpclient.Header;
-
 
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "LoginActivity";
     public static JSONObject currentUser;
-    private SharedPreferences mPrefs;
 
-    private String masterKeyAlias;
     public static SharedPreferences sharedPreferences;
 
     @Override
@@ -51,16 +42,15 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         try {
-            masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
             sharedPreferences = EncryptedSharedPreferences.create(
                     "FindTeam",
-                    masterKeyAlias,
+                    MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
                     this,
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
 
-        } catch (GeneralSecurityException |  IOException e) {
+        } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
         }
 
@@ -73,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //checks to see if the user is persisted throughout the app, go login directly
         //sharedPreferences = getSharedPreferences("FindTeam", MODE_PRIVATE);
-        if(!sharedPreferences.getString("access_token", "").equals("")) {
+        if (!sharedPreferences.getString("access_token", "").equals("")) {
 
             ProgressDialog progressDialog = ProgressDialog.show(this, "Loading", "Logging in", true);
             FindTeamClient.setAuth(sharedPreferences.getString("access_token", ""));
@@ -94,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     throwable.printStackTrace();
-                    sharedPreferences.edit().putString("access_token","").apply();
+                    sharedPreferences.edit().putString("access_token", "").apply();
                     Toast.makeText(LoginActivity.this, "Connection Failed. Please try again!", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
@@ -134,7 +124,6 @@ public class LoginActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
         });
-
 
 
     }

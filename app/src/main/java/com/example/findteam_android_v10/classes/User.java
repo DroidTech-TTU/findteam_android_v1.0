@@ -1,10 +1,8 @@
 package com.example.findteam_android_v10.classes;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -12,14 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.navigation.Navigation;
-
-import com.example.findteam_android_v10.EditProfileActivity;
 import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.MainActivity;
 import com.example.findteam_android_v10.R;
-import com.example.findteam_android_v10.fragments.FragForgotEmailDirections;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -34,8 +28,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
+import androidx.navigation.Navigation;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
@@ -53,11 +47,10 @@ public class User {
     public static String TAG = "UserClass";
 
 
-
     //update the Login user for new information
     public static void getCurrentUser() {
 
-        FindTeamClient.get(KEY_USER, new JsonHttpResponseHandler(){
+        FindTeamClient.get(KEY_USER, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -74,25 +67,26 @@ public class User {
     }
 
     //update the LoginUser and go to main
-    public static void getCurrentUser(AsyncHttpResponseHandler asyncHttpResponseHandler ) {
+    public static void getCurrentUser(AsyncHttpResponseHandler asyncHttpResponseHandler) {
 
         FindTeamClient.get(KEY_USER, asyncHttpResponseHandler);
     }
 
-    public static void getAllUser(AsyncHttpResponseHandler asyncHttpResponseHandler){
+    public static void getAllUser(AsyncHttpResponseHandler asyncHttpResponseHandler) {
 
         FindTeamClient.get(KEY_SEARCH, asyncHttpResponseHandler);
 
     }
 
-    public static void getUserByUid(RequestParams params, AsyncHttpResponseHandler asyncHttpResponseHandler){
+    public static void getUserByUid(RequestParams params, AsyncHttpResponseHandler asyncHttpResponseHandler) {
 
         FindTeamClient.get(KEY_USER, params, asyncHttpResponseHandler);
 
     }
-    public static void changeProfilePic(Context context, Uri profPic, AsyncHttpResponseHandler asyncHttpResponseHandler){
 
-        try{
+    public static void changeProfilePic(Context context, Uri profPic, AsyncHttpResponseHandler asyncHttpResponseHandler) {
+
+        try {
 
             //update the profile picture
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -122,12 +116,13 @@ public class User {
         }
     }
 
-    public static void updateUser (Context context, JSONObject user, AsyncHttpResponseHandler asyncHttpResponseHandler) throws UnsupportedEncodingException {
+    public static void updateUser(Context context, JSONObject user, AsyncHttpResponseHandler asyncHttpResponseHandler) throws UnsupportedEncodingException {
         StringEntity entity = new StringEntity(user.toString());
 
-        FindTeamClient.post(context,"user", entity, asyncHttpResponseHandler);
+        FindTeamClient.post(context, "user", entity, asyncHttpResponseHandler);
 
     }
+
     public static void loginUser(Context context, String email, String password) {
 
         //create a parameter to pass to the client
@@ -137,7 +132,7 @@ public class User {
         params.put(KEY_PASSWORD, password);
 
         //POST LOGIN
-        FindTeamClient.post(KEY_LOGIN, params, new JsonHttpResponseHandler(){
+        FindTeamClient.post(KEY_LOGIN, params, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -174,7 +169,7 @@ public class User {
         });
     }
 
-    public static void sendResetEmail(String email){
+    public static void sendResetEmail(String email) {
 
         FindTeamClient.post(KEY_FORGOT_PASSWORD + email, new TextHttpResponseHandler() {
 
@@ -229,23 +224,23 @@ public class User {
     }
 
     public static JSONArray searchUsers(JSONArray users, String searchKey) throws JSONException {
-        String [] keys = searchKey.split(" ");
-        for(int i=0; i<keys.length; i++){
-            Log.d(TAG, keys[i]);
+        String[] keys = searchKey.split(" ");
+        for (String key : keys) {
+            Log.d(TAG, key);
         }
 
         JSONArray results = new JSONArray();
-        for(int i=0; i<users.length(); i++){
+        for (int i = 0; i < users.length(); i++) {
             JSONObject user = users.getJSONObject(i);
-            if(isContainKeys(user.getString("first_name"), keys)
+            if (isContainKeys(user.getString("first_name"), keys)
                     || isContainKeys(user.getString("last_name"), keys)
-                    || isContainKeys(user.getString("last_name"), keys)){
+                    || isContainKeys(user.getString("last_name"), keys)) {
                 results.put(user);
 //                continue;
-            }else{
+            } else {
                 JSONArray tags = user.getJSONArray("tags");
-                for(int j=0; j<tags.length(); j++){
-                    if(isContainKeys(tags.getJSONObject(j).getString("text"), keys)){
+                for (int j = 0; j < tags.length(); j++) {
+                    if (isContainKeys(tags.getJSONObject(j).getString("text"), keys)) {
                         results.put(user);
                         break;
                     }
@@ -255,10 +250,11 @@ public class User {
         Log.d(TAG, results.toString());
         return results;
     }
-    private static boolean isContainKeys(String s, String []keys){
-        for (String key: keys) {
 
-            if(s.trim().toLowerCase().contains(key.trim().toLowerCase())) return true;
+    private static boolean isContainKeys(String s, String[] keys) {
+        for (String key : keys) {
+
+            if (s.trim().toLowerCase().contains(key.trim().toLowerCase())) return true;
         }
         return false;
     }

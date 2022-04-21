@@ -67,4 +67,6 @@
         <item>In Progress</item>
         <item>Completed</item>
     </string-array>
+    <string name="firstname_lastname">%1$s %2$s</string>
+    <string name="firstname_middlename_lastname">%1$s %2$s %3$s</string>
 </resources>

@@ -2,11 +2,6 @@ package com.example.findteam_android_v10.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +12,10 @@ import android.widget.ImageView;
 
 import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 public class FragForgotResetSuccess extends Fragment {
 
@@ -31,12 +30,9 @@ public class FragForgotResetSuccess extends Fragment {
         Animation animFadeIn = AnimationUtils.loadAnimation(getContext(), R.anim.fadein);
         password_success_icon.startAnimation(animFadeIn);
 
-        successBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), LoginActivity.class);
-                startActivity(i);
-            }
+        successBtn.setOnClickListener(view1 -> {
+            Intent i = new Intent(getActivity(), LoginActivity.class);
+            startActivity(i);
         });
         return view;
     }

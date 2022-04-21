@@ -1,25 +1,15 @@
 package com.example.findteam_android_v10;
 
-import static androidx.navigation.Navigation.findNavController;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
-import com.example.findteam_android_v10.fragments.FragChatListDirections;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.ui.NavigationUI;
+
+import static androidx.navigation.Navigation.findNavController;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.activity_main_bottom_navigation_view);
 
         Intent i = getIntent();
-        if(i.getIntExtra("request", -1) == REQUEST_CHAT_HISTORY){
+        if (i.getIntExtra("request", -1) == REQUEST_CHAT_HISTORY) {
 
             int puid = i.getIntExtra("puid", -1);
             boolean is_user = i.getBooleanExtra("is_user", false);
@@ -56,8 +46,5 @@ public class MainActivity extends AppCompatActivity {
         }
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
+
 }

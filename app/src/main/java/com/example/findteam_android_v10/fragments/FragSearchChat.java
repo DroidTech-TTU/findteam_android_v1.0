@@ -2,16 +2,6 @@ package com.example.findteam_android_v10.fragments;
 
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,17 +21,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import cz.msebera.android.httpclient.Header;
 
 public class FragSearchChat extends Fragment {
 
     public static final String TAG = "FragSearchChat";
-
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,9 +71,6 @@ public class FragSearchChat extends Fragment {
                 for(int i = 0; i < response.length(); i++){
                     try {
                         JSONObject user = (JSONObject) response.get(i);
-                        String name = user.getString("first_name") + " " +
-                                user.getString("middle_name") + " " +
-                                user.getString("last_name");
                         String profPic = user.getString("picture");
 
                         allUsers.put(user);

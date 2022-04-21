@@ -1,14 +1,6 @@
 package com.example.findteam_android_v10.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,24 +11,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.findteam_android_v10.FindTeamClient;
-import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.R;
-import com.example.findteam_android_v10.RegisterActivity;
 import com.example.findteam_android_v10.classes.User;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
-
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.StringEntity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 public class FragForgotEmail extends Fragment {
 
@@ -55,23 +36,19 @@ public class FragForgotEmail extends Fragment {
         Animation animFadeIn = AnimationUtils.loadAnimation(getContext(), R.anim.fadein);
         lock_ic.startAnimation(animFadeIn);
 
-        resetBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        resetBtn.setOnClickListener(view1 -> {
+            String email = forgot_email.getText().toString();
 
-                String email = forgot_email.getText().toString();
+            if (email.isEmpty()) {
+                Toast.makeText(getContext(), "Invalid Email Address", Toast.LENGTH_SHORT).show();
 
-                if (email.isEmpty()) {
-                    Toast.makeText(getContext(), "Invalid Email Address", Toast.LENGTH_SHORT).show();
+            } else {
 
-                } else {
+                User.sendResetEmail(email);
 
-                    User.sendResetEmail(email);
+                FragForgotEmailDirections.ActionMeForgetEmailToMeSentEmail action = FragForgotEmailDirections.actionMeForgetEmailToMeSentEmail(email);
+                Navigation.findNavController(view1).navigate(action);
 
-                    FragForgotEmailDirections.ActionMeForgetEmailToMeSentEmail action = FragForgotEmailDirections.actionMeForgetEmailToMeSentEmail(email);
-                    Navigation.findNavController(view).navigate(action);
-
-                }
             }
         });
 

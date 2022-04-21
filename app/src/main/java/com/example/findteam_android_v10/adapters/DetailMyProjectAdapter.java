@@ -49,7 +49,8 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
         this.members = members;
         this.project = project;
     }
-    private void setProject(JSONObject project){
+
+    private void setProject(JSONObject project) {
         this.project = project;
     }
 
@@ -86,18 +87,21 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
             this.memberName = (TextView) view.findViewById(R.id.tvMemberNameDetailMyProject);
             this.membership_type = (TextView) view.findViewById(R.id.tvRoleDetailMyProject);
         }
+
         public void bind(JSONObject memberProject) throws JSONException {
             Log.d(TAG, "bind: " + memberProject.toString());
-            FindTeamClient.get(User.GET_USER_URL+memberProject.getString("uid"), new JsonHttpResponseHandler(){
+            FindTeamClient.get(User.GET_USER_URL + memberProject.getString("uid"), new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     try {
-                        memberName.setText(response.getString("first_name") + " " + response.getString("last_name"));
+                        memberName.setText(context.getString(R.string.firstname_lastname,
+                                response.getString("first_name"),
+                                response.getString("last_name")));
 
                         membership_type.setText(Project.getMemTypeString(memberProject.getInt("membership_type")));
                         int currMemType = Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), project);
                         Log.d(TAG, "memType: " + currMemType);
-                        if( currMemType == Project.MEMBER_SHIP__TYPE_OWNER && memberProject.getInt("membership_type") != Project.MEMBER_SHIP__TYPE_OWNER){
+                        if (currMemType == Project.MEMBER_SHIP__TYPE_OWNER && memberProject.getInt("membership_type") != Project.MEMBER_SHIP__TYPE_OWNER) {
                             membership_type.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -109,7 +113,7 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                                 }
                             });
                         }
-                        switch (memberProject.getInt("membership_type")){
+                        switch (memberProject.getInt("membership_type")) {
                             case Project.MEMBER_SHIP__TYPE_OWNER: {
                                 membership_type.setTextColor(Color.parseColor("#000000"));
                                 //memberName.setTextColor(Color.parseColor("#000000"));
@@ -125,7 +129,7 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                                 //memberName.setTextColor(Color.parseColor("#4a4948"));
                                 break;
                             }
-                            default:{
+                            default: {
                                 membership_type.setTextColor(Color.parseColor("#000000"));
                                 memberName.setTextColor(Color.parseColor("#000000"));
                             }
@@ -134,7 +138,7 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Log.d(TAG, "onBindViewHolder: On Failure-- " + statusCode );
+                        Log.d(TAG, "onBindViewHolder: On Failure-- " + statusCode);
                     }
 
                     //go to profile
@@ -164,11 +168,10 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
             });
 
 
-
         }
+
         public void onButtonShowPopupWindowClick(View view, JSONObject member) throws JSONException {
             // inflate the layout of the popup window
-            view.getContext();
             LayoutInflater inflater = (LayoutInflater)
                     view.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View popupView = inflater.inflate(R.layout.popup_review_member, null);
@@ -176,11 +179,11 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
             // create the popup window
             int width = LinearLayout.LayoutParams.WRAP_CONTENT;
             int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-            boolean focusable = true; // lets taps outside the popup also dismiss it
-            final PopupWindow popupWindow = new PopupWindow(popupView,width,height,focusable);
+            // lets taps outside the popup also dismiss it
+            final PopupWindow popupWindow = new PopupWindow(popupView, width, height, true);
 
             // show the popup window
-            // which view you pass in doesn't matter, it is only used for the window tolken
+            // which view you pass in doesn't matter, it is only used for the window token
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
             // dismiss the popup window when touched
@@ -193,7 +196,9 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
             Button btAccept = popupView.findViewById(R.id.btAccept);
             Button btReject = popupView.findViewById(R.id.btReject);
             TextView tvName = popupView.findViewById(R.id.tvUserName);
-            tvName.setText(member.getString("first_name") + " " + member.getString("last_name"));
+            tvName.setText(context.getString(R.string.firstname_lastname,
+                    member.getString("first_name"),
+                    member.getString("last_name")));
             btAccept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -232,36 +237,41 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
 
     }
 
-    public void clear(){
+    public void clear() {
         members = new JSONArray();
         notifyDataSetChanged();
     }
+
     public void addHead(JSONArray nMembers, JSONObject member) throws JSONException {
-        for(int i = members.length()-1; i>=0; i--){
+        for (int i = members.length() - 1; i >= 0; i--) {
             members.put(members.getJSONObject(i));
         }
         members.put(0, member);
         notifyDataSetChanged();
     }
-    public void addTail(JSONArray members){
+
+    public void addTail(JSONArray members) {
         this.members = members;
         notifyItemInserted(members.length());
     }
-    public void addAll(JSONArray members){
-       this.members = members;
+
+    public void addAll(JSONArray members) {
+        this.members = members;
         notifyDataSetChanged();
     }
 
-    public JSONArray getMembers(){
+    public JSONArray getMembers() {
         return members;
     }
 
     private void acceptMember() throws JSONException, UnsupportedEncodingException {
         setMemberRole(Project.MEMBER_SHIP__TYPE_MEMBER);
     }
+
     private void rejectMember() throws JSONException, UnsupportedEncodingException {
         setMemberRole(Project.MEMBER_SHIP__TYPE_REJECT);
     }
+
     private void setMemberRole(int role) throws JSONException, UnsupportedEncodingException {
 
         project.remove("members");
@@ -282,7 +292,7 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
         project.put("pictures", tmpPics);
         project.put("owner_uid", tmpOwnerId);
         Log.d(TAG, "Done set roles: " + project);
-        FindTeamClient.post(context,URL, entity, new AsyncHttpResponseHandler(){
+        FindTeamClient.post(context, URL, entity, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 Log.i(TAG, "setRoleMember(): the status code for this request is: " + statusCode);

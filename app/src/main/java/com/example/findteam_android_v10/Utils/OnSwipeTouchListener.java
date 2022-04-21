@@ -5,10 +5,11 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class OnSwipeTouchListener implements View.OnTouchListener{
+public class OnSwipeTouchListener implements View.OnTouchListener {
 
     private final GestureDetector gestureDetector;
     public int pos;
+
     public OnSwipeTouchListener(Context context, int pos) {
         this.pos = pos;
         gestureDetector = new GestureDetector(context, new GestureListener());
@@ -26,6 +27,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener{
     public boolean onTouch(View v, MotionEvent event) {
         return gestureDetector.onTouchEvent(event);
     }
+
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
         private static final int SWIPE_DISTANCE_THRESHOLD = 100;

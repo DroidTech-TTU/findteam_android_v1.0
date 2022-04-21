@@ -20,37 +20,33 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class GalleryCreateProjectAdapter extends RecyclerView.Adapter<GalleryCreateProjectAdapter.galleryViewHolder>{
+public class GalleryCreateProjectAdapter extends RecyclerView.Adapter<GalleryCreateProjectAdapter.galleryViewHolder> {
     private final Context context;
     private List<String> pictureURLs;
-    public static String TAG = "galleryCreateProjectAdapter";
+    public static String TAG = "GalleryCreateProjectAdapter";
 
     public GalleryCreateProjectAdapter(Context context, List<String> picturesUrls) {
         this.pictureURLs = picturesUrls;
         this.context = context;
-        //Log.d(TAG, String.valueOf(this.pictureURLs));
     }
+
     @NonNull
     @Override
     public GalleryCreateProjectAdapter.galleryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View galleryView =  LayoutInflater.from(context).inflate(R.layout.item_galary_create_project, parent, false);
+        View galleryView = LayoutInflater.from(context).inflate(R.layout.item_galary_create_project, parent, false);
         return new galleryViewHolder(galleryView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull GalleryCreateProjectAdapter.galleryViewHolder holder, int position) {
         Log.d(TAG, String.valueOf(this.pictureURLs.get(position)));
-        Log.d(TAG, "position=" +position);
+        Log.d(TAG, "position=" + position);
         String pictureURL = this.pictureURLs.get(position);
         String pos = String.valueOf(position);
-        int posInt = position;
-        holder.ivItemGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        holder.ivItemGallery.setOnClickListener(v -> {
 //                holder.onItemImagePopupWindowClick(v, Integer.parseInt(pos));
-               holder.onItemImagePopupWindowClick(v, pictureURL);
+            holder.onItemImagePopupWindowClick(v, pictureURL);
 //                holder.onItemImagePopupWindowClick(v, pictureURL, pos);
-            }
         });
         holder.bind(pictureURL);
     }
@@ -60,10 +56,11 @@ public class GalleryCreateProjectAdapter extends RecyclerView.Adapter<GalleryCre
         return pictureURLs.size();
     }
 
-    public void clear(){
+    public void clear() {
         this.pictureURLs = new ArrayList<>();
         notifyDataSetChanged();
     }
+
     public void addAll(List<String> picturesURLs) {
         Log.d(TAG, "Add All" + picturesURLs);
 
@@ -103,10 +100,10 @@ public class GalleryCreateProjectAdapter extends RecyclerView.Adapter<GalleryCre
             // create the popup window
             int width = LinearLayout.LayoutParams.MATCH_PARENT;
             int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-            boolean focusable = true; // lets taps outside the popup also dismiss it
-            final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+            // lets taps outside the popup also dismiss it
+            final PopupWindow popupWindow = new PopupWindow(popupView, width, height, true);
             // show the popup window
-            // which view you pass in doesn't matter, it is only used for the window tolken
+            // which view you pass in doesn't matter, it is only used for the window token
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
             // dismiss the popup window when touched

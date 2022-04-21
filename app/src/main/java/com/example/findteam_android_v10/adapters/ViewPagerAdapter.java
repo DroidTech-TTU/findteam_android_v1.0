@@ -13,7 +13,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
 
     private String testString;
 
-    public ViewPagerAdapter(FragmentManager fragment, Lifecycle lifecycle){
+    public ViewPagerAdapter(FragmentManager fragment, Lifecycle lifecycle) {
         super(fragment, lifecycle);
         this.testString = testString;
     }

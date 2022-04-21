@@ -60,15 +60,17 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.MyProj
                     .load("https://findteam.2labz.com/picture/" + user.getString("picture")).into(holder.ivProfilePicture);
 
             //load name
-            holder.twUserName.setText(user.getString("first_name") + " " + user.getString("last_name"));
+            holder.twUserName.setText(context.getString(R.string.firstname_lastname,
+                    user.getString("first_name"),
+                    user.getString("last_name")));
             //load tags
             JSONArray tags = user.getJSONArray("tags");
-            List <String> usertags = new ArrayList<>();
-            for(int i=0; i<tags.length(); i++){
+            List<String> userTags = new ArrayList<>();
+            for (int i = 0; i < tags.length(); i++) {
                 JSONObject tag = tags.getJSONObject(i);
-                usertags.add(tag.getString("text"));
+                userTags.add(tag.getString("text"));
             }
-            holder.UserTags.setTags(usertags);
+            holder.UserTags.setTags(userTags);
 
             holder.itProfiles.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -127,11 +129,12 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.MyProj
 
     }
 
-    public void clear(){
+    public void clear() {
         usersList = new JSONArray();
         notifyDataSetChanged();
     }
-    public  void addAll(JSONArray newUsersList){
+
+    public void addAll(JSONArray newUsersList) {
         usersList = newUsersList;
         notifyDataSetChanged();
     }

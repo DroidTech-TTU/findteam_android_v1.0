@@ -1,9 +1,5 @@
 package com.example.findteam_android_v10.fragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -12,10 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.findteam_android_v10.FindTeamClient;
@@ -32,9 +26,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -71,6 +63,7 @@ public class FragChatHistory extends Fragment {
                     super.onFinish();
                     handler.postDelayed(periodicUpdate, 1000 * 10); // Update chat every 10 seconds
                 }
+
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                     chatHistoryRecyclerView.setAdapter(new ChatHistoryAdapter(getContext(), response));
@@ -89,7 +82,7 @@ public class FragChatHistory extends Fragment {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "Get onCreate");
 
-        int request_ =  getArguments().getInt("request");
+        int request_ = getArguments().getInt("request");
         if (request_ == MainActivity.REQUEST_CHAT_HISTORY) {
             title = getArguments().getString("title");
             puid = getArguments().getInt("puid");
@@ -148,7 +141,7 @@ public class FragChatHistory extends Fragment {
 
             try {
                 StringEntity entity = new StringEntity(message.toString());
-                FindTeamClient.post(getContext(), "chat", entity, new AsyncHttpResponseHandler(){
+                FindTeamClient.post(getContext(), "chat", entity, new AsyncHttpResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -171,19 +164,17 @@ public class FragChatHistory extends Fragment {
         sendMessageEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() != 0) {
-                    sendMessageButton.setEnabled(true);
-                }
-                else {
-                    sendMessageButton.setEnabled(false);
-                }
+                sendMessageButton.setEnabled(s.length() != 0);
 
             }
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         });
         return view;
     }

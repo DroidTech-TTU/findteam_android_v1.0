@@ -13,20 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.example.findteam_android_v10.EditProfileActivity;
 import com.example.findteam_android_v10.LoginActivity;
@@ -47,19 +33,31 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import cz.msebera.android.httpclient.Header;
 
 public class FragMyProfile extends Fragment {
 
     public static final String TAG = "FragMyProfile";
 
-    TextView fullName;
-    ImageView ivProfilePic;
-    List<String> urls, categories;
-    List<List<String>> tags;
-    UrlAdapter urlAdapter;
-    ProfileTagAdapter profileTagAdapter;
-    FloatingActionButton fab;
+    private TextView fullName;
+    private ImageView ivProfilePic;
+    private List<String> urls, categories;
+    private List<List<String>> tags;
+    private UrlAdapter urlAdapter;
+    private ProfileTagAdapter profileTagAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,9 +78,7 @@ public class FragMyProfile extends Fragment {
         TextView finishedProj = view.findViewById(R.id.finished_project_count),
                 activeProj = view.findViewById(R.id.active_project_count);
 
-        fab = view.findViewById(R.id.fab);
-
-        //initialize the lists needed to accomodate urls and tags
+        //initialize the lists needed to accommodate urls and tags
         urls = new ArrayList<>();
         categories = new ArrayList<>();
         tags = new ArrayList<>();
@@ -118,7 +114,7 @@ public class FragMyProfile extends Fragment {
                 if (scrollRange + verticalOffset == 0) {
                     collapsingToolbarLayout.setTitle("My Profile");
                     isShow = true;
-                } else if(isShow) {
+                } else if (isShow) {
                     collapsingToolbarLayout.setTitle(" ");//careful there should a space between double quote otherwise it wont work
                     collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(getContext(), R.color.white));
                     isShow = false;
@@ -127,6 +123,7 @@ public class FragMyProfile extends Fragment {
         });
 
         //if user selected to edit the profile
+        FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,22 +133,22 @@ public class FragMyProfile extends Fragment {
             }
         });
 
-        User.getCurrentUser(new JsonHttpResponseHandler(){
+        User.getCurrentUser(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 LoginActivity.currentUser = response;
 
                 //getting the number of projects for active and finished
                 try {
-                    Project.getMyProjects(LoginActivity.currentUser.getInt("uid"), new JsonHttpResponseHandler(){
+                    Project.getMyProjects(LoginActivity.currentUser.getInt("uid"), new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                             int finished = 0, active = 0;
-                            for(int i = 0; i < response.length(); i++){
+                            for (int i = 0; i < response.length(); i++) {
                                 try {
-                                    if(((JSONObject)response.get(i)).getInt("status") == 0)
+                                    if (((JSONObject) response.get(i)).getInt("status") == 0)
                                         active++;
-                                    else if(((JSONObject)response.get(i)).getInt("status") == 2)
+                                    else if (((JSONObject) response.get(i)).getInt("status") == 2)
                                         finished++;
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -162,6 +159,7 @@ public class FragMyProfile extends Fragment {
                             finishedProj.setText(String.valueOf(finished));
                             activeProj.setText(String.valueOf(active));
                         }
+
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                             Log.i(TAG, throwable + " " + errorResponse);
@@ -180,7 +178,7 @@ public class FragMyProfile extends Fragment {
             //access token is expired
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                LoginActivity.sharedPreferences.edit().putString("access_token","").apply();
+                LoginActivity.sharedPreferences.edit().putString("access_token", "").apply();
                 Toast.makeText(getContext(), "Cannot fetch data. Please re-login again.", Toast.LENGTH_LONG).show();
             }
 
@@ -191,7 +189,7 @@ public class FragMyProfile extends Fragment {
 
     private void loadProfile(Boolean update, JSONObject user) {
 
-        if(update){
+        if (update) {
             urls.clear();
             categories.clear();
             tags.clear();
@@ -200,17 +198,16 @@ public class FragMyProfile extends Fragment {
         try {
 
             //set the name in the my profile
-            StringBuilder sb = new StringBuilder();
-            sb.append(user.getString("first_name")).append(" ")
-                    .append(user.getString("middle_name")).append(" ")
-                    .append(user.getString("last_name"));
-            fullName.setText(sb.toString());
+            fullName.setText(getString(R.string.firstname_middlename_lastname,
+                    user.getString("first_name"),
+                    user.getString("middle_name"),
+                    user.getString("last_name")));
 
             JSONArray urlsJson = user.getJSONArray("urls"),
                     tagsJson = user.getJSONArray("tags");
 
             //get every url in the user
-            for(int i = 0; i < urlsJson.length(); i++){
+            for (int i = 0; i < urlsJson.length(); i++) {
                 JSONObject urlObj = (JSONObject) urlsJson.get(i);
                 urls.add(urlObj.getString("domain") + urlObj.getString("path"));
                 Log.i(TAG, urls.get(i));
@@ -219,19 +216,19 @@ public class FragMyProfile extends Fragment {
             urlAdapter.notifyDataSetChanged();
 
             //load the tags of the user
-            for(int i = 0; i < tagsJson.length(); i++){
+            for (int i = 0; i < tagsJson.length(); i++) {
                 JSONObject tagObj = (JSONObject) tagsJson.get(i);
-                if(!categories.contains(tagObj.getString("category"))){
+                if (!categories.contains(tagObj.getString("category"))) {
                     categories.add(tagObj.getString("category"));
                 }
 
             }
 
-            for(int i = 0; i < categories.size(); i++){
+            for (int i = 0; i < categories.size(); i++) {
                 List<String> localTags = new ArrayList<>();
-                for(int j = 0; j < tagsJson.length(); j++){
+                for (int j = 0; j < tagsJson.length(); j++) {
                     JSONObject tagObj = (JSONObject) tagsJson.get(j);
-                    if(categories.get(i).equals(tagObj.getString("category"))){
+                    if (categories.get(i).equals(tagObj.getString("category"))) {
                         localTags.add(tagObj.getString("text"));
                     }
                 }
@@ -259,7 +256,7 @@ public class FragMyProfile extends Fragment {
                 @Override
                 public void onActivityResult(ActivityResult result) {
 
-                    if(result.getResultCode() == 200){
+                    if (result.getResultCode() == 200) {
 
                         Intent data = result.getData();
                         User.getCurrentUser();

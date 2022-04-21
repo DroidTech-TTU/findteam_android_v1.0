@@ -1,26 +1,13 @@
 package com.example.findteam_android_v10.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.findteam_android_v10.CreateProjectActivity;
 import com.example.findteam_android_v10.FindTeamClient;
@@ -35,19 +22,28 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import cz.msebera.android.httpclient.Header;
 
-public class FragMyProjects extends Fragment{
+public class FragMyProjects extends Fragment {
+
     public static String TAG = "FragMyProjects";
     public static final String GET_MY_SEARCH = "project/search";
     public static final int CREATE_PROJECT_CODE = 1122;
     public static final int DELETE_PROJECT_CODE = 1133;
-    RecyclerView rvContacts;
-    FloatingActionButton btCreateProject;
-    ImageButton btSearchMyProjects;
-    EditText etSearchMyProjects;
-    JSONArray jsonProjects;
-    MyProjectsAdapter adapter;
+    private RecyclerView rvContacts;
+    private FloatingActionButton btCreateProject;
+    private EditText etSearchMyProjects;
+    private JSONArray jsonProjects;
+    private MyProjectsAdapter adapter;
 
     ActivityResultLauncher<Intent> result = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -55,17 +51,17 @@ public class FragMyProjects extends Fragment{
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     Log.d(TAG, "Data from CreateProject: ");
-                    Intent i  = result.getData();
+                    Intent i = result.getData();
                     if ((result.getData() != null) && result.getResultCode() == CREATE_PROJECT_CODE) {
 //
                         Log.d(TAG, "Data from CreateProject: " + i.getStringExtra("project"));
                         try {
 
-                            if(jsonProjects.length() >0){
+                            if (jsonProjects.length() > 0) {
                                 Log.d(TAG, "Projects has Items: ");
                                 int n = jsonProjects.length();
-                                for(int j=n-1; j>=0; j--){
-                                    jsonProjects.put(j+1, jsonProjects.getJSONObject(j));
+                                for (int j = n - 1; j >= 0; j--) {
+                                    jsonProjects.put(j + 1, jsonProjects.getJSONObject(j));
                                 }
                             }
 
@@ -91,14 +87,13 @@ public class FragMyProjects extends Fragment{
 
     }
 
-    
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_my_projects, container, false);
         this.rvContacts = (RecyclerView) view.findViewById(R.id.rvMyProjectsSearch);
         this.btCreateProject = view.findViewById(R.id.btCreateMyProject);
-        this.btSearchMyProjects = view.findViewById(R.id.btSearchMyProjects);
         this.etSearchMyProjects = view.findViewById(R.id.etSearchMyProjects);
 
         try {
@@ -110,36 +105,31 @@ public class FragMyProjects extends Fragment{
         rvContacts.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0 || dy < 0 && btCreateProject.isShown())
                     btCreateProject.hide();
             }
 
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE)
                     btCreateProject.show();
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
 
-        btCreateProject.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), CreateProjectActivity.class);
-                intent.putExtra("requestCode", CREATE_PROJECT_CODE);
-                result.launch(intent);
-            }
+        btCreateProject.setOnClickListener(view1 -> {
+            Intent intent = new Intent(view1.getContext(), CreateProjectActivity.class);
+            intent.putExtra("requestCode", CREATE_PROJECT_CODE);
+            result.launch(intent);
         });
 
-        this.btSearchMyProjects.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    search();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        ImageButton btSearchMyProjects = view.findViewById(R.id.btSearchMyProjects);
+        btSearchMyProjects.setOnClickListener(v -> {
+            try {
+                search();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         });
         return view;
@@ -153,12 +143,12 @@ public class FragMyProjects extends Fragment{
     public void getAllProjects() throws JSONException {
 
         int uid = LoginActivity.currentUser.getInt("uid");
-        String URL = GET_MY_SEARCH +"?uid=" + uid;
-        Log.d(TAG,"getAllProjects:" + URL );
+        String URL = GET_MY_SEARCH + "?uid=" + uid;
+        Log.d(TAG, "getAllProjects:" + URL);
         FindTeamClient.get(URL, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                Log.i(TAG, "the status code for this request is: " + statusCode );
+                Log.i(TAG, "the status code for this request is: " + statusCode);
                 try {
                     jsonProjects = new JSONArray(new String(responseBody));
                     Log.i(TAG, "Data: " + jsonProjects);
@@ -181,17 +171,17 @@ public class FragMyProjects extends Fragment{
 
         int uid = LoginActivity.currentUser.getInt("uid");
 
-        String URL = GET_MY_SEARCH +"?uid=" + uid;
-        Log.d(TAG,"searchEmpty:" + URL );
+        String URL = GET_MY_SEARCH + "?uid=" + uid;
+        Log.d(TAG, "searchEmpty:" + URL);
         FindTeamClient.get(URL, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                Log.i(TAG, "the status code for this request is: " + statusCode );
+                Log.i(TAG, "the status code for this request is: " + statusCode);
                 try {
                     jsonProjects = new JSONArray(new String(responseBody));
                     Project.printProjects(TAG, jsonProjects);
                     String searchKey = etSearchMyProjects.getText().toString();
-                    if(!searchKey.trim().isEmpty()){
+                    if (!searchKey.trim().isEmpty()) {
                         jsonProjects = Project.search(jsonProjects, searchKey);
                     }
                     Log.i(TAG, "Search Results: " + jsonProjects);

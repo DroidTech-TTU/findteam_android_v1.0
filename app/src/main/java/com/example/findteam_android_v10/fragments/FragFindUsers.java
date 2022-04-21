@@ -1,19 +1,10 @@
 package com.example.findteam_android_v10.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
 
 import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.R;
@@ -24,17 +15,18 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import cz.msebera.android.httpclient.Header;
 
 public class FragFindUsers extends Fragment {
 
-
     public static String TAG = "FragFindUsers";
-    public static final String GET_MY_SEARCH = "user/search?query=";
-    RecyclerView rvMyProfilesSearch;
-    JSONArray jsonProfiles;
-    ProfilesAdapter adapter;
-    JSONArray usersList;
+    private ProfilesAdapter adapter;
+    private JSONArray usersList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +45,7 @@ public class FragFindUsers extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //loads items in fragment
-        this.rvMyProfilesSearch=view.findViewById(R.id.rvMyProfilesSearch); //get value and assign to variable
+        RecyclerView rvMyProfilesSearch = view.findViewById(R.id.rvMyProfilesSearch); //get value and assign to variable
 
         //set up for adapter
         usersList = new JSONArray();

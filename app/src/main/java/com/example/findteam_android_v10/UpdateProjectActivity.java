@@ -1,10 +1,5 @@
 package com.example.findteam_android_v10;
 
-//import android.support.v7.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,14 +7,12 @@ import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.ClientCertRequest;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -32,12 +25,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.findteam_android_v10.Utils.CountDown;
 import com.example.findteam_android_v10.adapters.GalleryCreateProjectAdapter;
 import com.example.findteam_android_v10.classes.Picture;
 import com.example.findteam_android_v10.classes.Project;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
@@ -49,44 +40,41 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import co.lujun.androidtagview.TagContainerLayout;
-import co.lujun.androidtagview.TagView;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class UpdateProjectActivity extends AppCompatActivity {
-    Context context;
-    RecyclerView rvGallery;
+
+    private Context context;
+    private RecyclerView rvGallery;
     public static String TAG = "UpdateProjectActivity";
     public static String UPDATE_PROJECT_API_URL = "project?pid=";
     public static String SAVE_PICTURE_API_URL = "project/picture?pid=";
-    public String message ="";
-    GalleryCreateProjectAdapter adapter;
+    public String message = "";
+    private GalleryCreateProjectAdapter adapter;
 
-    ImageButton btAddPicture;
-    ImageButton ibAddTag;
-    EditText etTags;
-    ImageButton ibSave;
-    List<String> picturesURLs;
-    List<Bitmap> pictureFiles;
-    List<String> tagSkills;
-    EditText etDescription;
-    EditText etProjectTitle;
-    ImageButton ibCancel;
-    TextView tvStatusUpdateProject;
-    ImageView ivStatusUpdateProject;
-    Spinner sProgress;
-    ArrayAdapter<CharSequence> sadapter;
-    TagContainerLayout myProjectsTags;
-    int projectStatus = 0;
-    JSONObject project;
+    private ImageButton btAddPicture;
+    private ImageButton ibAddTag;
+    private EditText etTags;
+    private ImageButton ibSave;
+    private List<String> picturesURLs;
+    private List<Bitmap> pictureFiles;
+    private List<String> tagSkills;
+    private EditText etDescription;
+    private EditText etProjectTitle;
+    private ImageButton ibCancel;
+    private ImageView ivStatusUpdateProject;
+    private Spinner sProgress;
+    private TagContainerLayout myProjectsTags;
+    private int projectStatus = 0;
+    private JSONObject project;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +91,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
         ibSave = findViewById(R.id.ibSaveCreateProject);
         myProjectsTags = findViewById(R.id.tgCreateProject);
         ibCancel = findViewById(R.id.ibCancel);
-        sProgress=findViewById(R.id.sProjectProgress);
+        sProgress = findViewById(R.id.sProjectProgress);
 
 
         ivStatusUpdateProject = findViewById(R.id.ivStatusUpdateProject);
@@ -129,8 +117,8 @@ public class UpdateProjectActivity extends AppCompatActivity {
 
         picturesURLs = new ArrayList<>();
         JSONArray jsonArray = project.getJSONArray("pictures");
-        for(int i = 0; i< jsonArray.length(); i++){
-            picturesURLs.add(Picture.GET_PICTURE_URL +jsonArray.get(i).toString());
+        for (int i = 0; i < jsonArray.length(); i++) {
+            picturesURLs.add(Picture.GET_PICTURE_URL + jsonArray.get(i).toString());
         }
         adapter = new GalleryCreateProjectAdapter(context, picturesURLs);
 //        // Attach the adapter to the recyclerview to populate items
@@ -140,10 +128,10 @@ public class UpdateProjectActivity extends AppCompatActivity {
 
 //        adapter.addAll(picturesURLs);
 //        // Attach the adapter to the recyclerview to populate items
-        projectStatus =  project.getInt("status");
-        sadapter=ArrayAdapter.createFromResource(this, R.array.progress, R.layout.item_progress_spinner);
-        sadapter.setDropDownViewResource(R.layout.item_progress_spinner);
-        sProgress.setAdapter(sadapter);
+        projectStatus = project.getInt("status");
+        ArrayAdapter<CharSequence> sAdapter = ArrayAdapter.createFromResource(this, R.array.progress, R.layout.item_progress_spinner);
+        sAdapter.setDropDownViewResource(R.layout.item_progress_spinner);
+        sProgress.setAdapter(sAdapter);
 
         sProgress.setSelection(projectStatus);
         sProgress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -199,14 +187,12 @@ public class UpdateProjectActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     Log.d(TAG, "Save Project Button is on click");
-                    if( validateInputs()) {
+                    if (validateInputs()) {
                         upDateProject();
-                    }else{
+                    } else {
                         onButtonSavePopupWindowClick(view, message);
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (UnsupportedEncodingException e) {
+                } catch (JSONException | UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
             }
@@ -217,24 +203,24 @@ public class UpdateProjectActivity extends AppCompatActivity {
     private boolean validateInputs() {
         boolean isValid = true;
         int count = 1;
-        message="";
-        if(picturesURLs == null || picturesURLs.isEmpty()) {
-            message = message + count+".The Images List cannot be empty!\n";
+        message = "";
+        if (picturesURLs == null || picturesURLs.isEmpty()) {
+            message = message + count + ".The Images List cannot be empty!\n";
             count++;
             isValid = false;
         }
-        if(tagSkills == null || tagSkills.isEmpty()) {
-            message = message + count+".The Tags List cannot be empty!\n";
+        if (tagSkills == null || tagSkills.isEmpty()) {
+            message = message + count + ".The Tags List cannot be empty!\n";
             count++;
             isValid = false;
         }
-        if(etDescription.getText().toString().trim().length() == 0) {
-            message = message + count+".The Description cannot be empty!\n";
+        if (etDescription.getText().toString().trim().length() == 0) {
+            message = message + count + ".The Description cannot be empty!\n";
             count++;
             isValid = false;
         }
-        if(etProjectTitle.getText().toString().trim().length() == 0) {
-            message =message +  count+".The Title cannot be empty!\n";
+        if (etProjectTitle.getText().toString().trim().length() == 0) {
+            message = message + count + ".The Title cannot be empty!\n";
             count++;
             isValid = false;
         }
@@ -243,13 +229,12 @@ public class UpdateProjectActivity extends AppCompatActivity {
     }
 
 
-
     private void upDateProject() throws JSONException, UnsupportedEncodingException {
         String title = etProjectTitle.getText().toString();
         String description = etDescription.getText().toString();
         JSONArray tagSkillsJSON = new JSONArray();
 
-        for (String skill: tagSkills) {
+        for (String skill : tagSkills) {
             Log.d(TAG, "SKILL: " + skill);
             JSONObject tag = new JSONObject();
             tag.put("text", skill);
@@ -263,7 +248,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
         project.put("description", description);
         project.put("tags", tagSkillsJSON);
 
-        Log.d(TAG, "Ready Project: "+ project.toString());
+        Log.d(TAG, "Ready Project: " + project.toString());
         String URL = UPDATE_PROJECT_API_URL + project.getString("pid");
         int tmpPid = project.getInt("pid");
         String tmpPics = project.getString("pictures");
@@ -276,7 +261,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
         project.put("pid", tmpPid);
         project.put("pictures", tmpPics);
         project.put("owner_uid", tmpOwnerId);
-        FindTeamClient.post(this,URL, entity, new AsyncHttpResponseHandler(){
+        FindTeamClient.post(this, URL, entity, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -308,8 +293,9 @@ public class UpdateProjectActivity extends AppCompatActivity {
 
         });
     }
-    private void savePictures(int pid, List<Bitmap> pictureFiles){
-        for (Bitmap pic: pictureFiles) {
+
+    private void savePictures(int pid, List<Bitmap> pictureFiles) {
+        for (Bitmap pic : pictureFiles) {
             try {
                 Log.d(TAG, pic.toString());
                 savePicture(pid, pic);
@@ -318,12 +304,13 @@ public class UpdateProjectActivity extends AppCompatActivity {
             }
         }
     }
+
     private void savePicture(int pid, Bitmap pic) throws IOException {
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
         pic.compress(Bitmap.CompressFormat.JPEG, 90, bao);
         byte[] ba = bao.toByteArray();
 
-        File f = new File(context.getCacheDir(), pic.toString()+".jpeg");
+        File f = new File(context.getCacheDir(), pic.toString() + ".jpeg");
         f.createNewFile();
 
         //write binary to jpeg file
@@ -337,7 +324,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
 
         String URL = SAVE_PICTURE_API_URL + pid;
         Log.d(TAG, pic.toString());
-        FindTeamClient.post(URL, params , new AsyncHttpResponseHandler(){
+        FindTeamClient.post(URL, params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 Log.i(TAG, "update(): the status code for this request is: " + statusCode);
@@ -371,7 +358,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
         Bitmap image = null;
         try {
             // check version of Android on device
-            if(Build.VERSION.SDK_INT > 27){
+            if (Build.VERSION.SDK_INT > 27) {
                 // on newer versions of Android, use the new decodeBitmap method
                 ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), photoUri);
                 image = ImageDecoder.decodeBitmap(source);
@@ -392,15 +379,15 @@ public class UpdateProjectActivity extends AppCompatActivity {
             Uri photoUri = data.getData();
             // Load the image located at photoUri into selectedImage
             Bitmap selectedImage = loadFromUri(photoUri);
-            if(pictureFiles.isEmpty()){
+            if (pictureFiles.isEmpty()) {
                 pictureFiles.add(selectedImage);
                 // Load the selected image into a preview
                 picturesURLs.add(0, photoUri.toString());
                 adapter.notifyItemInserted(0);
-            }else{
-                for (Bitmap b: pictureFiles
+            } else {
+                for (Bitmap b : pictureFiles
                 ) {
-                    if(!b.sameAs(selectedImage)){
+                    if (!b.sameAs(selectedImage)) {
                         pictureFiles.add(selectedImage);
                         // Load the selected image into a preview
                         picturesURLs.add(0, photoUri.toString());
@@ -408,7 +395,6 @@ public class UpdateProjectActivity extends AppCompatActivity {
                     }
                 }
             }
-
 
 
         }
@@ -430,7 +416,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow popupWindow = new PopupWindow(popupView,width,height,focusable);
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
@@ -474,7 +460,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow popupWindow = new PopupWindow(popupView,width,height,focusable);
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
@@ -488,20 +474,21 @@ public class UpdateProjectActivity extends AppCompatActivity {
             }
         });
     }
-    public void updateImageStatus(int i){
-        Log.d(TAG, "Status ID = " + i);
-        switch (i){
-            case Project.STATUS_IN_PROGRESS_INT:{
-                ivStatusUpdateProject.setImageResource(R.drawable.ic_project_status_in_progress_green);
 
+    public void updateImageStatus(int i) {
+        Log.d(TAG, "Status ID = " + i);
+        switch (i) {
+            case Project.STATUS_IN_PROGRESS_INT: {
+                ivStatusUpdateProject.setImageResource(R.drawable.ic_project_status_in_progress_green);
                 break;
             }
-            case Project.STATUS_IN_AWAITING_INT:{
+            case Project.STATUS_IN_AWAITING_INT: {
                 ivStatusUpdateProject.setImageResource(R.drawable.ic_project_status_in_pending_green);
                 break;
             }
-            case Project.STATUS_IN_FINISHED_INT:{
-                ivStatusUpdateProject.setImageResource(R.drawable.ic_project_status_in_finished_green); break;
+            case Project.STATUS_IN_FINISHED_INT: {
+                ivStatusUpdateProject.setImageResource(R.drawable.ic_project_status_in_finished_green);
+                break;
             }
         }
     }

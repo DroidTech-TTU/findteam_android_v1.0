@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class UrlAdapter extends RecyclerView.Adapter<UrlAdapter.ViewHolder> {
     private final List<String> urls;
     private final String TAG = "urlAdapter";
-    Context context;
+    private final Context context;
 
     public UrlAdapter(Context context, List<String> urls) {
         this.urls = urls;
@@ -61,7 +61,7 @@ public class UrlAdapter extends RecyclerView.Adapter<UrlAdapter.ViewHolder> {
             tv_url.setText(url);
             try {
                 uri = new URI("https://" + url);
-                if(uri.getHost() != null){
+                if (uri.getHost() != null) {
                     Glide.with(context).load("https://" + uri.getHost() + "/favicon.ico").into(favicon);
                 }
             } catch (URISyntaxException e) {

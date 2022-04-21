@@ -21,7 +21,7 @@ import androidx.fragment.app.Fragment;
 public class FragForgotNewPass extends Fragment {
 
     private static final String TAG = "FragNewPass";
-    JSONObject user;
+    private JSONObject user;
 
     @Nullable
     @Override
@@ -40,10 +40,10 @@ public class FragForgotNewPass extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if(!newPass1.getText().toString().equals(newPass2.getText().toString()))
+                if (!newPass1.getText().toString().equals(newPass2.getText().toString()))
                     Toast.makeText(getContext(), "Password does not match. Please try again", Toast.LENGTH_LONG).show();
                 else
-                    User.resetPass(getContext(), view,  newPass1.getText().toString());
+                    User.resetPass(getContext(), view, newPass1.getText().toString());
 
             }
         });

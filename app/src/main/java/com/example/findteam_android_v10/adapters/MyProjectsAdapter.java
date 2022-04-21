@@ -9,11 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.findteam_android_v10.DetailMyProjectActivity;
 import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.LoginActivity;
@@ -28,20 +23,23 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import co.lujun.androidtagview.TagContainerLayout;
 import cz.msebera.android.httpclient.Header;
 
 
-public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.MyProjectViewHolder>{
+public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.MyProjectViewHolder> {
     private JSONArray jsonProjects;
     Context context;
-    public static String TAG = "myProjectsAdapter";
+    public static String TAG = "MyProjectsAdapter";
 
     public MyProjectsAdapter(Context context, JSONArray jsonProjects) {
         Log.d(TAG, jsonProjects.toString());
         this.context = context;
         this.jsonProjects = jsonProjects;
-
     }
 
     @NonNull
@@ -61,7 +59,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.My
 //        Project project = projects.get(position);
         try {
             JSONObject project = (JSONObject) jsonProjects.get(position);
-            Log.d(TAG, "itMyProject.setOnLongClickListener: positon =" + position + "--" +project.toString());
+            Log.d(TAG, "itMyProject.setOnLongClickListener: positon =" + position + "--" + project.toString());
             // Set item views based on your views and data model
             holder.twProjectName.setText(project.getString("title"));
             holder.twProjectStatus.setText(Project.getStringStatus(project.getInt("status")));
@@ -83,12 +81,13 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.My
             });
 
 //            "user?uid="
-            FindTeamClient.get(User.GET_USER_URL + project.getString("owner_uid"), new JsonHttpResponseHandler(){
+            FindTeamClient.get(User.GET_USER_URL + project.getString("owner_uid"), new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     try {
-                        JSONObject user = response;
-                        holder.tvOwner.setText(user.getString("first_name") + " " + user.getString("last_name"));
+                        holder.tvOwner.setText(context.getString(R.string.firstname_lastname,
+                                response.getString("first_name"),
+                                response.getString("last_name")));
 
                         Log.d(TAG, "onBindViewHolder: Success");
 
@@ -105,15 +104,15 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.My
             });
 
             Log.d(TAG, "PROOO: " + project);
-            if(LoginActivity.currentUser.getInt("uid") == project.getInt("owner_uid")){
+            if (LoginActivity.currentUser.getInt("uid") == project.getInt("owner_uid")) {
                 String role = Project.getMemTypeString(Project.MEMBER_SHIP__TYPE_OWNER);
                 holder.tvRole.setText(role);
-            }else{
+            } else {
                 JSONArray members = project.getJSONArray("members");
                 String role = Project.getMemTypeString(Project.MEMBER_SHIP__TYPE_GUEST);
-                for(int i = 0; i <members.length(); i++){
+                for (int i = 0; i < members.length(); i++) {
                     JSONObject member = members.getJSONObject(i);
-                    if(LoginActivity.currentUser.getInt("uid") == member.getInt("uid")){
+                    if (LoginActivity.currentUser.getInt("uid") == member.getInt("uid")) {
                         role = Project.getMemTypeString(member.getInt("membership_type"));
                         break;
                     }
@@ -126,7 +125,6 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.My
             Typeface typeface = ResourcesCompat.getFont(context, R.font.questrial);
             holder.myProjectsTags.setTagTypeface(typeface);
             holder.myProjectsTags.setTags(tags);
-
 
 
         } catch (JSONException e) {
@@ -160,8 +158,8 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.My
             // to access the context from any ViewHolder instance.
             super(itemView);
 
-            twProjectName =  itemView.findViewById(R.id.twProjectName);
-            twProjectStatus = itemView.findViewById(R.id.twProjectStatus) ;
+            twProjectName = itemView.findViewById(R.id.twProjectName);
+            twProjectStatus = itemView.findViewById(R.id.twProjectStatus);
             myProjectsTags = itemView.findViewById(R.id.tgMyProjects);
             tvOwner = itemView.findViewById(R.id.tvOwnerMyProjects);
             tvRole = itemView.findViewById(R.id.tvRoleMyProjects);
@@ -172,10 +170,11 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.My
 
     }
 
-    public void clear(){
+    public void clear() {
         this.jsonProjects = new JSONArray();
         notifyDataSetChanged();
     }
+
     public void addAll(JSONArray jsonProjects) {
         this.jsonProjects = jsonProjects;
         notifyDataSetChanged();

@@ -1,20 +1,15 @@
 package com.example.findteam_android_v10;
 
-import static androidx.navigation.Navigation.findNavController;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.Navigation;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-
-import com.example.findteam_android_v10.fragments.FragForgotNewPassDirections;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.Navigation;
 
 public class ForgetActivity extends AppCompatActivity {
 
@@ -32,7 +27,7 @@ public class ForgetActivity extends AppCompatActivity {
         Uri data = intent.getData();
 
         //get uri information
-        if(savedInstanceState == null && data != null) {
+        if (savedInstanceState == null && data != null) {
 
             Bundle bundle = new Bundle();
             try {

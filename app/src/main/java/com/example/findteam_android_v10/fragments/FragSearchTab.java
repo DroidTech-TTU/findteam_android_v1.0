@@ -1,19 +1,11 @@
 package com.example.findteam_android_v10.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.findteam_android_v10.R;
 import com.example.findteam_android_v10.adapters.ViewPagerAdapter;
@@ -21,18 +13,22 @@ import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONException;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
+
 public class FragSearchTab extends Fragment {
 
-    TabLayout tabLayout;
-    ViewPager2 viewPager2;
-    ImageButton searchBtn;
-    EditText searchText;
     public static final String TAG = "FragSearchTab";
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager2;
+    private EditText searchText;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.frag_search_tabs, container, false);
-        return fragmentView;
+        return inflater.inflate(R.layout.frag_search_tabs, container, false);
     }
 
     @Override
@@ -42,7 +38,6 @@ public class FragSearchTab extends Fragment {
         // find views by id
         viewPager2 = view.findViewById(R.id.viewpager);
         tabLayout = view.findViewById(R.id.tablayout);
-        searchBtn = view.findViewById(R.id.searchBtn);
         searchText = view.findViewById(R.id.etSearchBar);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(), getLifecycle());
@@ -76,20 +71,19 @@ public class FragSearchTab extends Fragment {
             }
         });
 
+        ImageButton searchBtn = view.findViewById(R.id.searchBtn);
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(viewPager2.getCurrentItem() == 0){
+                if (viewPager2.getCurrentItem() == 0) {
                     FragFindProjects searchFrag = (FragFindProjects) getActivity().getSupportFragmentManager().findFragmentByTag("f" + viewPager2.getCurrentItem());
                     try {
                         searchFrag.search(searchText.getText().toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
-
-                else{
+                } else {
                     FragFindUsers fragUser = (FragFindUsers) getActivity().getSupportFragmentManager().findFragmentByTag("f1");
                     fragUser.search(searchText.getText().toString());
                 }

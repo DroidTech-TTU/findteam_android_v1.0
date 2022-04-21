@@ -5,14 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.R;
@@ -23,18 +15,20 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import cz.msebera.android.httpclient.Header;
 
 public class FragFindProjects extends Fragment {
 
     public static String TAG = "FragFindProjects";
     public static final String GET_MY_SEARCH = "project/search";
-    public static final int CREATE_PROJECT_CODE = 1133;
-    RecyclerView rvContacts;
-    ImageButton btSearchMyProjects;
-    EditText etSearchMyProjects;
-    JSONArray jsonProjects;
-    MyProjectsAdapter adapter;
+    private RecyclerView rvContacts;
+    private JSONArray jsonProjects;
+    private MyProjectsAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,11 +59,11 @@ public class FragFindProjects extends Fragment {
 
     public void getAllProjects() throws JSONException {
         String URL = GET_MY_SEARCH;
-        Log.d(TAG,"getAllProjects:" + URL );
+        Log.d(TAG, "getAllProjects:" + URL);
         FindTeamClient.get(URL, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                Log.i(TAG, "the status code for this request is: " + statusCode );
+                Log.i(TAG, "the status code for this request is: " + statusCode);
                 try {
                     jsonProjects = new JSONArray(new String(responseBody));
                     Log.i(TAG, "Data: " + jsonProjects);
@@ -94,16 +88,16 @@ public class FragFindProjects extends Fragment {
     public void search(String searchText) throws JSONException {
 
         String URL = GET_MY_SEARCH;
-        Log.d(TAG,"searchEmpty:" + URL );
+        Log.d(TAG, "searchEmpty:" + URL);
         FindTeamClient.get(URL, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                Log.i(TAG, "the status code for this request is: " + statusCode );
+                Log.i(TAG, "the status code for this request is: " + statusCode);
                 try {
                     jsonProjects = new JSONArray(new String(responseBody));
                     Log.i(TAG, "Data: " + jsonProjects);
                     Project.printProjects(TAG, jsonProjects);
-                    if(!searchText.trim().isEmpty()){
+                    if (!searchText.trim().isEmpty()) {
                         jsonProjects = Project.search(jsonProjects, searchText);
 
                     }
@@ -123,8 +117,4 @@ public class FragFindProjects extends Fragment {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 }
