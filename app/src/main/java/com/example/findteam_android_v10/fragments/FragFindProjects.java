@@ -96,8 +96,8 @@ public class FragFindProjects extends Fragment {
                     Log.i(TAG, "Data: " + jsonProjects);
                     Project.printProjects(TAG, jsonProjects);
                     if (!searchText.trim().isEmpty()) {
-                        jsonProjects = Project.search(jsonProjects, searchText);
-
+                      //  jsonProjects = Project.search(jsonProjects, searchText);
+                        jsonProjects = Project.searchMultiConditions(jsonProjects, searchText);
                     }
                     Log.i(TAG, "Search Results: " + jsonProjects);
                     Project.printProjects(TAG, jsonProjects);

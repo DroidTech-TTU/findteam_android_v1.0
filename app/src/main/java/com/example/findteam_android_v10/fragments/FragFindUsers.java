@@ -83,7 +83,7 @@ public class FragFindUsers extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
                     usersList = new JSONArray(new String(responseBody));
-                    adapter.addAll(User.searchUsers(usersList, searchText));
+                    adapter.addAll(User.searchMultiConditions(usersList, searchText));
                     Log.d(TAG, "On success: " + usersList.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
