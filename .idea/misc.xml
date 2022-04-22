@@ -259,6 +259,11 @@
         <entry key="..\:/Users/User/Documents/GitHub/findteam_android_v1.0/app/src/main/res/layout/frag_find_projects.xml" value="0.1956521739130435" />
         <entry key="..\:/Users/User/Documents/GitHub/findteam_android_v1.0/app/src/main/res/layout/frag_find_users.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/GitHub/findteam_android_v1.0/app/src/main/res/layout/item_profiles.xml" value="0.33" />
+        <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/layout/activity_create_project.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/layout/activity_detail_my_project.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/layout/activity_edit_profile.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/layout/activity_forget_main.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/rorye/Documents/findteam_android_v1.0/app/src/main/res/layout/activity_login.xml" value="0.5541666666666667" />
       </map>
     </option>
   </component>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Findteam</string>
+    <string name="app_name">FindTeam</string>
     <string name="frag_my_projs">My Projects</string>
     <string name="frag_find_projs">Find Projects</string>
     <string name="frag_profile">Profile</string>
@@ -56,11 +56,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="password_n_updated">Password\nUpdated</string>
     <string name="your_password_has_been_updated">Your password has been updated!</string>
-    <string name="findteam">FindTeam</string>
     <string name="email_sent">Email Sent!</string>
     <string name="email_has_been_sent_to">Email has been sent to:</string>
     <string name="please_check_your_inbox_to_reset_your_password">Please check your inbox to reset your password.</string>
-    <string name="send_message">Send a message...</string>
+    <string name="send_message">Send a message…</string>
 
     <string-array name="progress">
         <item>Awaiting</item>
@@ -69,4 +68,5 @@
     </string-array>
     <string name="firstname_lastname">%1$s %2$s</string>
     <string name="firstname_middlename_lastname">%1$s %2$s %3$s</string>
+    <string name="sign_up_here">Don\'t have an account yet? Sign up here.</string>
 </resources>
