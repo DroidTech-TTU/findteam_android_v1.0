@@ -63,7 +63,6 @@ public class FragFindUsers extends Fragment {
                     adapter.addAll(usersList);
                     Log.d(TAG, "On success: " + usersList.toString());
 
-                    search("");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
