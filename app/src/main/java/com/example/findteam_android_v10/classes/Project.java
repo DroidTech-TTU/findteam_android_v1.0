@@ -34,9 +34,9 @@ public class Project extends JSONObject {
 
     public static final int MEMBER_SHIP__TYPE_PENDING = 0;
     public static final int MEMBER_SHIP__TYPE_MEMBER = 1;
-    public static final int MEMBER_SHIP__TYPE_OWNER = 2;
-    public static final int MEMBER_SHIP__TYPE_GUEST = 3;
-    public static final int MEMBER_SHIP__TYPE_REJECT = 4;
+    public static final int MEMBER_SHIP__TYPE_OWNER = 3;
+    public static final int MEMBER_SHIP__TYPE_GUEST = -1;
+    public static final int MEMBER_SHIP__TYPE_ADMIN = 2;
 
     public static final String TAG = "ProjectClass";
 
@@ -169,8 +169,8 @@ public class Project extends JSONObject {
             case MEMBER_SHIP__TYPE_MEMBER: {
                 return "Member";
             }
-            case MEMBER_SHIP__TYPE_REJECT: {
-                return "Reject";
+            case MEMBER_SHIP__TYPE_ADMIN: {
+                return "Admin";
             }
             default: {
                 return "Guest";

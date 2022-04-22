@@ -103,7 +103,8 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                         Log.d(TAG, "Name: " + response.getString("first_name"));
                         Log.d(TAG, "memTYPE " + memberProject.getInt("membership_type") +"--" + Project.MEMBER_SHIP__TYPE_OWNER);
                         Log.d(TAG, "Cur: " + LoginActivity.currentUser.getInt("uid") +" -- " + project.getInt("owner_uid") );
-                        if (LoginActivity.currentUser.getInt("uid") == project.getInt("owner_uid") && memberProject.getInt("membership_type") != Project.MEMBER_SHIP__TYPE_OWNER) {
+                        if ((LoginActivity.currentUser.getInt("uid") == project.getInt("owner_uid")
+                            || Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), project) == Project.MEMBER_SHIP__TYPE_ADMIN)&& memberProject.getInt("membership_type") != Project.MEMBER_SHIP__TYPE_OWNER) {
                             Log.d(TAG, "GET IN");
                             membership_type.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -119,6 +120,11 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                         switch (memberProject.getInt("membership_type")) {
                             case Project.MEMBER_SHIP__TYPE_OWNER: {
                                 membership_type.setTextColor(Color.parseColor("#000000"));
+                                //memberName.setTextColor(Color.parseColor("#000000"));
+                                break;
+                            }
+                            case Project.MEMBER_SHIP__TYPE_ADMIN: {
+                                membership_type.setTextColor(Color.parseColor("#FF40A3F1"));
                                 //memberName.setTextColor(Color.parseColor("#000000"));
                                 break;
                             }
@@ -198,6 +204,8 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
             });
             Button btAccept = popupView.findViewById(R.id.btAccept);
             Button btReject = popupView.findViewById(R.id.btReject);
+            Button btAdmin = popupView.findViewById(R.id.btAdmin);
+
             TextView tvName = popupView.findViewById(R.id.tvUserName);
             tvName.setText(context.getString(R.string.firstname_lastname,
                     member.getString("first_name"),
@@ -206,6 +214,7 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                 @Override
                 public void onClick(View v) {
                     try {
+                        Log.d(TAG, "ACCEPT:");
                         members.getJSONObject(getPosition()).put("membership_type", Project.MEMBER_SHIP__TYPE_MEMBER);
                         acceptMember();
                         notifyItemChanged(getPosition());
@@ -220,6 +229,7 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                 @Override
                 public void onClick(View v) {
                     try {
+                        Log.d(TAG, "REJECT:");
                         members.remove(getPosition());
                         rejectMember();
                         notifyItemRemoved(getAdapterPosition());
@@ -229,6 +239,21 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                     }
 
 
+                }
+            });
+
+            btAdmin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Log.d(TAG, "ADMIN:");
+                        members.getJSONObject(getPosition()).put("membership_type", Project.MEMBER_SHIP__TYPE_ADMIN);
+                        adminMember();
+                        notifyItemChanged(getPosition());
+                        popupWindow.dismiss();
+                    } catch (JSONException | UnsupportedEncodingException exception) {
+                        exception.printStackTrace();
+                    }
                 }
             });
         }
@@ -271,17 +296,23 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
         setMemberRole(Project.MEMBER_SHIP__TYPE_MEMBER);
     }
 
+    private void adminMember() throws JSONException, UnsupportedEncodingException {
+        setMemberRole(Project.MEMBER_SHIP__TYPE_ADMIN);
+    }
     private void rejectMember() throws JSONException, UnsupportedEncodingException {
-        setMemberRole(Project.MEMBER_SHIP__TYPE_REJECT);
+        setMemberRole(Project.MEMBER_SHIP__TYPE_GUEST);
     }
 
     private void setMemberRole(int role) throws JSONException, UnsupportedEncodingException {
 
         //project.remove("members");
         JSONArray updateMembers = new JSONArray();
-        updateMembers.put(members);
-        updateMembers.remove(0);
+        for(int i=1; i<members.length(); i++){
+            updateMembers.put(members.getJSONObject(i));
+        }
         Log.d(TAG, "setMemberRole: " + members);
+        Log.d(TAG, "updateMembers: " + updateMembers);
+
         project.put("members", updateMembers);
 
         Log.d(TAG, project.toString());
