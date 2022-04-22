@@ -191,7 +191,7 @@
             android:src="@drawable/ic_baseline_add_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rvEditTagsCreateProject"
+            app:layout_constraintTop_toBottomOf="@+id/rvEditTagsUpdateProject"
             app:tint="@color/white" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
