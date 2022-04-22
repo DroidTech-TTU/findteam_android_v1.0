@@ -55,10 +55,14 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.MyProj
         //get user[position]
         try {
             JSONObject user = usersList.getJSONObject(position);
-            //load picture
-            Glide.with(context)
-                    .load("https://findteam.2labz.com/picture/" + user.getString("picture")).into(holder.ivProfilePicture);
 
+            String pic = user.getString("picture");
+
+            if(!pic.equals("null")) {
+                //load picture
+                Glide.with(context)
+                        .load("https://findteam.2labz.com/picture/" + pic).into(holder.ivProfilePicture);
+            }
             //load name
             holder.twUserName.setText(context.getString(R.string.firstname_lastname,
                     user.getString("first_name"),

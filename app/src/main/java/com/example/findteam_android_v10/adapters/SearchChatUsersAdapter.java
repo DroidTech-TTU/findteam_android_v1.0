@@ -1,6 +1,7 @@
 package com.example.findteam_android_v10.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ public class SearchChatUsersAdapter extends RecyclerView.Adapter<SearchChatUsers
     private final List<String> profilePics;
     private final List<Integer> uids;
 
-    private final String TAG = "urlAdapter";
+    private final String TAG = "SearchChatUsersAdapter";
     private final Context context;
 
     public SearchChatUsersAdapter(Context context,List<String> users, List<String> profilePics, List<Integer> uids) {
@@ -83,7 +84,9 @@ public class SearchChatUsersAdapter extends RecyclerView.Adapter<SearchChatUsers
 
         public void bind(String user, String pic, int uid) {
             profileName.setText(user);
-            if(!pic.equals("")){
+
+            if(!pic.equals("null")){
+                Log.i(TAG, pic);
                 Glide.with(context).load("https://findteam.2labz.com/picture/" + pic).into(profilePic);
             }
 
