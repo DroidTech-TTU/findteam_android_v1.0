@@ -14,11 +14,21 @@
         android:layout_marginEnd="20dp"
         android:background="@drawable/shape_popup_button"
         android:fontFamily="@font/roboto_black"
-        android:text="Accept"
-        android:textColor="@color/white"
+        android:text="Member"
+        android:textColor="#007A16"
         app:layout_constraintEnd_toStartOf="@+id/btReject"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
+    <Button
+        android:id="@+id/btAdmin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/shape_popup_button"
+        android:fontFamily="@font/roboto_black"
+        android:text="Admin"
+        android:textColor="#40A3F1"
+        app:layout_constraintEnd_toStartOf="@+id/btAccept"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
     <Button
         android:id="@+id/btReject"
         android:layout_width="wrap_content"
@@ -27,7 +37,7 @@
         android:background="@drawable/shape_popup_button"
         android:fontFamily="@font/roboto_black"
         android:text="Reject"
-        android:textColor="@color/white"
+        android:textColor="@color/find_team_warming"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
 

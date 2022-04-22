@@ -127,6 +127,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                 }
             });
             switch (memType){
+                case Project.MEMBER_SHIP__TYPE_ADMIN:
                 case Project.MEMBER_SHIP__TYPE_OWNER:{
                     Log.d(TAG, "Owner!!!");
                     ibEditProject.setVisibility(View.VISIBLE);
