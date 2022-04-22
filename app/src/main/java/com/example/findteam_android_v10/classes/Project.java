@@ -120,6 +120,33 @@ public class Project extends JSONObject {
         }
         return results;
     }
+    public static JSONArray searchMultiConditions(JSONArray jsonArrayProjects, String searchKey) throws JSONException {
+        String[] keys = searchKey.split(" ");
+        JSONArray results = new JSONArray();
+        for (int i = 0; i < jsonArrayProjects.length(); i++) {
+            JSONObject project = jsonArrayProjects.getJSONObject(i);
+            int validCount = 0;
+            for(int j=0; j<keys.length; j++){
+                String key = keys[j].trim().toLowerCase();
+                if(project.getString("title").trim().toLowerCase().contains(key)){
+                    validCount++;
+                    continue;
+                }
+
+                JSONArray tags = project.getJSONArray("tags");
+                for (int k = 0; k < tags.length(); k++) {
+                    if(tags.getJSONObject(k).getString("text").trim().toLowerCase().contains(key)){
+                        validCount++;
+                        break;
+                    }
+                }
+            }
+            if(validCount == keys.length){
+                results.put(project);
+            }
+        }
+        return results;
+    }
 
     public static List<String> getPictures(JSONObject project) throws JSONException {
         List<String> pictureURLs = new ArrayList<>();

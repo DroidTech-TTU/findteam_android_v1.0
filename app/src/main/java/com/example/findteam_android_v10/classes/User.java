@@ -223,6 +223,35 @@ public class User {
         });
     }
 
+    public static JSONArray searchMultiConditions(JSONArray users, String searchKey) throws JSONException {
+        String[] keys = searchKey.split(" ");
+        JSONArray results = new JSONArray();
+        for (int i = 0; i < users.length(); i++) {
+            JSONObject project = users.getJSONObject(i);
+            int validCount = 0;
+            for(int j=0; j<keys.length; j++){
+                String key = keys[j].trim().toLowerCase();
+                if(project.getString("first_name").trim().toLowerCase().contains(key)
+                    || (project.getString("last_name").trim().toLowerCase().contains(key))){
+                    validCount++;
+                    continue;
+                }
+
+                JSONArray tags = project.getJSONArray("tags");
+                for (int k = 0; k < tags.length(); k++) {
+                    if(tags.getJSONObject(k).getString("text").trim().toLowerCase().contains(key)){
+                        validCount++;
+                        break;
+                    }
+                }
+            }
+            if(validCount == keys.length){
+                results.put(project);
+            }
+        }
+        return results;
+    }
+
     public static JSONArray searchUsers(JSONArray users, String searchKey) throws JSONException {
         String[] keys = searchKey.split(" ");
         for (String key : keys) {
