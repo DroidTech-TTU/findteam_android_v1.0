@@ -99,9 +99,12 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                                 response.getString("last_name")));
 
                         membership_type.setText(Project.getMemTypeString(memberProject.getInt("membership_type")));
-                        int currMemType = Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), project);
-                        Log.d(TAG, "memType: " + currMemType);
-                        if (currMemType == Project.MEMBER_SHIP__TYPE_OWNER && memberProject.getInt("membership_type") != Project.MEMBER_SHIP__TYPE_OWNER) {
+                        Log.d(TAG, "Postition: " + getAdapterPosition());
+                        Log.d(TAG, "Name: " + response.getString("first_name"));
+                        Log.d(TAG, "memTYPE " + memberProject.getInt("membership_type") +"--" + Project.MEMBER_SHIP__TYPE_OWNER);
+                        Log.d(TAG, "Cur: " + LoginActivity.currentUser.getInt("uid") +" -- " + project.getInt("owner_uid") );
+                        if (LoginActivity.currentUser.getInt("uid") == project.getInt("owner_uid") && memberProject.getInt("membership_type") != Project.MEMBER_SHIP__TYPE_OWNER) {
+                            Log.d(TAG, "GET IN");
                             membership_type.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -203,7 +206,6 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                 @Override
                 public void onClick(View v) {
                     try {
-
                         members.getJSONObject(getPosition()).put("membership_type", Project.MEMBER_SHIP__TYPE_MEMBER);
                         acceptMember();
                         notifyItemChanged(getPosition());
@@ -243,10 +245,11 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
     }
 
     public void addHead(JSONArray nMembers, JSONObject member) throws JSONException {
-        for (int i = members.length() - 1; i >= 0; i--) {
-            members.put(members.getJSONObject(i));
+        for (int i = nMembers.length() - 1; i >= 0; i--) {
+            nMembers.put(nMembers.getJSONObject(i));
         }
-        members.put(0, member);
+        nMembers.put(0, member);
+        this.members = nMembers;
         notifyDataSetChanged();
     }
 
@@ -274,8 +277,12 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
 
     private void setMemberRole(int role) throws JSONException, UnsupportedEncodingException {
 
-        project.remove("members");
-        project.put("members", members);
+        //project.remove("members");
+        JSONArray updateMembers = new JSONArray();
+        updateMembers.put(members);
+        updateMembers.remove(0);
+        Log.d(TAG, "setMemberRole: " + members);
+        project.put("members", updateMembers);
 
         Log.d(TAG, project.toString());
         String URL = Project.getURLUpdateProject(project.getInt("pid"));
@@ -311,9 +318,9 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Log.e(TAG, "saveProject(): : " + new String(responseBody));
-                Log.e(TAG, "saveProject(): the status code for this request is" + statusCode);
-                Toast.makeText(context, "Failure to create project", Toast.LENGTH_LONG).show();
+                Log.e(TAG, "setMemberRole(): : " + new String(responseBody));
+                Log.e(TAG, "setMemberRole(): the status code for this request is" + statusCode);
+                Toast.makeText(context, "Failure to change role", Toast.LENGTH_LONG).show();
             }
 
         });

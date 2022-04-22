@@ -71,8 +71,6 @@ public class FragFindProjects extends Fragment {
                     rvContacts.setAdapter(adapter);
                     rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                    //show all project
-                    search("");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
