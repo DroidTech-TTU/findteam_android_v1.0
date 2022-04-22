@@ -202,7 +202,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                 List<String> tags = Project.getTagsList(project);
                 tgDetailProject.setTags(tags);
 
-                members = project.getJSONArray("members");
+                members = new JSONArray();
                 detailMyProjectAdapter = new DetailMyProjectAdapter(context, members, project);
                 this.rvMembers.setAdapter(detailMyProjectAdapter);
                 this.rvMembers.setLayoutManager(new LinearLayoutManager(context));
@@ -215,6 +215,8 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                             JSONObject owner = new JSONObject();
                             owner.put("uid", responseBody.getString("uid"));
                             owner.put("membership_type", Project.MEMBER_SHIP__TYPE_OWNER);
+                            members = project.getJSONArray("members");
+                            detailMyProjectAdapter.clear();
                             detailMyProjectAdapter.addHead(members, owner);
                         } catch (JSONException exception) {
                             exception.printStackTrace();
