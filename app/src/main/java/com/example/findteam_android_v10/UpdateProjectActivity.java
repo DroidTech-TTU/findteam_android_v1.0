@@ -25,9 +25,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.findteam_android_v10.adapters.EditTagsAdapter;
 import com.example.findteam_android_v10.adapters.GalleryCreateProjectAdapter;
 import com.example.findteam_android_v10.classes.Picture;
 import com.example.findteam_android_v10.classes.Project;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -44,6 +46,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import co.lujun.androidtagview.TagContainerLayout;
@@ -61,8 +65,6 @@ public class UpdateProjectActivity extends AppCompatActivity {
     private GalleryCreateProjectAdapter adapter;
 
     private ImageButton btAddPicture;
-    private ImageButton ibAddTag;
-    private EditText etTags;
     private ImageButton ibSave;
     private List<String> picturesURLs;
     private List<Bitmap> pictureFiles;
@@ -72,10 +74,14 @@ public class UpdateProjectActivity extends AppCompatActivity {
     private ImageButton ibCancel;
     private ImageView ivStatusUpdateProject;
     private Spinner sProgress;
-    private TagContainerLayout myProjectsTags;
     private int projectStatus = 0;
     private JSONObject project;
 
+    RecyclerView rvEditTags;
+    List<String> categories;
+    List<List<String>> tags;
+    EditTagsAdapter editTagsAdapter;
+    FloatingActionButton addEditTag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,15 +90,15 @@ public class UpdateProjectActivity extends AppCompatActivity {
         context = this;
         pictureFiles = new ArrayList<>();
         rvGallery = findViewById(R.id.rvGalleryUpdateProject);
-        etTags = findViewById(R.id.etTagsUpdateProject);
-        ibAddTag = findViewById(R.id.ibAddTag);
         etProjectTitle = findViewById(R.id.etProjectTitle);
-        etDescription = findViewById(R.id.etDescriptionCreateProject);
+        etDescription = findViewById(R.id.etDescriptionUpdateProject);
         ibSave = findViewById(R.id.ibSaveCreateProject);
-        myProjectsTags = findViewById(R.id.tgCreateProject);
         ibCancel = findViewById(R.id.ibCancel);
         sProgress = findViewById(R.id.sProjectProgress);
 
+
+        rvEditTags = findViewById(R.id.rvEditTagsUpdateProject);
+         addEditTag = findViewById(R.id.addEditTagUpdateProject);
 
         ivStatusUpdateProject = findViewById(R.id.ivStatusUpdateProject);
 
@@ -114,6 +120,19 @@ public class UpdateProjectActivity extends AppCompatActivity {
 
     private void filloutInterface(JSONObject project) throws JSONException {
         //load images
+
+        categories = new ArrayList<>();
+        tags = new ArrayList<>();
+        editTagsAdapter = new EditTagsAdapter(this, categories, tags);
+        rvEditTags.setAdapter(editTagsAdapter);
+        rvEditTags.setLayoutManager(new LinearLayoutManager(this));
+        rvEditTags.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+        addEditTag.setOnClickListener(view -> {
+            categories.add("");
+            tags.add(new ArrayList<String>());
+            editTagsAdapter.notifyDataSetChanged();
+        });
 
         picturesURLs = new ArrayList<>();
         JSONArray jsonArray = project.getJSONArray("pictures");
@@ -154,8 +173,6 @@ public class UpdateProjectActivity extends AppCompatActivity {
         //load description
         etDescription.setText(project.getString("description"));
         //load tags
-        tagSkills = Project.getTagsList(project);
-        myProjectsTags.setTags(tagSkills);
 
         updateImageStatus(project.getInt("status"));
 
@@ -166,16 +183,6 @@ public class UpdateProjectActivity extends AppCompatActivity {
             }
         });
 
-        ibAddTag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String newTag = etTags.getText().toString();
-                Log.d(TAG, "New Tag = " + newTag);
-                tagSkills.add(newTag);
-                myProjectsTags.addTag(newTag);
-                etTags.setText("");
-            }
-        });
         ibCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -198,6 +205,33 @@ public class UpdateProjectActivity extends AppCompatActivity {
             }
 
         });
+
+        try {
+            JSONArray tagsJson = project.getJSONArray("tags");
+            //load the tags of the user
+            for(int i = 0; i < tagsJson.length(); i++){
+                JSONObject tagObj = (JSONObject) tagsJson.get(i);
+                if(!categories.contains(tagObj.getString("category"))){
+                    categories.add(tagObj.getString("category"));
+                }
+
+            }
+
+            for(int i = 0; i < categories.size(); i++){
+                List<String> localTags = new ArrayList<>();
+                for(int j = 0; j < tagsJson.length(); j++){
+                    JSONObject tagObj = (JSONObject) tagsJson.get(j);
+                    if(categories.get(i).equals(tagObj.getString("category"))){
+                        localTags.add(tagObj.getString("text"));
+                    }
+                }
+                tags.add(localTags);
+            }
+
+            editTagsAdapter.notifyDataSetChanged();
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
     }
 
     private boolean validateInputs() {
@@ -209,7 +243,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
             count++;
             isValid = false;
         }
-        if (tagSkills == null || tagSkills.isEmpty()) {
+        if (editTagsAdapter.getTags().size() == 0) {
             message = message + count + ".The Tags List cannot be empty!\n";
             count++;
             isValid = false;
@@ -232,21 +266,31 @@ public class UpdateProjectActivity extends AppCompatActivity {
     private void upDateProject() throws JSONException, UnsupportedEncodingException {
         String title = etProjectTitle.getText().toString();
         String description = etDescription.getText().toString();
-        JSONArray tagSkillsJSON = new JSONArray();
 
-        for (String skill : tagSkills) {
-            Log.d(TAG, "SKILL: " + skill);
-            JSONObject tag = new JSONObject();
-            tag.put("text", skill);
-            tag.put("category", "None");
-            tag.put("is_user_requirement", false);
-            tagSkillsJSON.put(tag);
+        JSONArray tagsArray = new JSONArray();
+
+        categories = editTagsAdapter.getCategories();
+        tags = editTagsAdapter.getTags();
+
+        Log.i(TAG, "size of categories is: " + categories.size());
+        Log.i(TAG, categories.toString());
+        Log.i(TAG, "size of tag is: " + tags.size());
+        Log.i(TAG, tags.toString());
+
+        for(int i = 0; i < categories.size(); i++){
+            for(int j = 0; j < tags.get(i).size(); j++){
+                JSONObject tagInstance = new JSONObject();
+                tagInstance.put("category", categories.get(i));
+                tagInstance.put("text", tags.get(i).get(j));
+                tagInstance.put("is_user_requirement", false);
+                tagsArray.put(tagInstance);
+            }
         }
 
         project.put("title", title);
         project.put("status", projectStatus);
         project.put("description", description);
-        project.put("tags", tagSkillsJSON);
+        project.put("tags", tagsArray);
 
         Log.d(TAG, "Ready Project: " + project.toString());
         String URL = UPDATE_PROJECT_API_URL + project.getString("pid");

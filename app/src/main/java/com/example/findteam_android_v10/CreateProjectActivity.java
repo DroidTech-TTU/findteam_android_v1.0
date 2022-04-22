@@ -21,8 +21,10 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.findteam_android_v10.adapters.EditTagsAdapter;
 import com.example.findteam_android_v10.adapters.GalleryCreateProjectAdapter;
 import com.example.findteam_android_v10.fragments.FragMyProjects;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -40,6 +42,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import co.lujun.androidtagview.TagContainerLayout;
@@ -55,7 +59,6 @@ public class CreateProjectActivity extends AppCompatActivity {
     public String message = "";
     private GalleryCreateProjectAdapter adapter;
     private Context context;
-    private EditText etTagsCreateProject;
     private List<String> picturesURLs;
     private List<String> tagSkills;
     private EditText etDescriptionCreateProject;
@@ -67,6 +70,12 @@ public class CreateProjectActivity extends AppCompatActivity {
 
     public int requestCodeInt;
 
+    RecyclerView rvEditTags;
+    List<String> categories;
+    List<List<String>> tags;
+    EditTagsAdapter editTagsAdapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,10 +85,27 @@ public class CreateProjectActivity extends AppCompatActivity {
         context = this;
         tagSkills = new ArrayList<>();
         pictureFiles = new ArrayList<>();
-        etTagsCreateProject = findViewById(R.id.etTagsCreateProject);
         etProjectTitle = findViewById(R.id.etProjectTitle);
+
         etDescriptionCreateProject = findViewById(R.id.etDescriptionCreateProject);
         ImageButton ibSaveCreateProject = findViewById(R.id.ibSaveCreateProject);
+
+        rvEditTags = findViewById(R.id.rvEditTagsCreateProject);
+        categories = new ArrayList<>();
+        tags = new ArrayList<>();
+
+        editTagsAdapter = new EditTagsAdapter(this, categories, tags);
+        rvEditTags.setAdapter(editTagsAdapter);
+        rvEditTags.setLayoutManager(new LinearLayoutManager(this));
+        rvEditTags.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        FloatingActionButton addEditTag = findViewById(R.id.addEditTagCreateProject);
+
+        addEditTag.setOnClickListener(view -> {
+            categories.add("");
+            tags.add(new ArrayList<String>());
+            editTagsAdapter.notifyDataSetChanged();
+        });
+
         ibSaveCreateProject.setOnClickListener(view -> {
             try {
                 Log.d(TAG, "Save Project Button is on click");
@@ -96,40 +122,6 @@ public class CreateProjectActivity extends AppCompatActivity {
         });
         ImageButton ibCancel = findViewById(R.id.ibCancel);
         ibCancel.setOnClickListener(this::onButtonShowPopupWindowClick);
-        ImageButton ibAddTag = findViewById(R.id.ibAddTag);
-        ibAddTag.setOnClickListener(view -> {
-            String newTag = etTagsCreateProject.getText().toString();
-            Log.d(TAG, newTag);
-            tagSkills.add(newTag);
-            myProjectsTags.addTag(newTag);
-            etTagsCreateProject.setText("");
-        });
-
-        myProjectsTags = findViewById(R.id.tgCreateProject);
-        myProjectsTags.setTags(tagSkills);
-        myProjectsTags.setOnTagClickListener(new TagView.OnTagClickListener() {
-            @Override
-            public void onTagClick(int position, String text) {
-
-            }
-
-            @Override
-            public void onTagLongClick(int position, String text) {
-                tagSkills.remove(position);
-                myProjectsTags.removeTag(position);
-            }
-
-            @Override
-            public void onSelectedTagDrag(int position, String text) {
-
-            }
-
-            @Override
-            public void onTagCrossClick(int position) {
-
-            }
-        });
-
         RecyclerView rvGallery = findViewById(R.id.rvGallery);
         picturesURLs = new ArrayList<String>();
         adapter = new GalleryCreateProjectAdapter(this, picturesURLs);
@@ -140,6 +132,7 @@ public class CreateProjectActivity extends AppCompatActivity {
 
         ImageButton btAddPicture = findViewById(R.id.btAddPicture);
         btAddPicture.setOnClickListener(this::onPickPhoto);
+
     }
 
     private boolean validateInputs() {
@@ -151,7 +144,7 @@ public class CreateProjectActivity extends AppCompatActivity {
             count++;
             isValid = false;
         }
-        if (tagSkills == null || tagSkills.isEmpty()) {
+        if (editTagsAdapter.getTags().size() == 0) {
             message = message + count + ".The Tags List cannot be empty!\n";
             count++;
             isValid = false;
@@ -176,15 +169,24 @@ public class CreateProjectActivity extends AppCompatActivity {
 
         JSONArray members = new JSONArray();
 
-        JSONArray tagSkillsJSON = new JSONArray();
-        tagSkills.add(title);
-        for (String skill : tagSkills) {
-            Log.d(TAG, "SKILL: " + skill);
-            JSONObject tag = new JSONObject();
-            tag.put("text", skill);
-            tag.put("category", "None");
-            tag.put("is_user_requirement", false);
-            tagSkillsJSON.put(tag);
+        JSONArray tagsArray = new JSONArray();
+
+        categories = editTagsAdapter.getCategories();
+        tags = editTagsAdapter.getTags();
+
+        Log.i(TAG, "size of categories is: " + categories.size());
+        Log.i(TAG, categories.toString());
+        Log.i(TAG, "size of tag is: " + tags.size());
+        Log.i(TAG, tags.toString());
+
+        for(int i = 0; i < categories.size(); i++){
+            for(int j = 0; j < tags.get(i).size(); j++){
+                JSONObject tagInstance = new JSONObject();
+                tagInstance.put("category", categories.get(i));
+                tagInstance.put("text", tags.get(i).get(j));
+                tagInstance.put("is_user_requirement", false);
+                tagsArray.put(tagInstance);
+            }
         }
 
         JSONObject project = new JSONObject();
@@ -193,7 +195,7 @@ public class CreateProjectActivity extends AppCompatActivity {
         project.put("description", description);
         project.put("members", members);
         // project.put("owner_uid", LoginActivity.currentUser.getInt("uid"));
-        project.put("tags", tagSkillsJSON);
+        project.put("tags", tagsArray);
 
         Log.d(TAG, project.toString());
 

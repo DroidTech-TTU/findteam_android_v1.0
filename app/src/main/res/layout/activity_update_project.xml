@@ -102,9 +102,8 @@
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etProjectTitle" />
-
         <EditText
-            android:id="@+id/etDescriptionCreateProject"
+            android:id="@+id/etDescriptionUpdateProject"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginStart="20dp"
@@ -128,75 +127,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp"
             android:fontFamily="@font/bai_jamjuree_medium"
             android:text="Tags: "
             android:textColor="@color/find_team_dark"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etDescriptionCreateProject" />
-
-        <co.lujun.androidtagview.TagContainerLayout
-            android:id="@+id/tgCreateProject"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/shape_four_conners_white"
-            android:padding="10dp"
-            app:container_border_color="@android:color/transparent"
-            app:container_border_width="0dp"
-            app:container_enable_drag="false"
-            app:horizontal_interval="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/projectTagsText"
-            app:tag_clickable="true"
-            app:tag_theme="random"
-            app:vertical_interval="10dp" />
-
-        <EditText
-            android:id="@+id/etTagsUpdateProject"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="40dp"
-            android:background="@drawable/shape_four_conners_white"
-            android:ems="10"
-            android:fontFamily="@font/questrial"
-            android:hint="Tag"
-            android:inputType="textPersonName"
-            android:padding="10dp"
-            android:textColor="@color/find_team_dark"
-            android:textSize="16sp"
-            android:windowSoftInputMode="adjustResize"
-            app:layout_constraintEnd_toStartOf="@+id/ibAddTag"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tgCreateProject" />
-
-        <ImageButton
-            android:id="@+id/ibAddTag"
-            android:layout_width="70dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="48dp"
-            android:background="@drawable/button_bg"
-            android:elevation="10dp"
-            android:foregroundGravity="center"
-            android:padding="5dp"
-            app:layout_constraintBottom_toBottomOf="@+id/etTagsUpdateProject"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tgCreateProject"
-            app:srcCompat="@drawable/ic_enter" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:background="@android:color/transparent"
-            app:layout_constraintTop_toBottomOf="@+id/etTagsUpdateProject" />
+            app:layout_constraintTop_toBottomOf="@+id/etDescriptionUpdateProject" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/ibSaveCreateProject"
@@ -226,6 +162,16 @@
             app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24"
             tools:ignore="ContentDescription" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvEditTagsUpdateProject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/projectTagsText" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/ibCancel"
             android:layout_width="wrap_content"
@@ -238,6 +184,15 @@
             app:srcCompat="@drawable/ic_baseline_arrow_back_ios_new_24"
             app:tint="@color/white" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addEditTagUpdateProject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_add_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvEditTagsCreateProject"
+            app:tint="@color/white" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
