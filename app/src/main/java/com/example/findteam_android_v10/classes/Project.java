@@ -16,6 +16,9 @@ import java.util.List;
 public class Project extends JSONObject {
     public static final String GET_PROJECT_API_URL = "project?pid=";
 
+    public static final int STATUS_IN_UNKNOWN_INT = -1;
+    public static final String STATUS_IN_UNKNOWN_STRING = "UNKNOWN";
+
     public static final int STATUS_IN_PROGRESS_INT = 1;
     public static final String STATUS_IN_PROGRESS_STRING = "In Progress";
     public static final String STATUS_IN_PROGRESS_ICON = "ic_project_status_in_progress_green";
@@ -59,7 +62,26 @@ public class Project extends JSONObject {
     }
 
     public static String getStringStatus(int i) {
-        return 0 == i ? "In Progress" : "Done";
+        String statusString = STATUS_IN_UNKNOWN_STRING;
+        switch (i){
+            case STATUS_IN_AWAITING_INT:{
+                statusString = STATUS_IN_AWAITING_STRING;
+                break;
+            }
+            case STATUS_IN_PROGRESS_INT:{
+                statusString = STATUS_IN_PROGRESS_STRING;
+                break;
+            }
+            case STATUS_IN_FINISHED_INT:{
+                statusString = STATUS_FINISHED_STRING;
+                break;
+            }
+            default:{
+                statusString = STATUS_IN_UNKNOWN_STRING;
+                break;
+            }
+        }
+        return statusString;
     }
 
     public static List<String> getTagsList(JSONObject project) throws JSONException {
@@ -127,36 +149,6 @@ public class Project extends JSONObject {
                 return "Guest";
             }
 
-        }
-    }
-
-    public static HashMap<Integer, List<String>> getStatus(int i) {
-
-        switch (i) {
-            case 0: {
-                List<String> status = new ArrayList<>();
-                status.add(STATUS_IN_PROGRESS_STRING);
-                status.add(STATUS_IN_PROGRESS_ICON);
-                HashMap<Integer, List<String>> statusMap = new HashMap<>();
-                statusMap.put(i, status);
-                return statusMap;
-            }
-            case 1: {
-                List<String> status = new ArrayList<>();
-                status.add(STATUS_IN_AWAITING_STRING);
-                status.add(STATUS_PENDING_ICON);
-                HashMap<Integer, List<String>> statusMap = new HashMap<>();
-                statusMap.put(i, status);
-                return statusMap;
-            }
-            default: {
-                List<String> status = new ArrayList<>();
-                status.add(STATUS_FINISHED_STRING);
-                status.add(STATUS_FINISHED_ICON);
-                HashMap<Integer, List<String>> statusMap = new HashMap<>();
-                statusMap.put(i, status);
-                return statusMap;
-            }
         }
     }
 
