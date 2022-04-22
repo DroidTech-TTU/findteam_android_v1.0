@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import com.example.findteam_android_v10.adapters.DetailMyProjectAdapter;
 import com.example.findteam_android_v10.adapters.GalleryCreateProjectAdapter;
+import com.example.findteam_android_v10.adapters.ProfileTagAdapter;
+import com.example.findteam_android_v10.adapters.ProjectDetailTaglAdapter;
 import com.example.findteam_android_v10.classes.Project;
 import com.example.findteam_android_v10.classes.User;
 import com.example.findteam_android_v10.fragments.FragMyProjects;
@@ -68,6 +70,9 @@ public class DetailMyProjectActivity extends AppCompatActivity {
     GalleryCreateProjectAdapter adapter;
     RecyclerView rvGallery;
     PopupWindow popupWindow;
+   List<String> categories ;
+    List<List<String>>  tags ;
+    ProjectDetailTaglAdapter projectDetailTaglAdapter;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +86,20 @@ public class DetailMyProjectActivity extends AppCompatActivity {
         this.tvProjectStatus = (TextView) findViewById(R.id.tvStatusMyProjectDetailMain);
         this.ivStatus = (ImageView) findViewById(R.id.ivStatusMyProjectDetail) ;
         this.tvProjectTitleDetailProject = findViewById(R.id.tvProjecTitleDetailProject);
-        this.tgDetailProject = findViewById(R.id.tgDetailProject);
+
         this.ibEditProject= findViewById(R.id.ibEditProject);
         this.ibDeleteProject= findViewById(R.id.ibDeleteProject);
         this.ibGoBack = findViewById(R.id.goBackFab);
+
+        categories = new ArrayList<>();
+        tags = new ArrayList<>();
+
+        //setup recyclerview and adapter for tags
+        RecyclerView rvTags = findViewById(R.id.rvProjectDetailTags);
+        projectDetailTaglAdapter = new ProjectDetailTaglAdapter(this, categories, tags);
+        rvTags.setAdapter(projectDetailTaglAdapter);
+        rvTags.setLayoutManager(new LinearLayoutManager(this));
+
         ibGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,8 +214,6 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                 tvProjectTitleDetailProject.setText(project.getString("title"));
                 tvDescription.setText(project.getString("description"));
                 updateImageStatus(project.getInt("status"));
-                List<String> tags = Project.getTagsList(project);
-                tgDetailProject.setTags(tags);
 
                 members = new JSONArray();
                 detailMyProjectAdapter = new DetailMyProjectAdapter(context, members, project);
@@ -234,7 +247,29 @@ public class DetailMyProjectActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.d(TAG, "On Create: " + project.toString());
+
+            JSONArray tagsJson = project.getJSONArray("tags");
+            //load the tags of the user
+            for (int i = 0; i < tagsJson.length(); i++) {
+                JSONObject tagObj = (JSONObject) tagsJson.get(i);
+                if (!categories.contains(tagObj.getString("category"))) {
+                    categories.add(tagObj.getString("category"));
+                }
+
+            }
+
+            for (int i = 0; i < categories.size(); i++) {
+                List<String> localTags = new ArrayList<>();
+                for (int j = 0; j < tagsJson.length(); j++) {
+                    JSONObject tagObj = (JSONObject) tagsJson.get(j);
+                    if (categories.get(i).equals(tagObj.getString("category"))) {
+                        localTags.add(tagObj.getString("text"));
+                    }
+                }
+                tags.add(localTags);
+            }
+
+            projectDetailTaglAdapter.notifyDataSetChanged();
 
         } catch (JSONException exception) {
             exception.printStackTrace();
@@ -255,8 +290,29 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                         tvProjectTitleDetailProject.setText(resultProject.getString("title"));
                         tvDescription.setText(resultProject.getString("description"));
                         updateImageStatus(resultProject.getInt("status"));
-                        List<String> tags = Project.getTagsList(resultProject);
-                        tgDetailProject.setTags(tags);
+
+                        JSONArray tagsJson = project.getJSONArray("tags");
+                        //load the tags of the user
+                        for (int i = 0; i < tagsJson.length(); i++) {
+                            JSONObject tagObj = (JSONObject) tagsJson.get(i);
+                            if (!categories.contains(tagObj.getString("category"))) {
+                                categories.add(tagObj.getString("category"));
+                            }
+
+                        }
+
+                        for (int i = 0; i < categories.size(); i++) {
+                            List<String> localTags = new ArrayList<>();
+                            for (int j = 0; j < tagsJson.length(); j++) {
+                                JSONObject tagObj = (JSONObject) tagsJson.get(j);
+                                if (categories.get(i).equals(tagObj.getString("category"))) {
+                                    localTags.add(tagObj.getString("text"));
+                                }
+                            }
+                            tags.add(localTags);
+                        }
+
+                        projectDetailTaglAdapter.notifyDataSetChanged();
 
                         adapter.clear();
                         adapter.addAll(Project.getPictures(resultProject));
