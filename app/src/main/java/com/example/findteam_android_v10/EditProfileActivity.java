@@ -216,7 +216,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         Log.i(TAG, "it went to updateUserInfo");
 
-        dialog = ProgressDialog.show(this, "Loading", "Updating Profile", true);
+      //  dialog = ProgressDialog.show(this, "Loading", "Updating Profile", true);
         try{
 
             //dialog = ProgressDialog.show(this, "Loading", "Updating Profile", true);
@@ -281,14 +281,14 @@ public class EditProfileActivity extends AppCompatActivity {
                             LoginActivity.currentUser = response;
                             Intent intent = new Intent();
                             setResult(200, intent);
-                            dialog.dismiss();
+//                            dialog.dismiss();
                             finish();
                         }
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                             Log.i(TAG, throwable + " " + errorResponse);
-                            dialog.dismiss();
+//                            dialog.dismiss();
                         }
                     });
 
