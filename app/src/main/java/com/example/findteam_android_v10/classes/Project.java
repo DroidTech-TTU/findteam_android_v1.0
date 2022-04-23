@@ -181,6 +181,7 @@ public class Project extends JSONObject {
 
     public static int getUserMembershipType(int uid, JSONObject project) throws JSONException {
         JSONArray mems = project.getJSONArray("members");
+        if(uid == project.getInt("owner_uid")) return MEMBER_SHIP__TYPE_OWNER;
         for (int i = 0; i < mems.length(); i++) {
             if (uid == mems.getJSONObject(i).getInt("uid")) {
                 return mems.getJSONObject(i).getInt("membership_type");

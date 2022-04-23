@@ -15,6 +15,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.findteam_android_v10.DetailMyProjectActivity;
 import com.example.findteam_android_v10.FindTeamClient;
 import com.example.findteam_android_v10.LoginActivity;
 import com.example.findteam_android_v10.MemberProfileActivity;
@@ -101,10 +102,10 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                         membership_type.setText(Project.getMemTypeString(memberProject.getInt("membership_type")));
                         Log.d(TAG, "Postition: " + getAdapterPosition());
                         Log.d(TAG, "Name: " + response.getString("first_name"));
-                        Log.d(TAG, "memTYPE " + memberProject.getInt("membership_type") +"--" + Project.MEMBER_SHIP__TYPE_OWNER);
-                        Log.d(TAG, "Cur: " + LoginActivity.currentUser.getInt("uid") +" -- " + project.getInt("owner_uid") );
+                        Log.d(TAG, "memTYPE " + memberProject.getInt("membership_type") + "--" + Project.MEMBER_SHIP__TYPE_OWNER);
+                        Log.d(TAG, "Cur: " + LoginActivity.currentUser.getInt("uid") + " -- " + project.getInt("owner_uid"));
                         if ((LoginActivity.currentUser.getInt("uid") == project.getInt("owner_uid")
-                            || Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), project) == Project.MEMBER_SHIP__TYPE_ADMIN)&& memberProject.getInt("membership_type") != Project.MEMBER_SHIP__TYPE_OWNER) {
+                                || Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), project) == Project.MEMBER_SHIP__TYPE_ADMIN) && memberProject.getInt("membership_type") != Project.MEMBER_SHIP__TYPE_OWNER) {
                             Log.d(TAG, "GET IN");
                             membership_type.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -117,32 +118,7 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                                 }
                             });
                         }
-                        switch (memberProject.getInt("membership_type")) {
-                            case Project.MEMBER_SHIP__TYPE_OWNER: {
-                                membership_type.setTextColor(Color.parseColor("#000000"));
-                                //memberName.setTextColor(Color.parseColor("#000000"));
-                                break;
-                            }
-                            case Project.MEMBER_SHIP__TYPE_ADMIN: {
-                                membership_type.setTextColor(Color.parseColor("#FF40A3F1"));
-                                //memberName.setTextColor(Color.parseColor("#000000"));
-                                break;
-                            }
-                            case Project.MEMBER_SHIP__TYPE_MEMBER: {
-                                membership_type.setTextColor(Color.parseColor("#007a16"));
-                                //memberName.setTextColor(Color.parseColor("#5AFF00"));
-                                break;
-                            }
-                            case Project.MEMBER_SHIP__TYPE_PENDING: {
-                                membership_type.setTextColor(Color.parseColor("#7a0000"));
-                                //memberName.setTextColor(Color.parseColor("#4a4948"));
-                                break;
-                            }
-                            default: {
-                                membership_type.setTextColor(Color.parseColor("#000000"));
-                                memberName.setTextColor(Color.parseColor("#000000"));
-                            }
-                        }
+                        setMemberColors(memberProject);
                         Log.d(TAG, "onBindViewHolder: Success");
 
                     } catch (JSONException e) {
@@ -179,6 +155,35 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
 
         }
 
+        public void setMemberColors(JSONObject memberProject) throws JSONException {
+            switch(memberProject.getInt("membership_type"))
+            {
+                case Project.MEMBER_SHIP__TYPE_OWNER: {
+                    membership_type.setTextColor(Color.parseColor("#000000"));
+                    //memberName.setTextColor(Color.parseColor("#000000"));
+                    break;
+                }
+                case Project.MEMBER_SHIP__TYPE_ADMIN: {
+                    membership_type.setTextColor(Color.parseColor("#FF40A3F1"));
+                    //memberName.setTextColor(Color.parseColor("#000000"));
+                    break;
+                }
+                case Project.MEMBER_SHIP__TYPE_MEMBER: {
+                    membership_type.setTextColor(Color.parseColor("#007a16"));
+                    //memberName.setTextColor(Color.parseColor("#5AFF00"));
+                    break;
+                }
+                case Project.MEMBER_SHIP__TYPE_PENDING: {
+                    membership_type.setTextColor(Color.parseColor("#7a0000"));
+                    //memberName.setTextColor(Color.parseColor("#4a4948"));
+                    break;
+                }
+                default: {
+                    membership_type.setTextColor(Color.parseColor("#000000"));
+                    memberName.setTextColor(Color.parseColor("#000000"));
+                }
+            }
+        }
         public void onButtonShowPopupWindowClick(View view, JSONObject member) throws JSONException {
             // inflate the layout of the popup window
             LayoutInflater inflater = (LayoutInflater)
@@ -214,7 +219,7 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                 @Override
                 public void onClick(View v) {
                     try {
-                        Log.d(TAG, "ACCEPT:");
+                        Log.d(TAG, "ACCEPT: Members: " + members);
                         members.getJSONObject(getPosition()).put("membership_type", Project.MEMBER_SHIP__TYPE_MEMBER);
                         acceptMember();
                         notifyItemChanged(getPosition());

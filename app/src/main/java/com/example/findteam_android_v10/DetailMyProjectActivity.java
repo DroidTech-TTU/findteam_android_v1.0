@@ -60,7 +60,6 @@ public class DetailMyProjectActivity extends AppCompatActivity {
     ImageView ivStatus;
     JSONObject project;
     JSONArray members;
-    TagContainerLayout tgDetailProject;
     DetailMyProjectAdapter detailMyProjectAdapter;
     ImageButton ibGoBack;
     Button btJoinProject, btLeaveProject;
@@ -112,6 +111,8 @@ public class DetailMyProjectActivity extends AppCompatActivity {
         try {
             project = new JSONObject(getIntent().getStringExtra("project"));
             int memType = Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), project);
+            setControl(memType);
+
             if(LoginActivity.currentUser.getInt("uid") == project.getInt("owner_uid")) memType = Project.MEMBER_SHIP__TYPE_OWNER;
             Log.d(TAG, "Membership_type: " + memType);
             btChatProject.setOnClickListener(l -> {
@@ -126,78 +127,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                     exception.printStackTrace();
                 }
             });
-            switch (memType){
-                case Project.MEMBER_SHIP__TYPE_ADMIN:
-                case Project.MEMBER_SHIP__TYPE_OWNER:{
-                    Log.d(TAG, "Owner!!!");
-                    ibEditProject.setVisibility(View.VISIBLE);
-                    ibDeleteProject.setVisibility(View.VISIBLE);
-                    btJoinProject.setVisibility(View.INVISIBLE);
-                    btLeaveProject.setVisibility(View.INVISIBLE);
-                    ibDeleteProject.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            try {
-                                onButtonDeletePopupWindowClick(v, project.getInt("pid"));
-                            } catch (JSONException exception) {
-                                exception.printStackTrace();
-                            }
-                            Log.d(TAG, "On Delete Project Button");
-                        }
-                    });
-                    ibEditProject.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(context, UpdateProjectActivity.class);
-                            try {
-                                JSONArray iMembers = project.getJSONArray("members");
-                                for(int j = 0; j< iMembers.length(); j++){
-                                    if(iMembers.getJSONObject(j).getInt("uid") == project.getInt("owner_uid"));
-                                    iMembers.remove(j);
-                                    break;
-                                }
-                                Log.d(TAG, "iMembers: " + iMembers);
-                                i.putExtra("project", project.toString());
-                                startActivityForResult(i, EDIT_PROJECT_CODE);
-                                Log.d(TAG, "On Edit Project Button");
-                            } catch (JSONException exception) {
-                                exception.printStackTrace();
-                            }
 
-                        }
-                    });
-                    break;
-                }
-                case Project.MEMBER_SHIP__TYPE_PENDING:
-                case Project.MEMBER_SHIP__TYPE_MEMBER: {
-                    Log.d(TAG, "PENDING | MEMBER");
-                    ibEditProject.setVisibility(View.INVISIBLE);
-                    ibDeleteProject.setVisibility(View.INVISIBLE);
-                    btJoinProject.setVisibility(View.INVISIBLE);
-                    btLeaveProject.setVisibility(View.INVISIBLE);
-                    break;
-                }
-                case Project.MEMBER_SHIP__TYPE_GUEST:{
-                    ibEditProject.setVisibility(View.INVISIBLE);
-                    ibDeleteProject.setVisibility(View.INVISIBLE);
-                    btJoinProject.setVisibility(View.VISIBLE);
-                    btLeaveProject.setVisibility(View.INVISIBLE);
-                    btJoinProject.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            try {
-                                joinProject();
-                            } catch (JSONException exception) {
-                                exception.printStackTrace();
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-
-                    break;
-                }
-            }
 
             try {
 
@@ -277,6 +207,133 @@ public class DetailMyProjectActivity extends AppCompatActivity {
         }
     }
 
+    public void setControl(int memType){
+        Log.d(TAG, "SET CONTROL: MemType = " + memType);
+        switch (memType){
+            case Project.MEMBER_SHIP__TYPE_ADMIN:
+            case Project.MEMBER_SHIP__TYPE_OWNER:{
+                Log.d(TAG, "Owner/admin!!!");
+                ibEditProject.setVisibility(View.VISIBLE);
+                ibDeleteProject.setVisibility(View.VISIBLE);
+                btJoinProject.setVisibility(View.INVISIBLE);
+                btLeaveProject.setVisibility(View.INVISIBLE);
+                ibDeleteProject.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            FindTeamClient.get(Project.getURLGetProject(project.getInt("pid")), new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject responseBody) {
+                                    try {
+                                        int mem_type = Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), responseBody);
+                                        if(mem_type == Project.MEMBER_SHIP__TYPE_OWNER){
+                                            onButtonDeletePopupWindowClick(v, project.getInt("pid"));
+                                        }else{
+                                            //TODO
+                                            notOwnerPopup(v);
+                                        }
+                                    } catch (JSONException exception) {
+                                        exception.printStackTrace();
+                                    }
+
+
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, Throwable error, JSONObject responseBody) {
+
+                                }
+                            });
+                        } catch (JSONException exception) {
+                            exception.printStackTrace();
+                        }
+
+                        Log.d(TAG, "On Delete Project Button");
+                    }
+                });
+                ibEditProject.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            FindTeamClient.get(Project.getURLGetProject(project.getInt("pid")), new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject responseBody) {
+                                    try {
+                                        int mem_type = Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), responseBody);
+                                        if(mem_type == Project.MEMBER_SHIP__TYPE_OWNER ||
+                                        mem_type == Project.MEMBER_SHIP__TYPE_ADMIN){
+                                            Intent i = new Intent(context, UpdateProjectActivity.class);
+                                            try {
+                                                JSONArray iMembers = project.getJSONArray("members");
+                                                for(int j = 0; j< iMembers.length(); j++){
+                                                    if(iMembers.getJSONObject(j).getInt("uid") == project.getInt("owner_uid"));
+                                                    iMembers.remove(j);
+                                                    break;
+                                                }
+                                                Log.d(TAG, "iMembers: " + iMembers);
+                                                i.putExtra("project", project.toString());
+                                                startActivityForResult(i, EDIT_PROJECT_CODE);
+                                                Log.d(TAG, "On Edit Project Button");
+                                            } catch (JSONException exception) {
+                                                exception.printStackTrace();
+                                            }
+                                        }else{
+                                            //TODO
+                                            notOwnerOrAdminPopup(v);
+                                        }
+                                    } catch (JSONException exception) {
+                                        exception.printStackTrace();
+                                    }
+
+
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, Throwable error, JSONObject responseBody) {
+
+                                }
+                            });
+                        } catch (JSONException exception) {
+                            exception.printStackTrace();
+                        }
+
+
+                    }
+                });
+                break;
+            }
+            case Project.MEMBER_SHIP__TYPE_PENDING:
+            case Project.MEMBER_SHIP__TYPE_MEMBER: {
+                Log.d(TAG, "PENDING | MEMBER");
+                ibEditProject.setVisibility(View.INVISIBLE);
+                ibDeleteProject.setVisibility(View.INVISIBLE);
+                btJoinProject.setVisibility(View.INVISIBLE);
+                btLeaveProject.setVisibility(View.INVISIBLE);
+                break;
+            }
+            case Project.MEMBER_SHIP__TYPE_GUEST:{
+                Log.d(TAG, "SET CONTROL: ROLE = GUEST" );
+                ibEditProject.setVisibility(View.INVISIBLE);
+                ibDeleteProject.setVisibility(View.INVISIBLE);
+                btJoinProject.setVisibility(View.VISIBLE);
+                btLeaveProject.setVisibility(View.INVISIBLE);
+                btJoinProject.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            joinProject();
+                        } catch (JSONException exception) {
+                            exception.printStackTrace();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+                break;
+            }
+        }
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -328,7 +385,8 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                                     owner.put("uid", responseBody.getString("uid"));
                                     owner.put("membership_type", Project.MEMBER_SHIP__TYPE_OWNER);
                                     Log.d(TAG, "OnActivityResult: ");
-//                                    detailMyProjectAdapter.clear();
+                                    detailMyProjectAdapter.clear();
+                                    Log.d(TAG, "ACTIVITY_RESULT: members=" + members);
                                     detailMyProjectAdapter.addHead(members, owner);
                                 } catch (JSONException exception) {
                                     exception.printStackTrace();
@@ -409,6 +467,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
         return LoginActivity.currentUser.getInt("uid") == owner_id;
     }
     public void onButtonDeletePopupWindowClick(View view, int pid) {
+
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -439,13 +498,11 @@ public class DetailMyProjectActivity extends AppCompatActivity {
             public void onClick(View v) {
                 popupWindow.dismiss();
                 try {
-                    try {
-                        deleteProject(pid);
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
+                    deleteProject(pid);
                 } catch (JSONException exception) {
                     exception.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -468,7 +525,6 @@ public class DetailMyProjectActivity extends AppCompatActivity {
         Log.d(TAG, project.toString());
         int tmpPid = project.getInt("pid");
         FindTeamClient.post(Project.getURLJoinProject(tmpPid), new AsyncHttpResponseHandler(){
-
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 btJoinProject.setVisibility(View.INVISIBLE);
@@ -483,5 +539,61 @@ public class DetailMyProjectActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    public void notOwnerPopup(View view) {
+
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_you_are_not_owner, null);
+        TextView tvPopup_Invalid_Inputs = popupView.findViewById(R.id.tvMessage);
+        tvPopup_Invalid_Inputs.setText("Not Owner!");
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        popupWindow = new PopupWindow(popupView,width,height,focusable);
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+
+    }
+    public void notOwnerOrAdminPopup(View view) {
+
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_you_are_not_admin_or_owner, null);
+        TextView tvPopup_Invalid_Inputs = popupView.findViewById(R.id.tvMessage);
+        tvPopup_Invalid_Inputs.setText("Not an Admin or Owner!");
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        popupWindow = new PopupWindow(popupView,width,height,focusable);
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+
     }
 }
