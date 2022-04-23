@@ -42,6 +42,8 @@ public class FragForgotNewPass extends Fragment {
 
                 if (!newPass1.getText().toString().equals(newPass2.getText().toString()))
                     Toast.makeText(getContext(), "Password does not match. Please try again", Toast.LENGTH_LONG).show();
+                else if(newPass1.getText().toString().equals("") || newPass2.toString().equals(""))
+                    Toast.makeText(getContext(), "Password cannot be empty. Please try again", Toast.LENGTH_LONG).show();
                 else
                     User.resetPass(getContext(), view, newPass1.getText().toString());
 
