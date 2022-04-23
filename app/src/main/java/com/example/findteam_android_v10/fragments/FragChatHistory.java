@@ -98,6 +98,7 @@ public class FragChatHistory extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        handler.removeCallbacks(periodicUpdate);
         handler.post(periodicUpdate);
     }
 
