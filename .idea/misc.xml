@@ -91,6 +91,8 @@
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/popup_progress.xml" value="0.1" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/popup_review_member.xml" value="0.25" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/popup_view_photo.xml" value="0.3625" />
+        <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/popup_you_are_not_admin_or_owner.xml" value="0.19739583333333333" />
+        <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/layout/popup_you_are_not_owner.xml" value="0.19739583333333333" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/menu/create_project_menu.xml" value="0.3625" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/menu/detail_project_menu.xml" value="0.3625" />
         <entry key="..\:/Android/findteam_android_v5.0/app/src/main/res/menu/edit_profile_menu.xml" value="0.3625" />
