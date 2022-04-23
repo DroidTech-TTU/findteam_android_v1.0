@@ -14,7 +14,7 @@
         android:id="@+id/successMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="15dp"
         android:fontFamily="@font/roboto_bold"
         android:text="@string/password_n_updated"
         android:textAlignment="center"
@@ -26,7 +26,7 @@
 
     <TextView
         android:id="@+id/successMsg2"
-        android:layout_width="289dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/questrial"
         android:text="@string/your_password_has_been_updated"
@@ -46,7 +46,6 @@
         android:text="@string/login"
         android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/successMsg2" />
 
@@ -54,7 +53,6 @@
         android:id="@+id/password_success_icon"
         android:layout_width="171dp"
         android:layout_height="224dp"
-        android:layout_marginTop="8dp"
         android:alpha="0.8"
         android:elevation="20dp"
         android:src="@drawable/password_updated_icon"

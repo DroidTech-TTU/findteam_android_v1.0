@@ -39,7 +39,7 @@
 
     <EditText
         android:id="@+id/forgot_email"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:autofillHints="forgot pass"
@@ -47,9 +47,8 @@
         android:fontFamily="@font/questrial"
         android:hint="@string/email_hint"
         android:inputType="textEmailAddress"
-        android:padding="10dp"
+        android:padding="5dp"
         android:textAlignment="center"
-        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/forget_pass_msg" />
