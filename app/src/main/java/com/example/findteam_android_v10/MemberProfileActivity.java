@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.findteam_android_v10.adapters.MyProjectsAdapter;
 import com.example.findteam_android_v10.adapters.ProfileTagAdapter;
 import com.example.findteam_android_v10.adapters.UrlAdapter;
 import com.example.findteam_android_v10.classes.Project;
@@ -44,6 +45,7 @@ public class MemberProfileActivity extends AppCompatActivity {
     private ProfileTagAdapter profileTagAdapter;
     private JSONObject user;
     private Context context;
+    private MyProjectsAdapter myProjectsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,9 @@ public class MemberProfileActivity extends AppCompatActivity {
         profileTagAdapter = new ProfileTagAdapter(this, categories, tags);
         rvTags.setAdapter(profileTagAdapter);
         rvTags.setLayoutManager(new LinearLayoutManager(this));
+
+        //setup recyclerview and adapter for projects
+        RecyclerView rvProjects = findViewById(R.id.rvMyProjects);
 
         Toolbar toolbar = findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
@@ -154,6 +159,10 @@ public class MemberProfileActivity extends AppCompatActivity {
                     //get the finished project and active project count
                     finishedProj.setText(String.valueOf(finished));
                     activeProj.setText(String.valueOf(active));
+
+                    myProjectsAdapter = new MyProjectsAdapter(MemberProfileActivity.this, response);
+                    rvProjects.setAdapter(myProjectsAdapter);
+                    rvProjects.setLayoutManager(new LinearLayoutManager(MemberProfileActivity.this, LinearLayoutManager.HORIZONTAL, false));
                 }
 
                 @Override

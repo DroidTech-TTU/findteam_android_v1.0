@@ -115,12 +115,40 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
+
+            <TextView
+                android:id="@+id/myProjectsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/bai_jamjuree_medium"
+                android:text="Projects Involved"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvProfileTags" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMyProjects"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:fadingEdge="horizontal"
+                android:requiresFadingEdge="horizontal"
+                android:scrollbars="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/myProjectsText" />
+
             <ImageView
                 android:id="@+id/footer"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
                 android:background="@android:color/transparent"
-                app:layout_constraintTop_toBottomOf="@+id/rvProfileTags" />
+                app:layout_constraintTop_toBottomOf="@+id/rvMyProjects" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/finished_project_card"
@@ -215,14 +243,15 @@
         app:srcCompat="@drawable/ic_baseline_arrow_back_ios_new_24"
         app:tint="@color/white"
         tools:ignore="ContentDescription" />
-  
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btChatMemberProfile"  
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="10dp"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end"
         app:tint="@color/find_team_orange"
         app:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
