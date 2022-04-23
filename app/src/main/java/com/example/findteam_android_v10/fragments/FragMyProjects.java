@@ -92,7 +92,7 @@ public class FragMyProjects extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_my_projects, container, false);
-        this.rvContacts = (RecyclerView) view.findViewById(R.id.rvMyProjectsSearch);
+        this.rvContacts = (RecyclerView) view.findViewById(R.id.rvMyProjects);
         this.btCreateProject = view.findViewById(R.id.btCreateMyProject);
         this.etSearchMyProjects = view.findViewById(R.id.etSearchMyProjects);
 
