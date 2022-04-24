@@ -263,20 +263,9 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                                         if(mem_type == Project.MEMBER_SHIP__TYPE_OWNER ||
                                         mem_type == Project.MEMBER_SHIP__TYPE_ADMIN){
                                             Intent i = new Intent(context, UpdateProjectActivity.class);
-                                            try {
-                                                JSONArray iMembers = project.getJSONArray("members");
-                                                for(int j = 0; j< iMembers.length(); j++){
-                                                    if(iMembers.getJSONObject(j).getInt("uid") == project.getInt("owner_uid"));
-                                                    iMembers.remove(j);
-                                                    break;
-                                                }
-                                                Log.d(TAG, "iMembers: " + iMembers);
-                                                i.putExtra("project", project.toString());
-                                                startActivityForResult(i, EDIT_PROJECT_CODE);
-                                                Log.d(TAG, "On Edit Project Button");
-                                            } catch (JSONException exception) {
-                                                exception.printStackTrace();
-                                            }
+                                            i.putExtra("project", responseBody.toString());
+                                            startActivityForResult(i, EDIT_PROJECT_CODE);
+                                            Log.d(TAG, "On Edit Project Button");
                                         }else{
                                             //TODO
                                             notOwnerOrAdminPopup(v);

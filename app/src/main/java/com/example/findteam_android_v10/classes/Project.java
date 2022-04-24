@@ -14,22 +14,18 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Project extends JSONObject {
-    public static final String GET_PROJECT_API_URL = "project?pid=";
 
     public static final int STATUS_IN_UNKNOWN_INT = -1;
     public static final String STATUS_IN_UNKNOWN_STRING = "UNKNOWN";
 
-    public static final int STATUS_IN_PROGRESS_INT = 1;
-    public static final String STATUS_IN_PROGRESS_STRING = "In Progress";
-    public static final String STATUS_IN_PROGRESS_ICON = "ic_project_status_in_progress_green";
-
     public static final int STATUS_IN_AWAITING_INT = 0;
     public static final String STATUS_IN_AWAITING_STRING = "Awaiting";
-    public static final String STATUS_PENDING_ICON = "ic_project_status_in_pending_green";
+
+    public static final int STATUS_IN_PROGRESS_INT = 1;
+    public static final String STATUS_IN_PROGRESS_STRING = "In Progress";
 
     public static final int STATUS_IN_FINISHED_INT = 2;
     public static final String STATUS_FINISHED_STRING = "Completed";
-    public static final String STATUS_FINISHED_ICON = "ic_project_status_in_finished_green";
 
 
     public static final int MEMBER_SHIP__TYPE_PENDING = 0;
@@ -62,7 +58,7 @@ public class Project extends JSONObject {
     }
 
     public static String getStringStatus(int i) {
-        String statusString = STATUS_IN_UNKNOWN_STRING;
+        String statusString;
         switch (i){
             case STATUS_IN_AWAITING_INT:{
                 statusString = STATUS_IN_AWAITING_STRING;
