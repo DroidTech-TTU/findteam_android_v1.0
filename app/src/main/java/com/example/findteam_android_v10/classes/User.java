@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -84,7 +86,14 @@ public class User {
 
     }
 
-    public static void changeProfilePic(Context context, Uri profPic, AsyncHttpResponseHandler asyncHttpResponseHandler) {
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix mat = new Matrix();
+        mat.postRotate(angle);
+
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), mat, true);
+    }
+
+/*    public static void changeProfilePic(Context context, Uri profPic, AsyncHttpResponseHandler asyncHttpResponseHandler) {
 
         try {
 
@@ -94,6 +103,7 @@ public class User {
             Bitmap map = null;
 
             map = MediaStore.Images.Media.getBitmap(context.getContentResolver(), profPic);
+
             File f = new File(context.getCacheDir(), map.toString() + ".jpeg");
             f.createNewFile();
             map.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -114,8 +124,37 @@ public class User {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
+    public static void changeProfilePic(Context context, Bitmap profPic, AsyncHttpResponseHandler asyncHttpResponseHandler) {
+
+        try {
+
+            //update the profile picture
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+
+            File f = new File(context.getCacheDir(), profPic.toString() + ".jpeg");
+            f.createNewFile();
+            profPic.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] image = stream.toByteArray();
+
+            //write binary to jpeg file
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(image);
+            fos.flush();
+            fos.close();
+
+            RequestParams params = new RequestParams();
+
+            params.put(KEY_PICTURE, f, "image/jpeg");
+
+            FindTeamClient.post(KEY_USER_PICTURE, params, asyncHttpResponseHandler);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public static void updateUser(Context context, JSONObject user, AsyncHttpResponseHandler asyncHttpResponseHandler) throws UnsupportedEncodingException {
         StringEntity entity = new StringEntity(user.toString());
 
