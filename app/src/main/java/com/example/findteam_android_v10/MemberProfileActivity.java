@@ -95,21 +95,18 @@ public class MemberProfileActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton btChatMemberProfile = findViewById(R.id.btChatMemberProfile);
-        btChatMemberProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, MainActivity.class);
-                try {
-                    i.putExtra("puid", user.getInt("uid"));
-                    i.putExtra("is_user", true);
-                    i.putExtra("title", fullMemName);
-                    i.putExtra("request", MainActivity.REQUEST_CHAT_HISTORY);
-                    startActivity(i);
-                } catch (JSONException exception) {
-                    exception.printStackTrace();
-                }
-
+        btChatMemberProfile.setOnClickListener(v -> {
+            Intent i = new Intent(context, MainActivity.class);
+            try {
+                i.putExtra("puid", user.getInt("uid"));
+                i.putExtra("is_user", true);
+                i.putExtra("title", fullMemName);
+                i.putExtra("request", MainActivity.REQUEST_CHAT_HISTORY);
+                startActivity(i);
+            } catch (JSONException exception) {
+                exception.printStackTrace();
             }
+
         });
 
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -211,6 +208,7 @@ public class MemberProfileActivity extends AppCompatActivity {
 
             }
 
+            //set the categories
             for (int i = 0; i < categories.size(); i++) {
                 List<String> localTags = new ArrayList<>();
                 for (int j = 0; j < tagsJson.length(); j++) {

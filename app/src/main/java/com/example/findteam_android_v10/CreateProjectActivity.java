@@ -63,8 +63,6 @@ public class CreateProjectActivity extends AppCompatActivity {
     private List<String> tagSkills;
     private EditText etDescriptionCreateProject;
     private EditText etProjectTitle;
-
-    private TagContainerLayout myProjectsTags;
     private List<Bitmap> pictureFiles;
     public static int STATUS = 0;
 

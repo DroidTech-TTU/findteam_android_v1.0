@@ -63,10 +63,10 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.MyProj
                 Glide.with(context)
                         .load("https://findteam.2labz.com/picture/" + pic).into(holder.ivProfilePicture);
             }
+
+            String userNameText = user.getString("first_name") + " " + user.getString("last_name");
             //load name
-            holder.twUserName.setText(context.getString(R.string.firstname_lastname,
-                    user.getString("first_name"),
-                    user.getString("last_name")));
+            holder.twUserName.setText(userNameText);
             //load tags
             JSONArray tags = user.getJSONArray("tags");
             List<String> userTags = new ArrayList<>();

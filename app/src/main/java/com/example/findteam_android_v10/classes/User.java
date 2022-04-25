@@ -4,11 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
-import android.net.Uri;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -33,23 +28,31 @@ import java.io.UnsupportedEncodingException;
 
 import androidx.navigation.Navigation;
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class User {
 
+    //keys for API calls
     private static final String KEY_USER = "user";
-    public static final String KEY_USERNAME = "username";
-    public static final String KEY_LOGIN = "login";
-    public static final String KEY_PASSWORD = "password";
-    public static final String KEY_PICTURE = "picture";
-    public static final String KEY_USER_PICTURE = "user/picture";
-    public static final String KEY_FORGOT_PASSWORD = "user/reset?email=";
+    private static final String KEY_USERNAME = "username";
+    private static final String KEY_LOGIN = "login";
+    private static final String KEY_PASSWORD = "password";
+    private static final String KEY_PICTURE = "picture";
+    public static final String KEY_REGISTER = "register";
+    private static final String KEY_USER_PICTURE = "user/picture";
+    private static final String KEY_FORGOT_PASSWORD = "user/reset?email=";
     public static final String GET_USER_URL = "user?uid=";
-    public static final String KEY_SEARCH = "user/search";
-    public static String TAG = "UserClass";
+    private static final String KEY_SEARCH = "user/search";
 
+    //TAG for internal testing
+    private static String TAG = "UserClass";
 
-    //update the Login user for new information
+    //register the user
+    public static void registerUser(Context context, HttpEntity entity, AsyncHttpResponseHandler asyncHttpResponseHandler) {
+        FindTeamClient.post(context, KEY_REGISTER, entity, asyncHttpResponseHandler);
+    }
+    //update the login user's information
     public static void getCurrentUser() {
 
         FindTeamClient.get(KEY_USER, new JsonHttpResponseHandler() {
@@ -61,46 +64,30 @@ public class User {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
                 throwable.printStackTrace();
             }
         });
 
     }
 
-    //update the LoginUser and go to main
+    //update the login user with corresponding handler
     public static void getCurrentUser(AsyncHttpResponseHandler asyncHttpResponseHandler) {
-
         FindTeamClient.get(KEY_USER, asyncHttpResponseHandler);
     }
 
+    //retrieve all the users of the app
     public static void getAllUser(AsyncHttpResponseHandler asyncHttpResponseHandler) {
-
         FindTeamClient.get(KEY_SEARCH, asyncHttpResponseHandler);
-
     }
 
-    public static void getUserByUid(RequestParams params, AsyncHttpResponseHandler asyncHttpResponseHandler) {
-
-        FindTeamClient.get(KEY_USER, params, asyncHttpResponseHandler);
-
-    }
-
-    public static Bitmap rotateImage(Bitmap source, float angle) {
-        Matrix mat = new Matrix();
-        mat.postRotate(angle);
-
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), mat, true);
-    }
-
+    //change the profile picture of the user
     public static void changeProfilePic(Context context, Bitmap profPic, AsyncHttpResponseHandler asyncHttpResponseHandler) {
 
         try {
 
-            //update the profile picture
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-
+            //compress the bitmap to a jpeg
             File f = new File(context.getCacheDir(), profPic.toString() + ".jpeg");
             f.createNewFile();
             profPic.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -122,13 +109,16 @@ public class User {
             e.printStackTrace();
         }
     }
+
+    //update the user in the database
     public static void updateUser(Context context, JSONObject user, AsyncHttpResponseHandler asyncHttpResponseHandler) throws UnsupportedEncodingException {
         StringEntity entity = new StringEntity(user.toString());
 
-        FindTeamClient.post(context, "user", entity, asyncHttpResponseHandler);
+        FindTeamClient.post(context, KEY_USER, entity, asyncHttpResponseHandler);
 
     }
 
+    //Login user given an email and password
     public static void loginUser(Context context, String email, String password) {
 
         //create a parameter to pass to the client
@@ -175,6 +165,7 @@ public class User {
         });
     }
 
+    //send the reset email
     public static void sendResetEmail(String email) {
 
         FindTeamClient.post(KEY_FORGOT_PASSWORD + email, new TextHttpResponseHandler() {
@@ -192,6 +183,7 @@ public class User {
         });
     }
 
+    //resets the password on the database
     public static void resetPass(Context context, View view, String newPass) {
 
         FindTeamClient.get(KEY_USER, new JsonHttpResponseHandler() {
@@ -229,6 +221,7 @@ public class User {
         });
     }
 
+    //given a JSON array, return the users that matches a certain search key
     public static JSONArray searchMultiConditions(JSONArray users, String searchKey) throws JSONException {
         String[] keys = searchKey.split(" ");
         JSONArray results = new JSONArray();
@@ -238,7 +231,7 @@ public class User {
             for(int j=0; j<keys.length; j++){
                 String key = keys[j].trim().toLowerCase();
                 if(project.getString("first_name").trim().toLowerCase().contains(key)
-                    || (project.getString("last_name").trim().toLowerCase().contains(key))){
+                        || (project.getString("last_name").trim().toLowerCase().contains(key))){
                     validCount++;
                     continue;
                 }
@@ -256,44 +249,5 @@ public class User {
             }
         }
         return results;
-    }
-
-    public static JSONArray searchUsers(JSONArray users, String searchKey) throws JSONException {
-        String[] keys = searchKey.split(" ");
-        for (String key : keys) {
-            Log.d(TAG, key);
-        }
-
-        JSONArray results = new JSONArray();
-        for (int i = 0; i < users.length(); i++) {
-            JSONObject user = users.getJSONObject(i);
-            if (isContainKeys(user.getString("first_name"), keys)
-                    || isContainKeys(user.getString("last_name"), keys)
-                    || isContainKeys(user.getString("last_name"), keys)) {
-                results.put(user);
-//                continue;
-            } else {
-                JSONArray tags = user.getJSONArray("tags");
-                for (int j = 0; j < tags.length(); j++) {
-                    if (isContainKeys(tags.getJSONObject(j).getString("text"), keys)) {
-                        results.put(user);
-                        break;
-                    }
-                }
-            }
-        }
-        Log.d(TAG, results.toString());
-        return results;
-    }
-
-    private static boolean isContainKeys(String s, String[] keys) {
-        for (String key : keys) {
-
-            if (s.trim().toLowerCase().contains(key.trim().toLowerCase())) return true;
-        }
-        return false;
-    }
-
-    public User() {
     }
 }
