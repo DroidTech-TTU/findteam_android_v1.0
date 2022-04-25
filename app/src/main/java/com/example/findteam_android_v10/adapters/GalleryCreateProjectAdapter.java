@@ -33,7 +33,7 @@ public class GalleryCreateProjectAdapter extends RecyclerView.Adapter<GalleryCre
     @NonNull
     @Override
     public GalleryCreateProjectAdapter.galleryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View galleryView = LayoutInflater.from(context).inflate(R.layout.item_galary_create_project, parent, false);
+        View galleryView = LayoutInflater.from(context).inflate(R.layout.item_gallery_create_project, parent, false);
         return new galleryViewHolder(galleryView);
     }
 

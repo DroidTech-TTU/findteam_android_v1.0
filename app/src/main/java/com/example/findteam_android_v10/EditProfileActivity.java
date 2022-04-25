@@ -49,8 +49,10 @@ import cz.msebera.android.httpclient.Header;
 
 public class EditProfileActivity extends AppCompatActivity {
 
+    //TAG for internal testing
     private static final String TAG = "EditProfileActivity";
 
+    //elements to be extracted/used
     private List<String> urls, categories;
     private List<List<String>> tags;
     private EditText firstName, middleName, lastName;
@@ -70,7 +72,7 @@ public class EditProfileActivity extends AppCompatActivity {
         categories = new ArrayList<>();
         tags = new ArrayList<>();
 
-
+        //Bind the necessary elements
         editProfPic = findViewById(R.id.editProfPic);
 
         Button browseImage = findViewById(R.id.profPicSubmitBtn),
@@ -101,24 +103,18 @@ public class EditProfileActivity extends AppCompatActivity {
         rvEditTags.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         //Button Handler
-        browseImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getImageFromGallery.launch("image/*");
-            }
+        browseImage.setOnClickListener(view -> getImageFromGallery.launch("image/*"));
+
+        addUrl.setOnClickListener(view -> {
+            urls.add(url.getText().toString());
+            url.setText("");
+            urlAdapter.notifyDataSetChanged();
         });
 
-        addUrl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                urls.add(url.getText().toString());
-                url.setText("");
-                urlAdapter.notifyDataSetChanged();
-            }
-        });
-
+        //go back to previous activity
         toolbar.setNavigationOnClickListener(view -> finish());
 
+        //adds a default tag
         addEditTag.setOnClickListener(view -> {
             categories.add("");
             tags.add(new ArrayList<String>());
@@ -127,7 +123,9 @@ public class EditProfileActivity extends AppCompatActivity {
 
         try {
 
-            if(LoginActivity.currentUser.get("picture") != null){
+            String picture = LoginActivity.currentUser.getString("picture");
+            if(!picture.equals("null")){
+
                 // load the current profile picture if any
                 Glide
                         .with(this)
@@ -151,6 +149,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
             urlAdapter.notifyDataSetChanged();
 
+            //retrieve the tags
             JSONArray tagsJson = LoginActivity.currentUser.getJSONArray("tags");
 
             //load the tags of the user
@@ -162,6 +161,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
             }
 
+            //retrieve unique categories
             for(int i = 0; i < categories.size(); i++){
                 List<String> localTags = new ArrayList<>();
                 for(int j = 0; j < tagsJson.length(); j++){
@@ -187,10 +187,12 @@ public class EditProfileActivity extends AppCompatActivity {
                 public void onActivityResult(Uri result) {
                     profPicUri = result;
 
+                    //load the selected image from the gallery to the imageView
                     Glide.with(EditProfileActivity.this)
                             .load(result)
                             .into(editProfPic);
 
+                    //extracts the bitmap
                     Glide.with(EditProfileActivity.this)
                             .asBitmap()
                             .load(result)
@@ -216,6 +218,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         if(profPicUri != null){
 
+            //changes the profile picture
             User.changeProfilePic(this, bmap, new AsyncHttpResponseHandler() {
 
                 @Override
@@ -239,12 +242,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void updateUserInfo(){
 
-        Log.i(TAG, "it went to updateUserInfo");
-
-      //  dialog = ProgressDialog.show(this, "Loading", "Updating Profile", true);
         try{
 
-            //dialog = ProgressDialog.show(this, "Loading", "Updating Profile", true);
             //update about info
             JSONObject updateUser = new JSONObject();
             updateUser.put("first_name", firstName.getText().toString());
@@ -280,6 +279,7 @@ public class EditProfileActivity extends AppCompatActivity {
             Log.i(TAG, "size of tag is: " + tags.size());
             Log.i(TAG, tags.toString());
 
+            //adds the tag to their corresponding categories
             for(int i = 0; i < categories.size(); i++){
                 for(int j = 0; j < tags.get(i).size(); j++){
                     JSONObject tagInstance = new JSONObject();
@@ -290,8 +290,10 @@ public class EditProfileActivity extends AppCompatActivity {
                 }
             }
 
+            //put the tag into the tag array
             updateUser.put("tags", tagsArray);
 
+            //update the user
             User.updateUser(this, updateUser, new TextHttpResponseHandler() {
 
                 @Override
@@ -303,17 +305,16 @@ public class EditProfileActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
+                            //go back to the frag profile
                             LoginActivity.currentUser = response;
                             Intent intent = new Intent();
                             setResult(200, intent);
-//                            dialog.dismiss();
                             finish();
                         }
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                             Log.i(TAG, throwable + " " + errorResponse);
-//                            dialog.dismiss();
                         }
                     });
 

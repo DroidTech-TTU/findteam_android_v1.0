@@ -25,9 +25,13 @@ import cz.msebera.android.httpclient.Header;
 
 public class LoginActivity extends AppCompatActivity {
 
+    //TAG for internal testing
     public static final String TAG = "LoginActivity";
+
+    //persisted User after a user logged in
     public static JSONObject currentUser;
 
+    //sharedPreference to retrieve the access token
     public static SharedPreferences sharedPreferences;
 
     @Override
@@ -41,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
+        //setup to encrypt the access token in the android device using AES256 authentication
         try {
             sharedPreferences = EncryptedSharedPreferences.create(
                     "FindTeam",
@@ -54,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        //Grabbing the elements on the UI
+        //Bind the variables to the elements
         loginInLoginBtn = findViewById(R.id.login_btn);
         forgotPass = findViewById(R.id.forgot_pass);
         signUpText = findViewById(R.id.signup_text);
@@ -62,18 +67,22 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
 
         //checks to see if the user is persisted throughout the app, go login directly
-        //sharedPreferences = getSharedPreferences("FindTeam", MODE_PRIVATE);
         if (!sharedPreferences.getString("access_token", "").equals("")) {
 
+            //progress dialog ui
             ProgressDialog progressDialog = ProgressDialog.show(this, "Loading", "Logging in", true);
+
+            //retrieve the access token
             FindTeamClient.setAuth(sharedPreferences.getString("access_token", ""));
 
+            //call the api to get the updated user
             User.getCurrentUser(new JsonHttpResponseHandler() {
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     LoginActivity.currentUser = response;
 
+                    //go to the main activity
                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(i);
                     progressDialog.dismiss();
@@ -83,7 +92,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+
+                    //print the error for internal testing
                     throwable.printStackTrace();
+
+                    //remove the access token and make user relogin again if failed
                     sharedPreferences.edit().putString("access_token", "").apply();
                     Toast.makeText(LoginActivity.this, "Connection Failed. Please try again!", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
@@ -93,38 +106,29 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         //signup account
-        signUpText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-            }
+        signUpText.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         });
 
         //logging in for the first time
-        loginInLoginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        loginInLoginBtn.setOnClickListener(view -> {
 
-                //grab the user and pass inputted text
-                String user = username.getEditText().getText().toString(),
-                        pass = password.getEditText().getText().toString();
+            //extract the user and pass inputted text
+            String user = username.getEditText().getText().toString(),
+                    pass = password.getEditText().getText().toString();
 
-                User.loginUser(LoginActivity.this, user, pass);
-            }
+            //login user
+            User.loginUser(LoginActivity.this, user, pass);
         });
 
         //forgot password
-        forgotPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, ForgetActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-            }
+        forgotPass.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this, ForgetActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         });
-
 
     }
 }

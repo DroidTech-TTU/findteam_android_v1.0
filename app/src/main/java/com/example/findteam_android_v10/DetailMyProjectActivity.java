@@ -26,8 +26,7 @@ import android.widget.Toast;
 
 import com.example.findteam_android_v10.adapters.DetailMyProjectAdapter;
 import com.example.findteam_android_v10.adapters.GalleryCreateProjectAdapter;
-import com.example.findteam_android_v10.adapters.ProfileTagAdapter;
-import com.example.findteam_android_v10.adapters.ProjectDetailTaglAdapter;
+import com.example.findteam_android_v10.adapters.ProjectDetailTagAdapter;
 import com.example.findteam_android_v10.classes.Project;
 import com.example.findteam_android_v10.classes.User;
 import com.example.findteam_android_v10.fragments.FragMyProjects;
@@ -44,7 +43,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.lujun.androidtagview.TagContainerLayout;
 import cz.msebera.android.httpclient.Header;
 
 public class DetailMyProjectActivity extends AppCompatActivity {
@@ -71,7 +69,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
     PopupWindow popupWindow;
    List<String> categories ;
     List<List<String>>  tags ;
-    ProjectDetailTaglAdapter projectDetailTaglAdapter;
+    ProjectDetailTagAdapter projectDetailTagAdapter;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +93,8 @@ public class DetailMyProjectActivity extends AppCompatActivity {
 
         //setup recyclerview and adapter for tags
         RecyclerView rvTags = findViewById(R.id.rvProjectDetailTags);
-        projectDetailTaglAdapter = new ProjectDetailTaglAdapter(this, categories, tags);
-        rvTags.setAdapter(projectDetailTaglAdapter);
+        projectDetailTagAdapter = new ProjectDetailTagAdapter(this, categories, tags);
+        rvTags.setAdapter(projectDetailTagAdapter);
         rvTags.setLayoutManager(new LinearLayoutManager(this));
 
         ibGoBack.setOnClickListener(new View.OnClickListener() {
@@ -200,7 +198,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                 tags.add(localTags);
             }
 
-            projectDetailTaglAdapter.notifyDataSetChanged();
+            projectDetailTagAdapter.notifyDataSetChanged();
 
         } catch (JSONException exception) {
             exception.printStackTrace();
@@ -359,7 +357,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                             tags.add(localTags);
                         }
 
-                        projectDetailTaglAdapter.notifyDataSetChanged();
+                        projectDetailTagAdapter.notifyDataSetChanged();
 
                         adapter.clear();
                         adapter.addAll(Project.getPictures(resultProject));

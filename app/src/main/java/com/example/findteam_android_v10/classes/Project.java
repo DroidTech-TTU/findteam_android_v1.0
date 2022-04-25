@@ -10,14 +10,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Project extends JSONObject {
 
-    public static final int STATUS_IN_UNKNOWN_INT = -1;
     public static final String STATUS_IN_UNKNOWN_STRING = "UNKNOWN";
-
+  
     public static final int STATUS_IN_AWAITING_INT = 0;
     public static final String STATUS_IN_AWAITING_STRING = "Awaiting";
 
@@ -148,7 +146,7 @@ public class Project extends JSONObject {
         List<String> pictureURLs = new ArrayList<>();
         JSONArray jsonArray = project.getJSONArray("pictures");
         for (int i = 0; i < jsonArray.length(); i++) {
-            pictureURLs.add(Picture.GET_PICTURE_URL + jsonArray.get(i).toString());
+            pictureURLs.add("https://findteam.2labz.com/picture/" + jsonArray.get(i).toString());
         }
         return pictureURLs;
     }
