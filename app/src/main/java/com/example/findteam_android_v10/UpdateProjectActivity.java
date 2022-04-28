@@ -230,11 +230,11 @@ public class UpdateProjectActivity extends AppCompatActivity {
         boolean isValid = true;
         int count = 1;
         message = "";
-        if (picturesURLs == null || picturesURLs.isEmpty()) {
-            message = message + count + ".The Images List cannot be empty!\n";
-            count++;
-            isValid = false;
-        }
+//        if (picturesURLs == null || picturesURLs.isEmpty()) {
+//            message = message + count + ".The Images List cannot be empty!\n";
+//            count++;
+//            isValid = false;
+//        }
         if (editTagsAdapter.getTags().size() == 0) {
             message = message + count + ".The Tags List cannot be empty!\n";
             count++;
