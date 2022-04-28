@@ -50,73 +50,79 @@ import cz.msebera.android.httpclient.Header;
 public class DetailMyProjectActivity extends AppCompatActivity {
     public static final int EDIT_PROJECT_CODE = 1123;
     public static final String TAG = "DetailMyProjectActivity";
-    RecyclerView rvMembers;
-    Context context;
-    TextView tvDescription;
-    TextView tvProjectTitleDetailProject;
-    TextView tvProjectStatus;
-    ImageButton ibEditProject;
-    ImageButton ibDeleteProject;
-    ImageView ivStatus;
-    JSONObject project;
-    JSONArray members;
-    DetailMyProjectAdapter detailMyProjectAdapter;
-    ImageButton ibGoBack;
-    Button btJoinProject, btLeaveProject;
-    FloatingActionButton btChatProject;
-    List<String> picturesURLs;
-    List<Bitmap> pictureFiles;
-    GalleryCreateProjectAdapter adapter;
-    RecyclerView rvGallery;
-    PopupWindow popupWindow;
-   List<String> categories ;
-    List<List<String>>  tags ;
-    ProjectDetailTaglAdapter projectDetailTaglAdapter;
-    @SuppressLint("SetTextI18n")
+    private RecyclerView rvMembers;
+    private Context context;
+    private TextView tvDescription;
+    private TextView tvProjectTitleDetailProject;
+    private TextView tvProjectStatus;
+    private ImageButton ibEditProject;
+    private ImageButton ibDeleteProject;
+    private ImageView ivStatus;
+    private JSONObject project;
+    private JSONArray members;
+    private DetailMyProjectAdapter detailMyProjectAdapter;
+    private ImageButton ibGoBack;
+    private Button btJoinProject, btLeaveProject;
+    private FloatingActionButton btChatProject;
+    private List<String> picturesURLs;
+    private List<Bitmap> pictureFiles;
+    private GalleryCreateProjectAdapter adapter;
+    private RecyclerView rvGallery;
+    private PopupWindow popupWindow;
+    private List<String> categories ;
+    private List<List<String>>  tags ;
+    private ProjectDetailTaglAdapter projectDetailTaglAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = this;
-        setContentView(R.layout.activity_detail_my_project);
-        pictureFiles = new ArrayList<>();
-        rvGallery = findViewById(R.id.rvGalleryDetailProject);
+        setContentView(R.layout.activity_detail_my_project);//load view for detail project
+        context = this;//get context
+
+        //activity detail my project items
+        this.pictureFiles = new ArrayList<>();
+        this.rvGallery = findViewById(R.id.rvGalleryDetailProject);
         this.rvMembers = (RecyclerView) findViewById(R.id.rvMembers);
         this.tvDescription = (TextView) findViewById(R.id.tvDescriptionMyDetailProjects);
         this.tvProjectStatus = (TextView) findViewById(R.id.tvStatusMyProjectDetailMain);
         this.ivStatus = (ImageView) findViewById(R.id.ivStatusMyProjectDetail) ;
         this.tvProjectTitleDetailProject = findViewById(R.id.tvProjecTitleDetailProject);
-
         this.ibEditProject= findViewById(R.id.ibEditProject);
         this.ibDeleteProject= findViewById(R.id.ibDeleteProject);
         this.ibGoBack = findViewById(R.id.goBackFab);
+        this.btJoinProject = findViewById(R.id.btJoinProject);
+        this.btLeaveProject = findViewById(R.id.btLeaveProject);
+        this.btChatProject = findViewById(R.id.btChatProject);
 
-        categories = new ArrayList<>();
-        tags = new ArrayList<>();
+        //Project tags
+        this.categories = new ArrayList<>();
+        this.tags = new ArrayList<>();
 
         //setup recyclerview and adapter for tags
         RecyclerView rvTags = findViewById(R.id.rvProjectDetailTags);
-        projectDetailTaglAdapter = new ProjectDetailTaglAdapter(this, categories, tags);
-        rvTags.setAdapter(projectDetailTaglAdapter);
+        this.projectDetailTaglAdapter = new ProjectDetailTaglAdapter(this, this.categories, this.tags);
+        rvTags.setAdapter(this.projectDetailTaglAdapter);
         rvTags.setLayoutManager(new LinearLayoutManager(this));
 
-        ibGoBack.setOnClickListener(new View.OnClickListener() {
+        //Return to parent activity
+        this.ibGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        this.btJoinProject = findViewById(R.id.btJoinProject);
-        this.btLeaveProject = findViewById(R.id.btLeaveProject);
-        this.btChatProject = findViewById(R.id.btChatProject);
-        try {
-            project = new JSONObject(getIntent().getStringExtra("project"));
-            int memType = Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), project);
-            setControl(memType);
 
-            if(LoginActivity.currentUser.getInt("uid") == project.getInt("owner_uid")) memType = Project.MEMBER_SHIP__TYPE_OWNER;
-            Log.d(TAG, "Membership_type: " + memType);
+
+        try {
+            //Configure showing features base on roles: owner, admin, member, guest
+            this.project = new JSONObject(getIntent().getStringExtra("project")); //receive project from parent activity
+            int memType = Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), project); //get user type in this project
+            setControl(memType); //set controlling items base on roles
+
+            //Chat button on click navigate to chat history
+            //Path: main activity/chat history fragment
             btChatProject.setOnClickListener(l -> {
-                Intent i = new Intent(context, MainActivity.class);
+                Intent i = new Intent(context, MainActivity.class); //Intent to Main activity
                 try {
                     i.putExtra("puid", project.getInt("pid"));
                     i.putExtra("is_user", false);
@@ -128,38 +134,47 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                 }
             });
 
-
+            //Show project's details
             try {
-
-                //Get Picture URLS
+                //Show project's pictures
                 picturesURLs = new ArrayList<>();
-                picturesURLs = Project.getPictures(project);
+                picturesURLs = Project.getPictures(project); //Get Picture URLS
 
+                //call GalleryCreateProjectAdapter construction
                 adapter = new GalleryCreateProjectAdapter(context, picturesURLs);
                 // Attach the adapter to the recyclerview to populate items
                 rvGallery.setAdapter(adapter);
                 // Set layout manager to position the items
-                rvGallery.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
+                rvGallery.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL)); //Display horizontal
 
+                //Show title, description, status
                 Log.d(TAG, "On Create: " + project.toString());
                 tvProjectTitleDetailProject.setText(project.getString("title"));
                 tvDescription.setText(project.getString("description"));
                 updateImageStatus(project.getInt("status"));
 
+                //Show members list
                 members = new JSONArray();
-                detailMyProjectAdapter = new DetailMyProjectAdapter(context, members, project);
+                detailMyProjectAdapter = new DetailMyProjectAdapter(context, members, project); //call DetailMyProjectAdapter construction
                 this.rvMembers.setAdapter(detailMyProjectAdapter);
-                this.rvMembers.setLayoutManager(new LinearLayoutManager(context));
+                this.rvMembers.setLayoutManager(new LinearLayoutManager(context));//display vertical
 
+                //add owner user on top of DetailMyProjectAdapter and rvMembers
+                //GET request owner information
                 FindTeamClient.get(User.GET_USER_URL + project.getString("owner_uid"), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject responseBody) {
                         try {
+                            //create new JSONObject for owner user
                             Log.d(TAG, "SHOW MEMBER:" + responseBody);
                             JSONObject owner = new JSONObject();
                             owner.put("uid", responseBody.getString("uid"));
                             owner.put("membership_type", Project.MEMBER_SHIP__TYPE_OWNER);
+
+                            //Add to existing members list
                             members = project.getJSONArray("members");
+
+                            //clear and show the DetailMyProjectAdapter and rvMembers again
                             detailMyProjectAdapter.clear();
                             detailMyProjectAdapter.addHead(members, owner);
                         } catch (JSONException exception) {
@@ -172,8 +187,6 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                         Log.d(TAG, "FAILURE: " + statusCode + " -- " + responseBody);
                     }
                 });
-
-
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -189,6 +202,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
 
             }
 
+            //load categories and add tags into the categories
             for (int i = 0; i < categories.size(); i++) {
                 List<String> localTags = new ArrayList<>();
                 for (int j = 0; j < tagsJson.length(); j++) {
@@ -200,6 +214,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                 tags.add(localTags);
             }
 
+            //Show tags
             projectDetailTaglAdapter.notifyDataSetChanged();
 
         } catch (JSONException exception) {
@@ -207,7 +222,9 @@ public class DetailMyProjectActivity extends AppCompatActivity {
         }
     }
 
+    //Set what will be displayed base on roles
     public void setControl(int memType){
+
         Log.d(TAG, "SET CONTROL: MemType = " + memType);
         switch (memType){
             case Project.MEMBER_SHIP__TYPE_ADMIN:
@@ -217,28 +234,30 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                 ibDeleteProject.setVisibility(View.VISIBLE);
                 btJoinProject.setVisibility(View.INVISIBLE);
                 btLeaveProject.setVisibility(View.INVISIBLE);
+
+                //Delete Project Button on click
                 ibDeleteProject.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //Double check roles before make an API request
                         try {
                             FindTeamClient.get(Project.getURLGetProject(project.getInt("pid")), new JsonHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject responseBody) {
                                     try {
+                                        //Get membership type
                                         int mem_type = Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), responseBody);
+                                       //if owner then call the delete request
                                         if(mem_type == Project.MEMBER_SHIP__TYPE_OWNER){
                                             onButtonDeletePopupWindowClick(v, project.getInt("pid"));
                                         }else{
-                                            //TODO
+                                            //Show popup not owner
                                             notOwnerPopup(v);
                                         }
                                     } catch (JSONException exception) {
                                         exception.printStackTrace();
                                     }
-
-
                                 }
-
                                 @Override
                                 public void onFailure(int statusCode, Header[] headers, Throwable error, JSONObject responseBody) {
 
@@ -251,23 +270,28 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                         Log.d(TAG, "On Delete Project Button");
                     }
                 });
+
+                //Edit Project Button on click
                 ibEditProject.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         try {
+                            //Double check user role before make an API request
                             FindTeamClient.get(Project.getURLGetProject(project.getInt("pid")), new JsonHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject responseBody) {
                                     try {
+                                        //Get membership type
                                         int mem_type = Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), responseBody);
+                                        //if owner or admin then intent to edit activity
                                         if(mem_type == Project.MEMBER_SHIP__TYPE_OWNER ||
-                                        mem_type == Project.MEMBER_SHIP__TYPE_ADMIN){
+                                             mem_type == Project.MEMBER_SHIP__TYPE_ADMIN){
                                             Intent i = new Intent(context, UpdateProjectActivity.class);
                                             i.putExtra("project", responseBody.toString());
                                             startActivityForResult(i, EDIT_PROJECT_CODE);
                                             Log.d(TAG, "On Edit Project Button");
                                         }else{
-                                            //TODO
+                                            ////Show popup not owner nor admin
                                             notOwnerOrAdminPopup(v);
                                         }
                                     } catch (JSONException exception) {
@@ -293,7 +317,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
             }
             case Project.MEMBER_SHIP__TYPE_PENDING:
             case Project.MEMBER_SHIP__TYPE_MEMBER: {
-                Log.d(TAG, "PENDING | MEMBER");
+                //Hide edit, delete, join, leave button
                 ibEditProject.setVisibility(View.INVISIBLE);
                 ibDeleteProject.setVisibility(View.INVISIBLE);
                 btJoinProject.setVisibility(View.INVISIBLE);
@@ -302,6 +326,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
             }
             case Project.MEMBER_SHIP__TYPE_GUEST:{
                 Log.d(TAG, "SET CONTROL: ROLE = GUEST" );
+                //Hide edit, delete, leave button
                 ibEditProject.setVisibility(View.INVISIBLE);
                 ibDeleteProject.setVisibility(View.INVISIBLE);
                 btJoinProject.setVisibility(View.VISIBLE);
@@ -323,23 +348,31 @@ public class DetailMyProjectActivity extends AppCompatActivity {
             }
         }
     }
+
+    //On a return from children activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        //If return from Edit Project Activity
         if(data!=null && resultCode == EDIT_PROJECT_CODE){
+
+            //Call a get Project API
             FindTeamClient.get(Project.getURLGetProject(data.getIntExtra("pid", -1)), new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
                     try {
+
+                        //Set values for the GUI
                         JSONObject resultProject = new JSONObject(new String(responseBody));
                         Log.d(TAG, "On Activity Result: result = " + resultProject);
                         tvProjectTitleDetailProject.setText(resultProject.getString("title"));
                         tvDescription.setText(resultProject.getString("description"));
-                        updateImageStatus(resultProject.getInt("status"));
+                        updateImageStatus(resultProject.getInt("status")); //Update project status icon
 
-                        JSONArray tagsJson = project.getJSONArray("tags");
+
                         //load the tags of the user
+                        JSONArray tagsJson = project.getJSONArray("tags");
                         for (int i = 0; i < tagsJson.length(); i++) {
                             JSONObject tagObj = (JSONObject) tagsJson.get(i);
                             if (!categories.contains(tagObj.getString("category"))) {
@@ -358,22 +391,27 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                             }
                             tags.add(localTags);
                         }
-
+                        //Refresh the tags adapter and recycle view
                         projectDetailTaglAdapter.notifyDataSetChanged();
 
+                        //ReFresh the Project Pictures Adapter and recycle view
                         adapter.clear();
                         adapter.addAll(Project.getPictures(resultProject));
 
+                        //clear and refresh the members adapter and recycle view
                         members = resultProject.getJSONArray("members");
                         FindTeamClient.get(User.GET_USER_URL + resultProject.getString("owner_uid"), new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject responseBody) {
                                 try {
                                     Log.d(TAG, "SHOW MEMBER:" + responseBody);
+                                    //Create new owner
                                     JSONObject owner = new JSONObject();
                                     owner.put("uid", responseBody.getString("uid"));
                                     owner.put("membership_type", Project.MEMBER_SHIP__TYPE_OWNER);
                                     Log.d(TAG, "OnActivityResult: ");
+
+                                    //Load to adapter
                                     detailMyProjectAdapter.clear();
                                     Log.d(TAG, "ACTIVITY_RESULT: members=" + members);
                                     detailMyProjectAdapter.addHead(members, owner);
@@ -424,16 +462,17 @@ public class DetailMyProjectActivity extends AppCompatActivity {
             }
         }
     }
+
+
     public void deleteProject(int pid) throws JSONException, UnsupportedEncodingException {
         //Delete Project
-
-
         RequestParams params = new RequestParams();
         FindTeamClient.delete(Project.getURLDeleteProject(pid), params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 Log.d(TAG, "On Success DeleteProject: " + statusCode);
 
+                //Intent to parent activity (Fragment my project)
                 try {
                     Intent i = new Intent();
                     i.putExtra("pid", project.getInt("pid"));
@@ -452,9 +491,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
             }
         });
     }
-    public boolean isOwner(int owner_id) throws JSONException {
-        return LoginActivity.currentUser.getInt("uid") == owner_id;
-    }
+
     public void onButtonDeletePopupWindowClick(View view, int pid) {
 
         // inflate the layout of the popup window
@@ -503,8 +540,9 @@ public class DetailMyProjectActivity extends AppCompatActivity {
         });
     }
 
-    private void joinProject() throws JSONException, UnsupportedEncodingException {
 
+    private void joinProject() throws JSONException, UnsupportedEncodingException {
+        //Create new member
         JSONObject member = new JSONObject();
         member.put("uid", LoginActivity.currentUser.get("uid"));
         member.put("membership_type", Project.MEMBER_SHIP__TYPE_PENDING);
@@ -512,6 +550,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
         members.put(member);
 
         Log.d(TAG, project.toString());
+        //Call Join Project API
         int tmpPid = project.getInt("pid");
         FindTeamClient.post(Project.getURLJoinProject(tmpPid), new AsyncHttpResponseHandler(){
             @Override
