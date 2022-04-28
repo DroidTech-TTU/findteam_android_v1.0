@@ -44,6 +44,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:overScrollMode="never"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -124,7 +125,7 @@
                 android:id="@+id/finished_project_card"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="28dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="5dp"
@@ -174,14 +175,14 @@
                 android:id="@+id/active_project_card"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="5dp"
                 app:cardPreventCornerOverlap="true"
                 app:cardUseCompatPadding="true"
                 app:layout_constraintBottom_toBottomOf="@+id/finished_project_card"
-                app:layout_constraintStart_toEndOf="@+id/finished_project_card"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profFullName">
 
                 <androidx.constraintlayout.widget.ConstraintLayout

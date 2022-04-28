@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 import com.example.findteam_android_v10.adapters.EditTagsAdapter;
 import com.example.findteam_android_v10.adapters.GalleryCreateProjectAdapter;
-import com.example.findteam_android_v10.classes.Picture;
 import com.example.findteam_android_v10.classes.Project;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -50,7 +49,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import co.lujun.androidtagview.TagContainerLayout;
+
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
@@ -130,7 +129,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
         picturesURLs = new ArrayList<>();
         JSONArray jsonArray = project.getJSONArray("pictures");
         for (int i = 0; i < jsonArray.length(); i++) {
-            picturesURLs.add(Picture.GET_PICTURE_URL + jsonArray.get(i).toString());
+            picturesURLs.add("https://findteam.2labz.com/picture/" + jsonArray.get(i).toString());
         }
         adapter = new GalleryCreateProjectAdapter(context, picturesURLs);
         // Attach the adapter to the recyclerview to populate items

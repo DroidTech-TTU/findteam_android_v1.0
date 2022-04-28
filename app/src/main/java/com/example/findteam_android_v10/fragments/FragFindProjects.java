@@ -41,7 +41,7 @@ public class FragFindProjects extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_find_projects, container, false);
-        this.rvContacts = (RecyclerView) view.findViewById(R.id.rvMyProjectsSearch);
+        this.rvContacts = (RecyclerView) view.findViewById(R.id.rvMyProjects);
 
         try {
             getAllProjects();

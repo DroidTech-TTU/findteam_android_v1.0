@@ -85,9 +85,8 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.My
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     try {
-                        holder.tvOwner.setText(context.getString(R.string.firstname_lastname,
-                                response.getString("first_name"),
-                                response.getString("last_name")));
+                        String ownerNameText = response.getString("first_name") + " " + response.getString("last_name");
+                        holder.tvOwner.setText(ownerNameText);
 
                         Log.d(TAG, "onBindViewHolder: Success");
 

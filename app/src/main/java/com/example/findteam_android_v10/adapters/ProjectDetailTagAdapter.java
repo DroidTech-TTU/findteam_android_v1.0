@@ -17,7 +17,7 @@ import java.util.List;
 
 import co.lujun.androidtagview.TagContainerLayout;
 
-public class ProjectDetailTaglAdapter extends RecyclerView.Adapter<ProjectDetailTaglAdapter.ViewHolder> {
+public class ProjectDetailTagAdapter extends RecyclerView.Adapter<ProjectDetailTagAdapter.ViewHolder> {
 
     private final List<String> categories;
     private final List<List<String>> tags;
@@ -25,7 +25,7 @@ public class ProjectDetailTaglAdapter extends RecyclerView.Adapter<ProjectDetail
     private final String TAG = "ProjectDetailTaglAdapter";
     private final Context context;
 
-    public ProjectDetailTaglAdapter(Context context, List<String> categories, List<List<String>> tags) {
+    public ProjectDetailTagAdapter(Context context, List<String> categories, List<List<String>> tags) {
         this.context = context;
         this.categories = categories;
         this.tags = tags;
