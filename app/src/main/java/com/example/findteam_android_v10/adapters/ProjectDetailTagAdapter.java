@@ -22,7 +22,7 @@ public class ProjectDetailTagAdapter extends RecyclerView.Adapter<ProjectDetailT
     private final List<String> categories;
     private final List<List<String>> tags;
 
-    private final String TAG = "ProjectDetailTaglAdapter";
+    private final String TAG = "ProjectDetailTagAdapter";
     private final Context context;
 
     public ProjectDetailTagAdapter(Context context, List<String> categories, List<List<String>> tags) {

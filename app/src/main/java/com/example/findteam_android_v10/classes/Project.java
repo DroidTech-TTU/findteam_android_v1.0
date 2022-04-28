@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Project extends JSONObject {
-
+    public static final int STATUS_IN_UNKNOWN_INT = -1;
     public static final String STATUS_IN_UNKNOWN_STRING = "UNKNOWN";
-  
+
     public static final int STATUS_IN_AWAITING_INT = 0;
     public static final String STATUS_IN_AWAITING_STRING = "Awaiting";
 
@@ -24,7 +24,6 @@ public class Project extends JSONObject {
 
     public static final int STATUS_IN_FINISHED_INT = 2;
     public static final String STATUS_FINISHED_STRING = "Completed";
-
 
     public static final int MEMBER_SHIP__TYPE_PENDING = 0;
     public static final int MEMBER_SHIP__TYPE_MEMBER = 1;
@@ -55,6 +54,7 @@ public class Project extends JSONObject {
         return "project?pid=" + pid;
     }
 
+    //Get status in string value
     public static String getStringStatus(int i) {
         String statusString;
         switch (i){
@@ -78,19 +78,27 @@ public class Project extends JSONObject {
         return statusString;
     }
 
+    //Take Tags from project into List<String>
     public static List<String> getTagsList(JSONObject project) throws JSONException {
         List<String> tags = new ArrayList<>();
         JSONArray pTags = project.optJSONArray("tags");
-        Log.d(TAG, pTags.toString());
+
         for (int i = 0; i < pTags.length(); i++) {
             JSONObject tag = pTags.getJSONObject(i);
-            Log.d(TAG, tag.toString());
             tags.add(tag.getString("text"));
         }
-        Log.d(TAG, "tags = " + tags.toString());
         return tags;
     }
 
+    //Check is s is a substring of one of the key in keys array
+    private static boolean isContainKeys(String s, String[] keys) {
+        for (String key : keys) {
+            if (s.trim().toLowerCase().contains(key.trim().toLowerCase())) return true;
+        }
+        return false;
+    }
+
+    //Search all results contains one of word in the searchKey
     public static JSONArray search(JSONArray jsonArrayProjects, String searchKey) throws JSONException {
         String[] keys = searchKey.split(" ");
         JSONArray results = new JSONArray();
@@ -114,6 +122,8 @@ public class Project extends JSONObject {
         }
         return results;
     }
+
+    //Search all results contains all of the words in searchKey
     public static JSONArray searchMultiConditions(JSONArray jsonArrayProjects, String searchKey) throws JSONException {
         String[] keys = searchKey.split(" ");
         JSONArray results = new JSONArray();
@@ -142,6 +152,7 @@ public class Project extends JSONObject {
         return results;
     }
 
+    //Get Picture from project
     public static List<String> getPictures(JSONObject project) throws JSONException {
         List<String> pictureURLs = new ArrayList<>();
         JSONArray jsonArray = project.getJSONArray("pictures");
@@ -151,6 +162,7 @@ public class Project extends JSONObject {
         return pictureURLs;
     }
 
+    //Get membership type in String
     public static String getMemTypeString(int memTypeInt) {
         Log.d(TAG, "Member Type = " + memTypeInt);
         switch (memTypeInt) {
@@ -173,6 +185,7 @@ public class Project extends JSONObject {
         }
     }
 
+    //Get membership type of an user
     public static int getUserMembershipType(int uid, JSONObject project) throws JSONException {
         JSONArray mems = project.getJSONArray("members");
         if(uid == project.getInt("owner_uid")) return MEMBER_SHIP__TYPE_OWNER;
@@ -184,12 +197,12 @@ public class Project extends JSONObject {
         return MEMBER_SHIP__TYPE_GUEST;
     }
 
+
     public static void getMyProjects(int uid, AsyncHttpResponseHandler asyncHttpResponseHandler) {
-
         FindTeamClient.get("project/search?uid=" + uid, asyncHttpResponseHandler);
-
     }
 
+    //For debugging purpose
     public static void printProjects(String callTag, JSONArray projects) throws JSONException {
         Log.d(TAG, callTag + "-----------------------------------");
         for (int i = 0; i < projects.length(); i++) {
@@ -198,12 +211,6 @@ public class Project extends JSONObject {
         Log.d(TAG, callTag + "====================================");
     }
 
-    private static boolean isContainKeys(String s, String[] keys) {
-        for (String key : keys) {
 
-            if (s.trim().toLowerCase().contains(key.trim().toLowerCase())) return true;
-        }
-        return false;
-    }
 
 }

@@ -56,7 +56,6 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.My
     @Override
     public void onBindViewHolder(@NonNull MyProjectViewHolder holder, int position) {
         // Get the data model based on position
-//        Project project = projects.get(position);
         try {
             JSONObject project = (JSONObject) jsonProjects.get(position);
             Log.d(TAG, "itMyProject.setOnLongClickListener: positon =" + position + "--" + project.toString());
@@ -102,22 +101,9 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.My
                 }
             });
 
-            Log.d(TAG, "PROOO: " + project);
-            if (LoginActivity.currentUser.getInt("uid") == project.getInt("owner_uid")) {
-                String role = Project.getMemTypeString(Project.MEMBER_SHIP__TYPE_OWNER);
-                holder.tvRole.setText(role);
-            } else {
-                JSONArray members = project.getJSONArray("members");
-                String role = Project.getMemTypeString(Project.MEMBER_SHIP__TYPE_GUEST);
-                for (int i = 0; i < members.length(); i++) {
-                    JSONObject member = members.getJSONObject(i);
-                    if (LoginActivity.currentUser.getInt("uid") == member.getInt("uid")) {
-                        role = Project.getMemTypeString(member.getInt("membership_type"));
-                        break;
-                    }
-                }
-                holder.tvRole.setText(role);
-            }
+            int memType = Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), project);
+            String role = Project.getMemTypeString(memType);
+            holder.tvRole.setText(role);
 
             List<String> tags = Project.getTagsList(project);
 

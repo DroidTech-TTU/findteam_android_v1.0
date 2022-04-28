@@ -221,7 +221,7 @@ public class User {
         });
     }
 
-    //given a JSON array, return the users that matches a certain search key
+    //given a JSON array, return the users that matches a all the words of the searchKey
     public static JSONArray searchMultiConditions(JSONArray users, String searchKey) throws JSONException {
         String[] keys = searchKey.split(" ");
         JSONArray results = new JSONArray();
@@ -244,6 +244,7 @@ public class User {
                     }
                 }
             }
+            //If meet all the words, put into result
             if(validCount == keys.length){
                 results.put(project);
             }

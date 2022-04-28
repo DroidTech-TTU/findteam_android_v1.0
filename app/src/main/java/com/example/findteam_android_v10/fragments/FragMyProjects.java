@@ -179,13 +179,13 @@ public class FragMyProjects extends Fragment {
                 Log.i(TAG, "the status code for this request is: " + statusCode);
                 try {
                     jsonProjects = new JSONArray(new String(responseBody));
-                    Project.printProjects(TAG, jsonProjects);
+//                    Project.printProjects(TAG, jsonProjects);
                     String searchKey = etSearchMyProjects.getText().toString();
                     if (!searchKey.trim().isEmpty()) {
                         jsonProjects = Project.search(jsonProjects, searchKey);
                     }
-                    Log.i(TAG, "Search Results: " + jsonProjects);
-                    Project.printProjects(TAG, jsonProjects);
+//                    Log.i(TAG, "Search Results: " + jsonProjects);
+//                    Project.printProjects(TAG, jsonProjects);
 
                     adapter.clear();
                     adapter.addAll(jsonProjects);

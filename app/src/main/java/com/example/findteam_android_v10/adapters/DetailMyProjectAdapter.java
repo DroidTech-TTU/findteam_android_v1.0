@@ -51,16 +51,11 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
         this.project = project;
     }
 
-    private void setProject(JSONObject project) {
-        this.project = project;
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        Log.d(TAG, "onCreateViewHolder: " + members.toString());
         View view = inflater.inflate(R.layout.item_my_project_detail, parent, false);
         return new ViewHolder(view);
     }
@@ -82,7 +77,6 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView memberName;
         public TextView membership_type;
-
         public ViewHolder(View view) {
             super(view);
             this.memberName = (TextView) view.findViewById(R.id.tvMemberNameDetailMyProject);
@@ -99,13 +93,10 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                         memberName.setText(memberNameText);
 
                         membership_type.setText(Project.getMemTypeString(memberProject.getInt("membership_type")));
-                        Log.d(TAG, "Postition: " + getAdapterPosition());
-                        Log.d(TAG, "Name: " + response.getString("first_name"));
-                        Log.d(TAG, "memTYPE " + memberProject.getInt("membership_type") + "--" + Project.MEMBER_SHIP__TYPE_OWNER);
-                        Log.d(TAG, "Cur: " + LoginActivity.currentUser.getInt("uid") + " -- " + project.getInt("owner_uid"));
+
                         if ((LoginActivity.currentUser.getInt("uid") == project.getInt("owner_uid")
                                 || Project.getUserMembershipType(LoginActivity.currentUser.getInt("uid"), project) == Project.MEMBER_SHIP__TYPE_ADMIN) && memberProject.getInt("membership_type") != Project.MEMBER_SHIP__TYPE_OWNER) {
-                            Log.d(TAG, "GET IN");
+
                             membership_type.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -118,7 +109,6 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                             });
                         }
                         setMemberColors(memberProject);
-                        Log.d(TAG, "onBindViewHolder: Success");
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -263,10 +253,6 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
             });
         }
 
-        private JSONObject getMember() {
-            return new JSONObject();
-        }
-
     }
 
     public void clear() {
@@ -275,11 +261,20 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
     }
 
     public void addHead(JSONArray nMembers, JSONObject member) throws JSONException {
-        for (int i = nMembers.length() - 1; i >= 0; i--) {
-            nMembers.put(nMembers.getJSONObject(i));
+
+
+        if(nMembers.length() != 0) {
+            //Add tail to tail + 1
+            nMembers.put(nMembers.getJSONObject(nMembers.length() - 1));
+
+            for (int i = nMembers.length() - 3; i >= 0; i--) {
+                nMembers.put(i + 1, nMembers.getJSONObject(i));
+                Log.d(TAG, "memebers: " + nMembers);
+            }
         }
         nMembers.put(0, member);
         this.members = nMembers;
+        Log.d(TAG, "memebers: " + nMembers);
         notifyDataSetChanged();
     }
 
@@ -356,7 +351,6 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                 }
                 Log.e(TAG, "setMemberRole(): : " + new String(responseBody));
                 Log.e(TAG, "setMemberRole(): the status code for this request is" + statusCode);
-                Toast.makeText(context, "Failure to change role", Toast.LENGTH_LONG).show();
             }
 
         });
