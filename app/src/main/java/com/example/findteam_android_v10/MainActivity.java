@@ -47,9 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
             navController.navigate(R.id.item_chat_history, bun);
         }
-        else {
-            NavigationUI.setupWithNavController(bottomNavigationView, navController);
-        }
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
     }
 
 }
