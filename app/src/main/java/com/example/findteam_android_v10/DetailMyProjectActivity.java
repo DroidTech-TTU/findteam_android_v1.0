@@ -175,6 +175,9 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                             members = project.getJSONArray("members");
 
                             //clear and show the DetailMyProjectAdapter and rvMembers again
+                            Log.d(TAG, "[memebers] : " + project);
+                            Log.d(TAG, "memebers : " + members);
+                            Log.d(TAG, "memebers : " + owner);
                             detailMyProjectAdapter.clear();
                             detailMyProjectAdapter.addHead(members, owner);
                         } catch (JSONException exception) {

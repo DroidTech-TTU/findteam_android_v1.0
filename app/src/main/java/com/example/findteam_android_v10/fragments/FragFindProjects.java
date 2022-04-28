@@ -94,13 +94,13 @@ public class FragFindProjects extends Fragment {
                 try {
                     jsonProjects = new JSONArray(new String(responseBody));
                     Log.i(TAG, "Data: " + jsonProjects);
-                    Project.printProjects(TAG, jsonProjects);
+//                    Project.printProjects(TAG, jsonProjects);
                     if (!searchText.trim().isEmpty()) {
                       //  jsonProjects = Project.search(jsonProjects, searchText);
                         jsonProjects = Project.searchMultiConditions(jsonProjects, searchText);
                     }
-                    Log.i(TAG, "Search Results: " + jsonProjects);
-                    Project.printProjects(TAG, jsonProjects);
+//                    Log.i(TAG, "Search Results: " + jsonProjects);
+//                    Project.printProjects(TAG, jsonProjects);
                     adapter.clear();
                     adapter.addAll(jsonProjects);
                 } catch (JSONException e) {
