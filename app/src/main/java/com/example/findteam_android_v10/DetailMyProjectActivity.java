@@ -27,7 +27,7 @@ import android.widget.Toast;
 import com.example.findteam_android_v10.adapters.DetailMyProjectAdapter;
 import com.example.findteam_android_v10.adapters.GalleryCreateProjectAdapter;
 import com.example.findteam_android_v10.adapters.ProfileTagAdapter;
-import com.example.findteam_android_v10.adapters.ProjectDetailTaglAdapter;
+import com.example.findteam_android_v10.adapters.ProjectDetailTagAdapter;
 import com.example.findteam_android_v10.classes.Project;
 import com.example.findteam_android_v10.classes.User;
 import com.example.findteam_android_v10.fragments.FragMyProjects;
@@ -71,7 +71,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
     private PopupWindow popupWindow;
     private List<String> categories ;
     private List<List<String>>  tags ;
-    private ProjectDetailTaglAdapter projectDetailTaglAdapter;
+    private ProjectDetailTagAdapter projectDetailTaglAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +100,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
 
         //setup recyclerview and adapter for tags
         RecyclerView rvTags = findViewById(R.id.rvProjectDetailTags);
-        this.projectDetailTaglAdapter = new ProjectDetailTaglAdapter(this, this.categories, this.tags);
+        this.projectDetailTaglAdapter = new ProjectDetailTagAdapter(this, this.categories, this.tags);
         rvTags.setAdapter(this.projectDetailTaglAdapter);
         rvTags.setLayoutManager(new LinearLayoutManager(this));
 
