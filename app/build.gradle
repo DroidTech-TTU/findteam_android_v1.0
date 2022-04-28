@@ -30,35 +30,37 @@ android {
 
 dependencies {
 
-    //noinspection GradleCompatible
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
-    //noinspection GradleCompatible
-    implementation 'com.android.support:design:28.0.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'co.lujun:androidtagview:1.1.7'
-    implementation "androidx.constraintlayout:constraintlayout:2.1.3"
-    implementation 'androidx.test:monitor:1.3.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation 'androidx.security:security-crypto:1.0.0'
-    testImplementation 'junit:junit:4.13.2.'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+      //noinspection GradleCompatible
+//    implementation 'com.android.support:appcompat-v7:28.0.0'
+//    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+      //noinspection GradleCompatible
+//    implementation 'com.android.support:design:28.0.0'
+//    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+//    implementation 'androidx.test:monitor:1.3.0'
+//    testImplementation 'junit:junit:4.13.2.'
+//    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'androidx.appcompat:appcompat:1.4.1'//appcombat
+    implementation 'co.lujun:androidtagview:1.1.7' //Tags
+    implementation "androidx.constraintlayout:constraintlayout:2.1.3" //layout
+
+    implementation 'androidx.viewpager2:viewpager2:1.0.0' //tabs
+    implementation 'androidx.security:security-crypto:1.0.0'//security
+
 
     def nav_version_ktx = "2.3.0-alpha01"
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version_ktx"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version_ktx"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version_ktx" //navigation fragment
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version_ktx" //navigation map
 
     def material_version = "1.0.0"
-    implementation "com.google.android.material:material:$material_version"
+    implementation "com.google.android.material:material:$material_version" //layout, item, top bar
 
     def fragment_version = "1.2.2"
-    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+    implementation "androidx.fragment:fragment-ktx:$fragment_version" //Fragment
 
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
-    implementation 'com.loopj.android:android-async-http:1.4.11'
-    implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
-    implementation 'com.github.bumptech.glide:glide:4.13.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'     //Circle picture
+    implementation 'com.loopj.android:android-async-http:1.4.11' //Async HTTP
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"//floating button, app Bar layout
+    implementation 'com.github.bumptech.glide:glide:4.13.0' //media, picture, video
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0' //media, picture, video
 }

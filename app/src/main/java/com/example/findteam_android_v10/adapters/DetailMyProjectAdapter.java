@@ -95,9 +95,8 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     try {
-                        memberName.setText(context.getString(R.string.firstname_lastname,
-                                response.getString("first_name"),
-                                response.getString("last_name")));
+                        String memberNameText = response.getString("first_name") + " " + response.getString("last_name");
+                        memberName.setText(memberNameText);
 
                         membership_type.setText(Project.getMemTypeString(memberProject.getInt("membership_type")));
                         Log.d(TAG, "Postition: " + getAdapterPosition());
@@ -212,9 +211,10 @@ public class DetailMyProjectAdapter extends RecyclerView.Adapter<DetailMyProject
             Button btAdmin = popupView.findViewById(R.id.btAdmin);
 
             TextView tvName = popupView.findViewById(R.id.tvUserName);
-            tvName.setText(context.getString(R.string.firstname_lastname,
-                    member.getString("first_name"),
-                    member.getString("last_name")));
+
+            String memberName = member.getString("first_name") + " " + member.getString("last_name");
+            tvName.setText(memberName);
+
             btAccept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

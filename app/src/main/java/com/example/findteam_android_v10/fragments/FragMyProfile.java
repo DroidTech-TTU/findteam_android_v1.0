@@ -50,9 +50,11 @@ import cz.msebera.android.httpclient.Header;
 
 public class FragMyProfile extends Fragment {
 
+    //TAG for internal testing
     public static final String TAG = "FragMyProfile";
 
-    private TextView fullName;
+    //Elements present in the activity
+    private TextView fullName, finishedProj, activeProj;
     private ImageView ivProfilePic;
     private List<String> urls, categories;
     private List<List<String>> tags;
@@ -71,18 +73,18 @@ public class FragMyProfile extends Fragment {
 
         View view = inflater.inflate(R.layout.frag_my_profile, container, false);
 
-        //Elements of the my profile
+        //Bind the views needed to be updated/retrieved
+        finishedProj = view.findViewById(R.id.finished_project_count);
+        activeProj = view.findViewById(R.id.active_project_count);
         fullName = view.findViewById(R.id.profFullName);
         ivProfilePic = view.findViewById(R.id.myProfPic);
-
-        TextView finishedProj = view.findViewById(R.id.finished_project_count),
-                activeProj = view.findViewById(R.id.active_project_count);
 
         //initialize the lists needed to accommodate urls and tags
         urls = new ArrayList<>();
         categories = new ArrayList<>();
         tags = new ArrayList<>();
 
+        //initialize the collapsing toolbar toolbar layout
         CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.toolbar_layout);
         AppBarLayout appBarLayout = (AppBarLayout) view.findViewById(R.id.app_bar);
 
@@ -99,9 +101,11 @@ public class FragMyProfile extends Fragment {
         rvTags.setAdapter(profileTagAdapter);
         rvTags.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        //bind the toolbar present
         Toolbar toolbar = view.findViewById(R.id.detail_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
+        //only show the toolbar title when collapsed
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
             int scrollRange = -1;
@@ -124,15 +128,19 @@ public class FragMyProfile extends Fragment {
 
         //if user selected to edit the profile
         FloatingActionButton fab = view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                Intent i = new Intent(getContext(), EditProfileActivity.class);
-                editProfileActivityResultLauncher.launch(i);
-            }
+        fab.setOnClickListener(v -> {
+            Intent i = new Intent(getContext(), EditProfileActivity.class);
+            editProfileActivityResultLauncher.launch(i);
         });
 
+        loadUser();
+
+        return view;
+    }
+
+    //loads the user information
+    private void loadUser(){
         User.getCurrentUser(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -183,8 +191,6 @@ public class FragMyProfile extends Fragment {
             }
 
         });
-
-        return view;
     }
 
     private void loadProfile(Boolean update, JSONObject user) {
@@ -197,12 +203,15 @@ public class FragMyProfile extends Fragment {
 
         try {
 
-            //set the name in the my profile
-            fullName.setText(getString(R.string.firstname_middlename_lastname,
-                    user.getString("first_name"),
-                    user.getString("middle_name"),
-                    user.getString("last_name")));
+            //extract the fullname text
+            String fullNameText = user.getString("first_name") + " " +
+                    user.getString("middle_name") + " " +
+                    user.getString("last_name");
 
+            //set the name in the my profile
+            fullName.setText(fullNameText);
+
+            //extract the JSONArray urls and tags
             JSONArray urlsJson = user.getJSONArray("urls"),
                     tagsJson = user.getJSONArray("tags");
 
@@ -224,6 +233,7 @@ public class FragMyProfile extends Fragment {
 
             }
 
+            //get unique categories
             for (int i = 0; i < categories.size(); i++) {
                 List<String> localTags = new ArrayList<>();
                 for (int j = 0; j < tagsJson.length(); j++) {
@@ -250,6 +260,7 @@ public class FragMyProfile extends Fragment {
     }
 
 
+    //opens the edit profile activity and comes back here
     ActivityResultLauncher<Intent> editProfileActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -271,6 +282,7 @@ public class FragMyProfile extends Fragment {
             }
     );
 
+    //logout button in the user profile
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
