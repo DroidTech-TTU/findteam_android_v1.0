@@ -54,39 +54,37 @@ import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class UpdateProjectActivity extends AppCompatActivity {
-
-    private Context context;
-    private RecyclerView rvGallery;
     public static String TAG = "UpdateProjectActivity";
     public static String UPDATE_PROJECT_API_URL = "project?pid=";
     public static String SAVE_PICTURE_API_URL = "project/picture?pid=";
-    public String message = "";
+    public final static int PICK_PHOTO_CODE = 1046;
+    private Context context;
+    private RecyclerView rvGallery;
+    private String message = "";
     private GalleryCreateProjectAdapter adapter;
-
     private ImageButton btAddPicture;
     private ImageButton ibSave;
     private List<String> picturesURLs;
     private List<Bitmap> pictureFiles;
-    private List<String> tagSkills;
     private EditText etDescription;
     private EditText etProjectTitle;
     private ImageButton ibCancel;
     private ImageView ivStatusUpdateProject;
     private Spinner sProgress;
-    private int projectStatus = 0;
+    private int projectStatus = Project.STATUS_IN_AWAITING_INT;
     private JSONObject project;
+    private RecyclerView rvEditTags;
+    private List<String> categories;
+    private List<List<String>> tags;
+    private EditTagsAdapter editTagsAdapter;
+    private FloatingActionButton addEditTag;
 
-    RecyclerView rvEditTags;
-    List<String> categories;
-    List<List<String>> tags;
-    EditTagsAdapter editTagsAdapter;
-    FloatingActionButton addEditTag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_project);
-
         context = this;
+
         pictureFiles = new ArrayList<>();
         rvGallery = findViewById(R.id.rvGalleryUpdateProject);
         etProjectTitle = findViewById(R.id.etProjectTitle);
@@ -94,22 +92,16 @@ public class UpdateProjectActivity extends AppCompatActivity {
         ibSave = findViewById(R.id.ibSaveCreateProject);
         ibCancel = findViewById(R.id.ibCancel);
         sProgress = findViewById(R.id.sProjectProgress);
-
-
         rvEditTags = findViewById(R.id.rvEditTagsUpdateProject);
-         addEditTag = findViewById(R.id.addEditTagUpdateProject);
-
+        addEditTag = findViewById(R.id.addEditTagUpdateProject);
         ivStatusUpdateProject = findViewById(R.id.ivStatusUpdateProject);
-
         btAddPicture = findViewById(R.id.btAddPicture);
 
+        //Get project as a String
         String projectString = this.getIntent().getStringExtra("project");
         try {
-            project = new JSONObject(projectString);
-            Log.d(TAG, "Oncreate: " + projectString);
-            filloutInterface(project);
-            Log.d(TAG, "Done Fillout:");
-
+            project = new JSONObject(projectString);//Convert to JSONObject
+            filloutInterface(project);//bind data to the GUI
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -118,8 +110,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
     }
 
     private void filloutInterface(JSONObject project) throws JSONException {
-        //load images
-
+        //Show Tags
         categories = new ArrayList<>();
         tags = new ArrayList<>();
         editTagsAdapter = new EditTagsAdapter(this, categories, tags);
@@ -127,54 +118,51 @@ public class UpdateProjectActivity extends AppCompatActivity {
         rvEditTags.setLayoutManager(new LinearLayoutManager(this));
         rvEditTags.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
+        //Add Tag button on click
         addEditTag.setOnClickListener(view -> {
             categories.add("");
             tags.add(new ArrayList<String>());
             editTagsAdapter.notifyDataSetChanged();
         });
 
+        //Show pictures
         picturesURLs = new ArrayList<>();
         JSONArray jsonArray = project.getJSONArray("pictures");
         for (int i = 0; i < jsonArray.length(); i++) {
             picturesURLs.add("https://findteam.2labz.com/picture/" + jsonArray.get(i).toString());
         }
         adapter = new GalleryCreateProjectAdapter(context, picturesURLs);
-//        // Attach the adapter to the recyclerview to populate items
+        // Attach the adapter to the recyclerview to populate items
         rvGallery.setAdapter(adapter);
-//        // Set layout manager to position the items
+        // Set layout manager to position the items
         rvGallery.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
 
-//        adapter.addAll(picturesURLs);
-//        // Attach the adapter to the recyclerview to populate items
+        // Attach the adapter to the recyclerview to populate items
         projectStatus = project.getInt("status");
         ArrayAdapter<CharSequence> sAdapter = ArrayAdapter.createFromResource(this, R.array.progress, R.layout.item_progress_spinner);
         sAdapter.setDropDownViewResource(R.layout.item_progress_spinner);
         sProgress.setAdapter(sAdapter);
-
         sProgress.setSelection(projectStatus);
+        updateImageStatus(projectStatus);
+        //Spin progress is on click
         sProgress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "OnItem: ");
-                updateImageStatus(position);
-                projectStatus = position;
+                updateImageStatus(position); //Update project progress icon
+                projectStatus = position; //
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
-        updateImageStatus(projectStatus);
 
         //load title
         etProjectTitle.setText(project.getString("title"));
         //load description
         etDescription.setText(project.getString("description"));
-        //load tags
 
-        updateImageStatus(project.getInt("status"));
-
+        //Add picture button on click
         btAddPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,21 +170,24 @@ public class UpdateProjectActivity extends AppCompatActivity {
             }
         });
 
+        //Cancel button on click
         ibCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onButtonCancelPopupWindowClick(view);
             }
         });
+
+        //Save button on click
         ibSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    Log.d(TAG, "Save Project Button is on click");
+                    //If inputs are valid
                     if (validateInputs()) {
-                        upDateProject();
+                        upDateProject(); //Update project
                     } else {
-                        onButtonSavePopupWindowClick(view, message);
+                        onButtonSavePopupWindowClick(view, message); //show error popup
                     }
                 } catch (JSONException | UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -205,6 +196,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
 
         });
 
+        //Show tags
         try {
             JSONArray tagsJson = project.getJSONArray("tags");
             //load the tags of the user
@@ -233,6 +225,7 @@ public class UpdateProjectActivity extends AppCompatActivity {
         }
     }
 
+    //Validate the inputs
     private boolean validateInputs() {
         boolean isValid = true;
         int count = 1;
@@ -262,20 +255,15 @@ public class UpdateProjectActivity extends AppCompatActivity {
     }
 
 
+    //Up date project
     private void upDateProject() throws JSONException, UnsupportedEncodingException {
         String title = etProjectTitle.getText().toString();
         String description = etDescription.getText().toString();
-
         JSONArray tagsArray = new JSONArray();
-
         categories = editTagsAdapter.getCategories();
         tags = editTagsAdapter.getTags();
 
-        Log.i(TAG, "size of categories is: " + categories.size());
-        Log.i(TAG, categories.toString());
-        Log.i(TAG, "size of tag is: " + tags.size());
-        Log.i(TAG, tags.toString());
-
+        //Convert to tag to API format
         for(int i = 0; i < categories.size(); i++){
             for(int j = 0; j < tags.get(i).size(); j++){
                 JSONObject tagInstance = new JSONObject();
@@ -286,44 +274,47 @@ public class UpdateProjectActivity extends AppCompatActivity {
             }
         }
 
+        //Add title, status, description, tags to JSONOnject
         project.put("title", title);
         project.put("status", projectStatus);
         project.put("description", description);
         project.put("tags", tagsArray);
 
-        Log.d(TAG, "Ready Project: " + project.toString());
+        //Get Post request URL
         String URL = UPDATE_PROJECT_API_URL + project.getString("pid");
+
+        //Keep project's data that not required from POST body
         int tmpPid = project.getInt("pid");
         String tmpPics = project.getString("pictures");
         int tmpOwnerId = project.getInt("owner_uid");
+
+        //Remove the not required data out of POST body
         project.remove("pid");
         project.remove("pictures");
         project.remove("owner_uid");
+
+        //Final body
         StringEntity entity = new StringEntity(project.toString());
-        Log.d(TAG, project.toString());
+
+        //Put back the temporary data
         project.put("pid", tmpPid);
         project.put("pictures", tmpPics);
         project.put("owner_uid", tmpOwnerId);
-        FindTeamClient.post(this, URL, entity, new AsyncHttpResponseHandler() {
 
+        //Make a POST request to update project
+        FindTeamClient.post(this, URL, entity, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                Log.i(TAG, "Update(): the status code for this request is: " + statusCode);
-                try {
-                    Log.i(TAG, "Update(): input : " + entity.getContent().toString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                //On success, return to parent activity
                 Intent i = new Intent();
                 i.putExtra("pid", tmpPid);
-                setResult(DetailMyProjectActivity.EDIT_PROJECT_CODE, i);
+                setResult(DetailMyProjectActivity.EDIT_PROJECT_CODE, i);//Add a CODE to let the parent activity know who the child comes back
                 savePictures(tmpPid, pictureFiles);
                 finish();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
                 try {
                     Log.i(TAG, "Update(): input : " + entity.getContent().toString());
                 } catch (IOException e) {
@@ -331,28 +322,31 @@ public class UpdateProjectActivity extends AppCompatActivity {
                 }
                 Log.e(TAG, "Update(): : " + new String(responseBody));
                 Log.e(TAG, "Update(): the status code for this request is" + statusCode);
-                Toast.makeText(context, "Failure to create project", Toast.LENGTH_LONG).show();
             }
 
         });
     }
 
+    //Save all pictures
     private void savePictures(int pid, List<Bitmap> pictureFiles) {
         for (Bitmap pic : pictureFiles) {
             try {
-                Log.d(TAG, pic.toString());
-                savePicture(pid, pic);
+                savePicture(pid, pic); //save one picture
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
+    //Save one picture to server
     private void savePicture(int pid, Bitmap pic) throws IOException {
+
+        //Get Byte Array
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
         pic.compress(Bitmap.CompressFormat.JPEG, 90, bao);
         byte[] ba = bao.toByteArray();
 
+        //Create new file
         File f = new File(context.getCacheDir(), pic.toString() + ".jpeg");
         f.createNewFile();
 
@@ -362,11 +356,14 @@ public class UpdateProjectActivity extends AppCompatActivity {
         fos.flush();
         fos.close();
 
+        //Build request parameters
         RequestParams params = new RequestParams();
         params.put("picture", f, "image/jpeg");
 
+        //Concatenate the POST request to save the pictures
         String URL = SAVE_PICTURE_API_URL + pid;
-        Log.d(TAG, pic.toString());
+
+        //Make a POST request
         FindTeamClient.post(URL, params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -381,9 +378,6 @@ public class UpdateProjectActivity extends AppCompatActivity {
 
         });
     }
-
-    // PICK_PHOTO_CODE is a constant integer
-    public final static int PICK_PHOTO_CODE = 1046;
 
     // Trigger gallery selection for a photo
     public void onPickPhoto(View view) {
@@ -441,12 +435,6 @@ public class UpdateProjectActivity extends AppCompatActivity {
 
 
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
     }
 
     public void onButtonCancelPopupWindowClick(View view) {
