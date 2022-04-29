@@ -47,7 +47,6 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0' //tabs
     implementation 'androidx.security:security-crypto:1.0.0'//security
 
-
     def nav_version_ktx = "2.3.0-alpha01"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version_ktx" //navigation fragment
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version_ktx" //navigation map

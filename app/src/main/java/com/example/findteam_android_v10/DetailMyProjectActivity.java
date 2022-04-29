@@ -2,6 +2,8 @@ package com.example.findteam_android_v10;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -16,6 +18,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -73,6 +76,7 @@ public class DetailMyProjectActivity extends AppCompatActivity {
     private List<List<String>>  tags ;
     private ProjectDetailTagAdapter projectDetailTaglAdapter;
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,14 +143,16 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                 //Show project's pictures
                 picturesURLs = new ArrayList<>();
                 picturesURLs = Project.getPictures(project); //Get Picture URLS
-
-                //call GalleryCreateProjectAdapter construction
-                adapter = new GalleryCreateProjectAdapter(context, picturesURLs);
-                // Attach the adapter to the recyclerview to populate items
-                rvGallery.setAdapter(adapter);
-                // Set layout manager to position the items
-                rvGallery.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL)); //Display horizontal
-
+                if(picturesURLs.size() != 0) {
+                    //call GalleryCreateProjectAdapter construction
+                    adapter = new GalleryCreateProjectAdapter(context, picturesURLs);
+                    // Attach the adapter to the recyclerview to populate items
+                    rvGallery.setAdapter(adapter);
+                    // Set layout manager to position the items
+                    rvGallery.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL)); //Display horizontal
+                }else{
+                    rvGallery.setVisibility(View.GONE);
+                }
                 //Show title, description, status
                 Log.d(TAG, "On Create: " + project.toString());
                 tvProjectTitleDetailProject.setText(project.getString("title"));
@@ -175,6 +181,9 @@ public class DetailMyProjectActivity extends AppCompatActivity {
                             members = project.getJSONArray("members");
 
                             //clear and show the DetailMyProjectAdapter and rvMembers again
+                            Log.d(TAG, "[memebers] : " + project);
+                            Log.d(TAG, "memebers : " + members);
+                            Log.d(TAG, "memebers : " + owner);
                             detailMyProjectAdapter.clear();
                             detailMyProjectAdapter.addHead(members, owner);
                         } catch (JSONException exception) {

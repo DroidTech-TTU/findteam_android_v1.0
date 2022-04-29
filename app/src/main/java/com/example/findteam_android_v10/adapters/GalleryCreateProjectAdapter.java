@@ -39,8 +39,6 @@ public class GalleryCreateProjectAdapter extends RecyclerView.Adapter<GalleryCre
 
     @Override
     public void onBindViewHolder(@NonNull GalleryCreateProjectAdapter.galleryViewHolder holder, int position) {
-        Log.d(TAG, String.valueOf(this.pictureURLs.get(position)));
-        Log.d(TAG, "position=" + position);
         String pictureURL = this.pictureURLs.get(position);
         String pos = String.valueOf(position);
         holder.ivItemGallery.setOnClickListener(v -> {
