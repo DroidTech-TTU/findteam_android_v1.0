@@ -10,7 +10,7 @@ FindTeam front-end source code repo
 - Google Play Service
 - Intel x86 emulator Accelerator (HAXM installer)
 
-##Compiling and run
+## Compiling and run
 - Run android studio
 - Click on file
 - Click on open
