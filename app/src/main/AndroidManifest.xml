@@ -36,11 +36,6 @@
                     android:host="findteam.2labz.com"
                     android:pathPrefix="/forgot"
                     android:scheme="https" />
-
-                <!-- Handle local urls starting with "findteam://forgot" -->
-                <data
-                    android:host="forgot"
-                    android:scheme="findteam" />
             </intent-filter>
         </activity>
         <activity
