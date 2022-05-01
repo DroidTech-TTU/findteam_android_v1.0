@@ -21,3 +21,6 @@ FindTeam front-end source code repo
     + Change BASE_URL = "https://findteam.2labz.com/" to BASE_URL = "link to your set up APIs"
         * For example: BASE_URL = "http://localhost:8080/"
 - Run the project using emulator
+- 
+## Demonstration 
+![](FindTeamDemo.gif)
